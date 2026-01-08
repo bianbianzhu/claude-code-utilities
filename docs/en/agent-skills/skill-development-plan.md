@@ -403,6 +403,17 @@ description: |
 - Max 1024 characters
 - No angle brackets `< >`
 
+#### Writing Style Guidelines
+
+| Location | Style | Examples |
+|----------|-------|----------|
+| **Frontmatter description** | Third person | "Provides...", "Enables...", "Guides users through..." |
+| **SKILL.md body instructions** | Imperative form | "Run...", "Create...", "Validate...", "Extract..." |
+
+This distinction ensures:
+- Descriptions read naturally when displayed in skill listings
+- Instructions are direct and actionable for Claude to follow
+
 #### 3.2 Decision Tree: Content Type
 
 ```mermaid

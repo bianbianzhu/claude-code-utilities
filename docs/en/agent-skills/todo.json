@@ -1,0 +1,77 @@
+[
+  {
+    "content": "Create skill-pipeline directory structure",
+    "status": "completed",
+    "activeForm": "Creating skill-pipeline directory structure"
+  },
+  {
+    "content": "Fork and extend init_skill.py from official skill-creator",
+    "status": "completed",
+    "activeForm": "Forking and extending init_skill.py"
+  },
+  {
+    "content": "Fork and extend quick_validate.py with token budget checking",
+    "status": "in_progress",
+    "activeForm": "Forking and extending quick_validate.py"
+  },
+  {
+    "content": "Fork and extend package_skill.py with evaluation bundling",
+    "status": "pending",
+    "activeForm": "Forking and extending package_skill.py"
+  },
+  {
+    "content": "Build run_evaluations.py (new evaluation runner)",
+    "status": "pending",
+    "activeForm": "Building run_evaluations.py"
+  },
+  {
+    "content": "Create templates/example-collection.md",
+    "status": "pending",
+    "activeForm": "Creating example-collection.md template"
+  },
+  {
+    "content": "Create templates/gap-analysis.md",
+    "status": "pending",
+    "activeForm": "Creating gap-analysis.md template"
+  },
+  {
+    "content": "Create templates/evaluation.json schema",
+    "status": "pending",
+    "activeForm": "Creating evaluation.json schema"
+  },
+  {
+    "content": "Create templates/model-criteria.md",
+    "status": "pending",
+    "activeForm": "Creating model-criteria.md template"
+  },
+  {
+    "content": "Create templates/failure-report.md",
+    "status": "pending",
+    "activeForm": "Creating failure-report.md template"
+  },
+  {
+    "content": "Create templates/review-checklist.md",
+    "status": "pending",
+    "activeForm": "Creating review-checklist.md template"
+  },
+  {
+    "content": "Create references/best-practice-summary.md",
+    "status": "pending",
+    "activeForm": "Creating best-practice-summary.md"
+  },
+  {
+    "content": "Create references/model-guidance.md",
+    "status": "pending",
+    "activeForm": "Creating model-guidance.md"
+  },
+  {
+    "content": "Write SKILL.md for the meta-skill",
+    "status": "pending",
+    "activeForm": "Writing SKILL.md for meta-skill"
+  },
+  {
+    "content": "Test pipeline with a sample skill",
+    "status": "pending",
+    "activeForm": "Testing pipeline with sample skill"
+  }
+]
