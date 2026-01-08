@@ -11,67 +11,72 @@
   },
   {
     "content": "Fork and extend quick_validate.py with token budget checking",
-    "status": "in_progress",
+    "status": "completed",
     "activeForm": "Forking and extending quick_validate.py"
   },
   {
     "content": "Fork and extend package_skill.py with evaluation bundling",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Forking and extending package_skill.py"
   },
   {
     "content": "Build run_evaluations.py (new evaluation runner)",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Building run_evaluations.py"
   },
   {
     "content": "Create templates/example-collection.md",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Creating example-collection.md template"
   },
   {
     "content": "Create templates/gap-analysis.md",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Creating gap-analysis.md template"
   },
   {
     "content": "Create templates/evaluation.json schema",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Creating evaluation.json schema"
   },
   {
     "content": "Create templates/model-criteria.md",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Creating model-criteria.md template"
   },
   {
     "content": "Create templates/failure-report.md",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Creating failure-report.md template"
   },
   {
     "content": "Create templates/review-checklist.md",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Creating review-checklist.md template"
   },
   {
     "content": "Create references/best-practice-summary.md",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Creating best-practice-summary.md"
   },
   {
     "content": "Create references/model-guidance.md",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Creating model-guidance.md"
   },
   {
     "content": "Write SKILL.md for the meta-skill",
-    "status": "pending",
+    "status": "completed",
     "activeForm": "Writing SKILL.md for meta-skill"
   },
   {
-    "content": "Test pipeline with a sample skill",
-    "status": "pending",
-    "activeForm": "Testing pipeline with sample skill"
+    "content": "Test pipeline with quick_validate.py (uv run)",
+    "status": "completed",
+    "activeForm": "Testing pipeline with quick_validate.py"
+  },
+  {
+    "content": "Add PEP 723 inline script metadata for uv run support",
+    "status": "completed",
+    "activeForm": "Adding PEP 723 metadata to scripts"
   }
 ]
