@@ -86,6 +86,27 @@ Building a systematic **skill development pipeline** that extends the official `
 
 ---
 
+## Style Conventions
+
+### Script Invocation Style
+
+**Use official style WITHOUT `python` prefix:**
+
+```bash
+# Correct (matches official skill-creator)
+init_skill.py my-skill --path .claude/skills
+
+# Incorrect (don't use)
+python init_skill.py my-skill --path .claude/skills
+```
+
+**Rationale:**
+- Scripts have shebang `#!/usr/bin/env python3`
+- Scripts are set executable with `chmod(0o755)`
+- Matches official skill-creator documentation style
+
+---
+
 ## Resume Command
 
 After context clear, say:

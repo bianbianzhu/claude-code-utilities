@@ -392,7 +392,7 @@ def main():
     args = sys.argv[1:]
 
     if len(args) < 3 or '--path' not in args:
-        print("Usage: python init_skill.py <skill-name> --path <path> [--with-evaluations]")
+        print("Usage: init_skill.py <skill-name> --path <path> [--with-evaluations]")
         print("\nSkill name requirements:")
         print("  - Hyphen-case (e.g., 'data-analyzer')")
         print("  - Lowercase letters, digits, hyphens only")
@@ -400,8 +400,8 @@ def main():
         print("\nOptions:")
         print("  --with-evaluations  Create evaluation directory structure")
         print("\nExamples:")
-        print("  python init_skill.py my-skill --path .claude/skills")
-        print("  python init_skill.py my-skill --path skills --with-evaluations")
+        print("  init_skill.py my-skill --path .claude/skills")
+        print("  init_skill.py my-skill --path skills --with-evaluations")
         sys.exit(1)
 
     skill_name = args[0]
