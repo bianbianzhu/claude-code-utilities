@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Skill Evaluation Test Cases",
+  "description": "Schema for skill evaluation test cases used by run_evaluations.py",
+  "type": "object",
+  "required": ["skill", "target_models", "test_cases"],
+  "properties": {
+    "skill": {
+      "type": "string",
+      "description": "Name of the skill being tested"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the test suite",
+      "default": "1.0"
+    },
+    "target_models": {
+      "type": "array",
+      "description": "Models this skill is designed to work with",
+      "items": {
+        "type": "string",
+        "enum": ["haiku", "sonnet", "opus"]
+      },
+      "minItems": 1
+    },
+    "test_cases": {
+      "type": "array",
+      "description": "List of test cases",
+      "items": {
+        "type": "object",
+        "required": ["test_id", "query", "success_criteria"],
+        "properties": {
+          "test_id": {
+            "type": "string",
+            "description": "Unique identifier for this test (format: skill-name-NNN)",
+            "pattern": "^[a-z0-9-]+-[0-9]{3}$"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of what this test validates"
+          },
+          "category": {
+            "type": "string",
+            "description": "Test category for grouping",
+            "enum": ["core", "edge-case", "regression", "performance"]
+          },
+          "query": {
+            "type": "string",
+            "description": "The exact query to send to Claude"
+          },
+          "context": {
+            "type": "object",
+            "description": "Additional context for the test",
+            "properties": {
+              "files": {
+                "type": "array",
+                "description": "Paths to test files to include",
+                "items": {"type": "string"}
+              },
+              "working_directory": {
+                "type": "string",
+                "description": "Working directory for the test"
+              }
+            }
+          },
+          "success_criteria": {
+            "type": "object",
+            "description": "Criteria for determining test success",
+            "properties": {
+              "must_pass": {
+                "type": "array",
+                "description": "All of these must be satisfied for the test to pass",
+                "items": {"type": "string"}
+              },
+              "should_pass": {
+                "type": "array",
+                "description": "These are checked but don't fail the test",
+                "items": {"type": "string"}
+              },
+              "must_not": {
+                "type": "array",
+                "description": "Output must NOT contain these",
+                "items": {"type": "string"}
+              }
+            },
+            "required": ["must_pass"]
+          },
+          "expected_behavior": {
+            "type": "string",
+            "description": "Description of expected behavior for manual review"
+          },
+          "tags": {
+            "type": "array",
+            "description": "Tags for filtering tests",
+            "items": {"type": "string"}
+          }
+        }
+      },
+      "minItems": 1
+    }
+  },
+  "examples": [
+    {
+      "skill": "example-skill",
+      "version": "1.0",
+      "target_models": ["sonnet"],
+      "test_cases": [
+        {
+          "test_id": "example-skill-001",
+          "description": "Basic functionality test",
+          "category": "core",
+          "query": "Help me with X",
+          "success_criteria": {
+            "must_pass": [
+              "uses correct terminology",
+              "follows expected format"
+            ],
+            "should_pass": [
+              "includes helpful examples"
+            ]
+          },
+          "expected_behavior": "Should produce output following the skill's format",
+          "tags": ["basic", "format"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """
 Skill Pipeline Initializer - Creates a new skill with evaluation structure
 
@@ -8,11 +12,11 @@ Extended from official skill-creator to include:
 - Model-specific test case placeholders
 
 Usage:
-    init_skill.py <skill-name> --path <path> [--with-evaluations]
+    uv run init_skill.py <skill-name> --path <path> [--with-evaluations]
 
 Examples:
-    init_skill.py my-new-skill --path .claude/skills
-    init_skill.py my-api-helper --path skills --with-evaluations
+    uv run init_skill.py my-new-skill --path .claude/skills
+    uv run init_skill.py my-api-helper --path skills --with-evaluations
 """
 
 import sys
