@@ -6,13 +6,13 @@ Learn how to write effective Skills that Claude can discover and use successfull
 
 Good Skills are concise, well-structured, and tested with real usage. This guide provides practical authoring decisions to help you write Skills that Claude can discover and use effectively.
 
-For conceptual background on how Skills work, see the [Skills overview](/docs/en/agents-and-tools/agent-skills/overview).
+For conceptual background on how Skills work, see the [Skills overview](overview.md).
 
 ## Core principles
 
 ### Concise is key
 
-The [context window](/docs/en/build-with-claude/context-windows) is a public good. Your Skill shares the context window with everything else Claude needs to know, including:
+The context window is a public good. Your Skill shares the context window with everything else Claude needs to know, including:
 
 - The system prompt
 - Conversation history
@@ -162,7 +162,7 @@ What works perfectly for Opus might need more detail for Haiku. If you plan to u
 - Cannot contain XML tags
 - Should describe what the Skill does and when to use it
 
-For complete Skill structure details, see the [Skills overview](/docs/en/agents-and-tools/agent-skills/overview#skill-structure).
+For complete Skill structure details, see the [Skills overview](overview.md#skill-structure).
 </Note>
 
 ### Naming conventions
@@ -250,7 +250,7 @@ description: Does stuff with files
 
 ### Progressive disclosure patterns
 
-SKILL.md serves as an overview that points Claude to detailed materials as needed, like a table of contents in an onboarding guide. For an explanation of how progressive disclosure works, see [How Skills work](/docs/en/agents-and-tools/agent-skills/overview#how-skills-work) in the overview.
+SKILL.md serves as an overview that points Claude to detailed materials as needed, like a table of contents in an onboarding guide. For an explanation of how progressive disclosure works, see [How Skills work](overview.md#how-skills-work) in the overview.
 
 **Practical guidance:**
 
@@ -262,11 +262,11 @@ SKILL.md serves as an overview that points Claude to detailed materials as neede
 
 A basic Skill starts with just a SKILL.md file containing metadata and instructions:
 
-![Simple SKILL.md file showing YAML frontmatter and markdown body](/docs/images/agent-skills-simple-file.png)
+![Simple SKILL.md file showing YAML frontmatter and markdown body](../../../assets/images/agent-skills-simple-file.png)
 
 As your Skill grows, you can bundle additional content that Claude loads only when needed:
 
-![Bundling additional reference files like reference.md and forms.md.](/docs/images/agent-skills-bundling-content.png)
+![Bundling additional reference files like reference.md and forms.md.](../../../assets/images/agent-skills-bundling-content.png)
 
 The complete Skill directory structure might look like this:
 
@@ -952,7 +952,7 @@ Even if Claude could write a script, pre-made scripts offer advantages:
 - Save time (no code generation required)
 - Ensure consistency across uses
 
-![Bundling executable scripts alongside instruction files](/docs/images/agent-skills-executable-scripts.png)
+![Bundling executable scripts alongside instruction files](../../../assets/images/agent-skills-executable-scripts.png)
 
 The diagram above shows how executable scripts work alongside instruction files. The instruction file (forms.md) references the script, and Claude can execute it without loading its contents into context.
 
@@ -1046,11 +1046,11 @@ Skills run in the code execution environment with platform-specific limitations:
 - **claude.ai**: Can install packages from npm and PyPI and pull from GitHub repositories
 - **Anthropic API**: Has no network access and no runtime package installation
 
-List required packages in your SKILL.md and verify they're available in the [code execution tool documentation](/docs/en/agents-and-tools/tool-use/code-execution-tool).
+List required packages in your SKILL.md and verify they're available in the code execution tool documentation.
 
 ### Runtime environment
 
-Skills run in a code execution environment with filesystem access, bash commands, and code execution capabilities. For the conceptual explanation of this architecture, see [The Skills architecture](/docs/en/agents-and-tools/agent-skills/overview#the-skills-architecture) in the overview.
+Skills run in a code execution environment with filesystem access, bash commands, and code execution capabilities. For the conceptual explanation of this architecture, see [The Skills architecture](overview.md#the-skills-architecture) in the overview.
 
 **How this affects your authoring:**
 
@@ -1086,7 +1086,7 @@ bigquery-skill/
 
 When the user asks about revenue, Claude reads SKILL.md, sees the reference to `reference/finance.md`, and invokes bash to read just that file. The sales.md and product.md files remain on the filesystem, consuming zero context tokens until needed. This filesystem-based model is what enables progressive disclosure. Claude can navigate and selectively load exactly what each task requires.
 
-For complete details on the technical architecture, see [How Skills work](/docs/en/agents-and-tools/agent-skills/overview#how-skills-work) in the Skills overview.
+For complete details on the technical architecture, see [How Skills work](overview.md#how-skills-work) in the Skills overview.
 
 ### MCP tool references
 
@@ -1112,7 +1112,7 @@ Without the server prefix, Claude may fail to locate the tool, especially when m
 
 Don't assume packages are available:
 
-````markdown
+```markdown
 **Bad example: Assumes installation**:
 "Use the pdf library to process the file."
 
@@ -1120,13 +1120,11 @@ Don't assume packages are available:
 "Install required package: `pip install pypdf`
 
 Then use it:
-
-````python
+(python code)
 from pypdf import PdfReader
 reader = PdfReader("file.pdf")
-```"
-````
-````
+"
+```
 
 ## Technical notes
 
@@ -1137,11 +1135,11 @@ The SKILL.md frontmatter requires `name` and `description` fields with specific 
 - `name`: Maximum 64 characters, lowercase letters/numbers/hyphens only, no XML tags, no reserved words
 - `description`: Maximum 1024 characters, non-empty, no XML tags
 
-See the [Skills overview](/docs/en/agents-and-tools/agent-skills/overview#skill-structure) for complete structure details.
+See the [Skills overview](overview.md#skill-structure) for complete structure details.
 
 ### Token budgets
 
-Keep SKILL.md body under 500 lines for optimal performance. If your content exceeds this, split it into separate files using the progressive disclosure patterns described earlier. For architectural details, see the [Skills overview](/docs/en/agents-and-tools/agent-skills/overview#how-skills-work).
+Keep SKILL.md body under 500 lines for optimal performance. If your content exceeds this, split it into separate files using the progressive disclosure patterns described earlier. For architectural details, see the [Skills overview](overview.md#how-skills-work).
 
 ## Checklist for effective Skills
 
@@ -1184,29 +1182,27 @@ Before sharing a Skill, verify:
   <Card
     title="Get started with Agent Skills"
     icon="rocket"
-    href="/docs/en/agents-and-tools/agent-skills/quickstart"
   >
     Create your first Skill
   </Card>
   <Card
     title="Use Skills in Claude Code"
     icon="terminal"
-    href="https://code.claude.com/docs/en/skills"
+    href="using-skills-in-claude-code.md"
   >
     Create and manage Skills in Claude Code
   </Card>
   <Card
     title="Use Skills in the Agent SDK"
     icon="cube"
-    href="/docs/en/agent-sdk/skills"
   >
     Use Skills programmatically in TypeScript and Python
   </Card>
   <Card
     title="Use Skills with the API"
     icon="code"
-    href="/docs/en/build-with-claude/skills-guide"
   >
     Upload and use Skills programmatically
   </Card>
 </CardGroup>
+```
