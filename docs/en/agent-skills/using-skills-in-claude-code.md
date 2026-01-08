@@ -2,7 +2,7 @@
 
 > Create, manage, and share Skills to extend Claude's capabilities in Claude Code.
 
-This guide shows you how to create, use, and manage Agent Skills in Claude Code. For background on how Skills work across Claude products, see [What are Skills?](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview).
+This guide shows you how to create, use, and manage Agent Skills in Claude Code. For background on how Skills work across Claude products, see [What are Skills?](overview.md).
 
 A Skill is a markdown file that teaches Claude how to do something specific: reviewing PRs using your team's standards, generating commit messages in your preferred format, or querying your company's database schema. When you ask Claude something that matches a Skill's purpose, Claude automatically applies it.
 
@@ -105,12 +105,12 @@ When you send a request, Claude follows these steps to find and use relevant Ski
 
 Where you store a Skill determines who can use it:
 
-| Location   | Path                                             | Applies to                        |
-| :--------- | :----------------------------------------------- | :-------------------------------- |
-| Enterprise | See [managed settings](/en/iam#managed-settings) | All users in your organization    |
-| Personal   | `~/.claude/skills/`                              | You, across all projects          |
-| Project    | `.claude/skills/`                                | Anyone working in this repository |
-| Plugin     | Bundled with [plugins](/en/plugins)              | Anyone with the plugin installed  |
+| Location   | Path                 | Applies to                        |
+| :--------- | :------------------- | :-------------------------------- |
+| Enterprise | managed settings     | All users in your organization    |
+| Personal   | `~/.claude/skills/`  | You, across all projects          |
+| Project    | `.claude/skills/`    | Anyone working in this repository |
+| Plugin     | Bundled with plugins | Anyone with the plugin installed  |
 
 If two Skills have the same name, the higher row wins: managed overrides personal, personal overrides project, and project overrides plugin.
 
@@ -118,14 +118,14 @@ If two Skills have the same name, the higher row wins: managed overrides persona
 
 Claude Code offers several ways to customize behavior. The key difference: **Skills are triggered automatically by Claude** based on your request, while slash commands require you to type `/command` explicitly.
 
-| Use this                                 | When you want to...                                                        | When it runs                               |
-| :--------------------------------------- | :------------------------------------------------------------------------- | :----------------------------------------- |
-| **Skills**                               | Give Claude specialized knowledge (e.g., "review PRs using our standards") | Claude chooses when relevant               |
-| **[Slash commands](/en/slash-commands)** | Create reusable prompts (e.g., `/deploy staging`)                          | You type `/command` to run it              |
-| **[CLAUDE.md](/en/memory)**              | Set project-wide instructions (e.g., "use TypeScript strict mode")         | Loaded into every conversation             |
-| **[Subagents](/en/sub-agents)**          | Delegate tasks to a separate context with its own tools                    | Claude delegates, or you invoke explicitly |
-| **[Hooks](/en/hooks)**                   | Run scripts on events (e.g., lint on file save)                            | Fires on specific tool events              |
-| **[MCP servers](/en/mcp)**               | Connect Claude to external tools and data sources                          | Claude calls MCP tools as needed           |
+| Use this           | When you want to...                                                        | When it runs                               |
+| :----------------- | :------------------------------------------------------------------------- | :----------------------------------------- |
+| **Skills**         | Give Claude specialized knowledge (e.g., "review PRs using our standards") | Claude chooses when relevant               |
+| **Slash commands** | Create reusable prompts (e.g., `/deploy staging`)                          | You type `/command` to run it              |
+| **CLAUDE.md**      | Set project-wide instructions (e.g., "use TypeScript strict mode")         | Loaded into every conversation             |
+| **Subagents**      | Delegate tasks to a separate context with its own tools                    | Claude delegates, or you invoke explicitly |
+| **Hooks**          | Run scripts on events (e.g., lint on file save)                            | Fires on specific tool events              |
+| **MCP servers**    | Connect Claude to external tools and data sources                          | Claude calls MCP tools as needed           |
 
 **Skills vs. subagents**: Skills add knowledge to the current conversation. Subagents run in a separate context with their own tools. Use Skills for guidance and standards; use subagents when you need isolation or different tool access.
 
@@ -162,14 +162,14 @@ Show concrete examples of using this Skill.
 
 You can use the following fields in the YAML frontmatter:
 
-| Field           | Required | Description                                                                                                                                                                      |
-| :-------------- | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`          | Yes      | Skill name. Must use lowercase letters, numbers, and hyphens only (max 64 characters). Should match the directory name.                                                          |
-| `description`   | Yes      | What the Skill does and when to use it (max 1024 characters). Claude uses this to decide when to apply the Skill.                                                                |
-| `allowed-tools` | No       | Tools Claude can use without asking permission when this Skill is active. See [Restrict tool access](#restrict-tool-access-with-allowed-tools).                                  |
-| `model`         | No       | [Model](https://docs.claude.com/en/docs/about-claude/models/overview) to use when this Skill is active (e.g., `claude-sonnet-4-20250514`). Defaults to the conversation's model. |
+| Field           | Required | Description                                                                                                             |
+| :-------------- | :------- | :---------------------------------------------------------------------------------------------------------------------- |
+| `name`          | Yes      | Skill name. Must use lowercase letters, numbers, and hyphens only (max 64 characters). Should match the directory name. |
+| `description`   | Yes      | What the Skill does and when to use it (max 1024 characters). Claude uses this to decide when to apply the Skill.       |
+| `allowed-tools` | No       | Tools Claude can use without asking permission when this Skill is active.                                               |
+| `model`         | No       | Model to use when this Skill is active (e.g., `claude-sonnet-4-20250514`). Defaults to the conversation's model.        |
 
-See the [best practices guide](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices) for complete authoring guidance including validation rules.
+See the [best practices guide](best-practice.md) for complete authoring guidance including validation rules.
 
 ### Update or delete a Skill
 
@@ -232,7 +232,7 @@ Run the validation script to check the form:
 python scripts/validate_form.py input.pdf
 ```
 
-For complete guidance on structuring Skills, see the [best practices guide](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices#progressive-disclosure-patterns).
+For complete guidance on structuring Skills, see the [best practices guide](best-practice.md#progressive-disclosure-patterns).
 
 ### Restrict tool access with allowed-tools
 
@@ -269,7 +269,7 @@ If `allowed-tools` is omitted, the Skill doesn't restrict tools. Claude uses its
 
 ### Use Skills with subagents
 
-[Subagents](/en/sub-agents) do not automatically inherit Skills from the main conversation. To give a custom subagent access to specific Skills, list them in the subagent's `skills` field in `.claude/agents/`:
+Subagents do not automatically inherit Skills from the main conversation. To give a custom subagent access to specific Skills, list them in the subagent's `skills` field in `.claude/agents/`:
 
 ```yaml theme={null}
 # .claude/agents/code-reviewer/AGENT.md
@@ -291,8 +291,8 @@ The listed Skills are loaded into the subagent's context when it starts. If the 
 You can share Skills in several ways:
 
 - **Project Skills**: Commit `.claude/skills/` to version control. Anyone who clones the repository gets the Skills.
-- **Plugins**: To share Skills across multiple repositories, create a `skills/` directory in your [plugin](/en/plugins) with Skill folders containing `SKILL.md` files. Distribute through a [plugin marketplace](/en/plugin-marketplaces).
-- **Managed**: Administrators can deploy Skills organization-wide through [managed settings](/en/iam#managed-settings). See [Where Skills live](#where-skills-live) for managed Skill paths.
+- **Plugins**: To share Skills across multiple repositories, create a `skills/` directory in your plugins with Skill folders containing `SKILL.md` files. Distribute through a plugin marketplace.
+- **Managed**: Administrators can deploy Skills organization-wide through managed settings. See [Where Skills live](#where-skills-live) for managed Skill paths.
 
 ## Examples
 
@@ -462,23 +462,21 @@ my-plugin/
 ## Next steps
 
 <CardGroup cols={2}>
-  <Card title="Authoring best practices" icon="lightbulb" href="https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices">
+  <Card title="Authoring best practices" icon="lightbulb" href="best-practice.md">
     Write Skills that Claude can use effectively
   </Card>
 
-  <Card title="Agent Skills overview" icon="book" href="https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview">
+  <Card title="Agent Skills overview" icon="book" href="overview.md">
     Learn how Skills work across Claude products
   </Card>
 
-  <Card title="Use Skills in the Agent SDK" icon="cube" href="https://docs.claude.com/en/docs/agent-sdk/skills">
+  <Card title="Use Skills in the Agent SDK" icon="cube">
     Use Skills programmatically with TypeScript and Python
   </Card>
 
-  <Card title="Get started with Agent Skills" icon="rocket" href="https://docs.claude.com/en/docs/agents-and-tools/agent-skills/quickstart">
+  <Card title="Get started with Agent Skills" icon="rocket">
     Create your first Skill
   </Card>
 </CardGroup>
 
 ---
-
-> To find navigation and other pages in this documentation, fetch the llms.txt file at: https://code.claude.com/docs/llms.txt
