@@ -27,7 +27,7 @@ from pathlib import Path
 SKILL_TEMPLATE = """---
 name: {skill_name}
 description: |
-  [TODO: What the skill does]. [TODO: When to use it].
+  [TODO: Third-person description of what the skill does].
   Use when [TODO: specific triggers that should activate this skill].
 ---
 
@@ -37,44 +37,122 @@ description: |
 
 [TODO: 1-2 sentences explaining what this skill enables]
 
-## Quick Start
+## Pipeline Context
 
-[TODO: Minimal example to get started - show the simplest use case]
+> **Phase 3: Skill Authoring** - You should have:
+> - Gap analysis from Phase 1 (what context Claude lacks)
+> - Test cases from Phase 2 (success criteria to meet)
+>
+> This template provides structure guidance. Delete this section when done.
 
-## Workflow
+## Structuring This Skill
 
-[TODO: Choose structure based on skill type:
-- Instruction-heavy: Decision guides and text workflows
-- Code-heavy: Script-driven with validation loops
-- Mixed: Combination of both]
+[TODO: Choose the structure pattern that best fits this skill's purpose:
 
-### Step 1: [TODO]
+**1. Workflow-Based** (best for sequential processes)
+- Works well when there are clear step-by-step procedures
+- Example: DOCX skill with "Workflow Decision Tree" → "Reading" → "Creating" → "Editing"
+- Structure: ## Overview → ## Workflow Decision Tree → ## Step 1 → ## Step 2...
 
-[Instructions or script]
+**2. Task-Based** (best for tool collections)
+- Works well when the skill offers different operations/capabilities
+- Example: PDF skill with "Quick Start" → "Merge PDFs" → "Split PDFs" → "Extract Text"
+- Structure: ## Overview → ## Quick Start → ## Task Category 1 → ## Task Category 2...
 
-### Step 2: [TODO]
+**3. Reference/Guidelines** (best for standards or specifications)
+- Works well for brand guidelines, coding standards, or requirements
+- Example: Brand styling with "Brand Guidelines" → "Colors" → "Typography" → "Features"
+- Structure: ## Overview → ## Guidelines → ## Specifications → ## Usage...
 
-[Instructions or script]
+**4. Capabilities-Based** (best for integrated systems)
+- Works well when the skill provides multiple interrelated features
+- Example: Product Management with "Core Capabilities" → numbered capability list
+- Structure: ## Overview → ## Core Capabilities → ### 1. Feature → ### 2. Feature...
 
-### Step 3: [TODO]
+Patterns can be mixed and matched as needed. Most skills combine patterns (e.g., start with task-based, add workflow for complex operations).
 
-[Instructions or script]
+**Delete this entire section when done - it's just guidance.**]
+
+## Degrees of Freedom
+
+[TODO: Choose the right level of prescription based on your gap analysis:
+
+| Freedom Level | When to Use | What to Include |
+|--------------|-------------|-----------------|
+| **High** (text instructions) | Multiple valid approaches exist | Guidelines, principles, examples |
+| **Medium** (pseudocode/params) | Preferred pattern exists | Flexible templates, key parameters |
+| **Low** (exact scripts) | Operations are fragile/exact | Runnable scripts, strict sequences |
+
+Match to identified gaps:
+- Knowledge gaps → High freedom (reference docs)
+- Format gaps → Medium freedom (templates)
+- Process gaps → Low freedom (exact scripts)
+
+**Delete this section when done.**]
+
+## [TODO: Replace with first main section based on chosen structure]
+
+[TODO: Add content based on your gap analysis from Phase 1. Include:
+- Concrete examples with realistic user requests
+- Code samples for technical operations
+- Decision trees for complex workflows
+- References to scripts/templates/references as needed]
 
 ## Feedback Loop
 
 [TODO: If applicable, add validation cycle:
 1. Run validation script
 2. If errors: fix and re-validate
-3. Only proceed when validation passes]
+3. Only proceed when validation passes
 
-## References
+This is especially important for low-freedom (script-driven) skills.]
 
-[TODO: Link to reference files if needed]
-- [reference-name.md](references/reference-name.md): For [specific scenario]
+## Resources
+
+This skill includes resource directories for different types of bundled content:
+
+### scripts/
+Executable code (Python/Bash/etc.) that can be run directly to perform specific operations.
+
+**Examples from other skills:**
+- PDF skill: `fill_fillable_fields.py`, `extract_form_field_info.py` - utilities for PDF manipulation
+- DOCX skill: `document.py`, `utilities.py` - Python modules for document processing
+
+**Appropriate for:** Python scripts, shell scripts, or any executable code that performs automation, data processing, or specific operations.
+
+**Note:** Scripts may be executed without loading into context, but can still be read by Claude for patching or environment adjustments.
+
+### references/
+Documentation and reference material intended to be loaded into context to inform Claude's process and thinking.
+
+**Examples from other skills:**
+- Product management: `communication.md`, `context_building.md` - detailed workflow guides
+- BigQuery: API reference documentation and query examples
+- Finance: Schema documentation, company policies
+
+**Appropriate for:** In-depth documentation, API references, database schemas, comprehensive guides, or any detailed information that Claude should reference while working.
+
+### assets/
+Files not intended to be loaded into context, but rather used within the output Claude produces.
+
+**Examples from other skills:**
+- Brand styling: PowerPoint template files (.pptx), logo files
+- Frontend builder: HTML/React boilerplate project directories
+- Typography: Font files (.ttf, .woff2)
+
+**Appropriate for:** Templates, boilerplate code, document templates, images, icons, fonts, or any files meant to be copied or used in the final output.
 
 ---
 
-**Delete unused directories:** Not every skill needs scripts/, references/, and assets/.
+## Token Budget Reminder
+
+- SKILL.md body: < 500 lines
+- Reference files: < 300 lines each
+- Max 1 level of nesting for references
+- Long files (>100 lines) need TOC
+
+**Delete unused directories.** Not every skill needs scripts/, references/, and assets/.
+**Delete guidance sections** (Pipeline Context, Structuring, Degrees of Freedom) before Phase 4 validation.
 """
 
 EXAMPLE_SCRIPT = '''#!/usr/bin/env python3

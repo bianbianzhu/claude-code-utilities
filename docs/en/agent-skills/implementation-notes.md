@@ -62,7 +62,14 @@ Update `skill-pipeline/scripts/init_skill.py` to include comprehensive templates
 
 ### Status
 
-**Not yet implemented** - Documented for future improvement.
+**Implemented** - 2025-01-09
+
+Updated `skill-pipeline/scripts/init_skill.py` SKILL_TEMPLATE to include:
+- **Pipeline Context section**: References Phase 1 (gap analysis) and Phase 2 (test cases)
+- **4 Structure Patterns**: Workflow-Based, Task-Based, Reference/Guidelines, Capabilities-Based
+- **Degrees of Freedom guidance**: Maps gap types to prescription levels (from best-practice-summary.md)
+- **Rich resource directory documentation**: Real examples from other skills
+- **Token Budget Reminder**: With Phase 4 validation reference
 
 ---
 
