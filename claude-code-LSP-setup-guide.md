@@ -101,6 +101,28 @@ rustup component add rust-analyzer
 
 6. **Restart Claude Code** - LSP servers only start on fresh sessions
 
+### Alternative: Enable via settings.json
+
+You can also toggle plugins directly in `~/.claude/settings.json`:
+
+```json
+{
+  "enabledPlugins": {
+    "pyright-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": false
+  }
+}
+```
+
+| Value   | Meaning             |
+| ------- | ------------------- |
+| `true`  | Plugin enabled (◉)  |
+| `false` | Plugin disabled (◯) |
+
+The format is `"plugin-name@marketplace-name": true/false`. Changes take effect on next Claude Code session.
+
 ---
 
 ## Verifying Your Setup
