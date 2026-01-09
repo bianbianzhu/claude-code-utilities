@@ -97,11 +97,29 @@ if [[ -f "Cargo.toml" ]]; then
   setup_commands+=("cargo fetch")
 fi
 
-# Python project with requirements
-if [[ -f "requirements.txt" ]]; then
-  if [[ -f ".python-version" ]]; then
-    # pyenv environment
-    setup_commands+=("pyenv: requirements.txt detected")
+# Python project - uv is preferred
+if [[ -f "uv.lock" ]]; then
+  # uv project with lockfile
+  uv sync 2>/dev/null && setup_ran=true
+  setup_commands+=("uv sync")
+elif [[ -f "pyproject.toml" ]]; then
+  if command -v uv &>/dev/null; then
+    # uv can handle pyproject.toml directly
+    uv sync 2>/dev/null && setup_ran=true
+    setup_commands+=("uv sync")
+  elif [[ -f "poetry.lock" ]]; then
+    # Poetry project
+    poetry install 2>/dev/null && setup_ran=true
+    setup_commands+=("poetry install")
+  else
+    # Fallback to pip
+    pip install -e . 2>/dev/null && setup_ran=true
+    setup_commands+=("pip install -e .")
+  fi
+elif [[ -f "requirements.txt" ]]; then
+  if command -v uv &>/dev/null; then
+    uv pip install -r requirements.txt 2>/dev/null && setup_ran=true
+    setup_commands+=("uv pip install -r requirements.txt")
   else
     setup_commands+=("pip install -r requirements.txt (manual)")
   fi
