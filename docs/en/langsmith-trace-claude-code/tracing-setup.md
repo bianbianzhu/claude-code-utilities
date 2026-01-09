@@ -124,6 +124,15 @@ Make sure the hook script is executable:
 chmod +x ~/.claude/hooks/stop_hook.sh
 ```
 
+### Missing log file
+
+If you see an error like `~/.claude/state/hook.log: No such file or directory`, you need to create the log file first:
+
+```bash theme={null}
+mkdir -p ~/.claude/state
+touch ~/.claude/state/hook.log
+```
+
 ### Required commands not found
 
 Verify all required commands are installed:
