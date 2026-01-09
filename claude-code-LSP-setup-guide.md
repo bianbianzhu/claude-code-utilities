@@ -101,12 +101,53 @@ rustup component add rust-analyzer
 
 6. **Restart Claude Code** - LSP servers only start on fresh sessions
 
-### Alternative: Enable via settings.json
+### Step 4: Enable the LSP Tool
 
-You can also toggle plugins directly in `~/.claude/settings.json`:
+The LSP tool requires an environment variable to be enabled. Add this to your settings file:
+
+**User scope** (`~/.claude/settings.json`):
 
 ```json
 {
+  "env": {
+    "ENABLE_LSP_TOOL": "1"
+  }
+}
+```
+
+**Project scope** (`.claude/settings.json` in your project root):
+
+```json
+{
+  "env": {
+    "ENABLE_LSP_TOOL": "1"
+  }
+}
+```
+
+**Project local** (`.claude/settings.local.json` - gitignored):
+
+```json
+{
+  "env": {
+    "ENABLE_LSP_TOOL": "1"
+  }
+}
+```
+
+Settings are merged in order: user → project → project local. Use project-local settings for machine-specific configuration that shouldn't be committed.
+
+**Restart Claude Code** after adding this setting for it to take effect.
+
+### Alternative: Enable Plugins via settings.json
+
+You can configure both the LSP tool and plugins directly in `~/.claude/settings.json`:
+
+```json
+{
+  "env": {
+    "ENABLE_LSP_TOOL": "1"
+  },
   "enabledPlugins": {
     "pyright-lsp@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
@@ -116,12 +157,13 @@ You can also toggle plugins directly in `~/.claude/settings.json`:
 }
 ```
 
-| Value   | Meaning             |
-| ------- | ------------------- |
-| `true`  | Plugin enabled (◉)  |
-| `false` | Plugin disabled (◯) |
+| Key              | Value   | Meaning               |
+| ---------------- | ------- | --------------------- |
+| `env`            | object  | Environment variables |
+| `enabledPlugins` | `true`  | Plugin enabled (◉)    |
+| `enabledPlugins` | `false` | Plugin disabled (◯)   |
 
-The format is `"plugin-name@marketplace-name": true/false`. Changes take effect on next Claude Code session.
+The plugin format is `"plugin-name@marketplace-name": true/false`. Changes take effect on next Claude Code session.
 
 ---
 
@@ -305,7 +347,8 @@ claude plugin install <plugin-name>@claude-plugins-official --scope user
 1. **Install language server binaries** (npm/pip/go install)
 2. **Install LSP plugins** from `/plugin` → Discover
 3. **Enable plugins** in `/plugin` → Installed (press Space)
-4. **Restart Claude Code**
-5. **Test** with "Using the LSP tool, find where X is defined"
+4. **Enable the LSP tool** by setting `ENABLE_LSP_TOOL=1` in settings
+5. **Restart Claude Code**
+6. **Test** with "Using the LSP tool, find where X is defined"
 
 LSP gives Claude IDE-like code navigation. For project-wide type checking, Claude will still run `tsc`, `pyright`, etc. as needed.
