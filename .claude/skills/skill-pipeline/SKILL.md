@@ -14,6 +14,7 @@ Evaluation-driven workflow for building high-quality skills.
 ## Contents
 
 - [Quick Start](#quick-start)
+- [Proactive Clarification](#proactive-clarification)
 - [Phase Overview](#phase-overview)
 - [Phase 0: Example Collection](#phase-0-example-collection)
 - [Phase 1: Discovery](#phase-1-discovery)
@@ -33,6 +34,21 @@ Evaluation-driven workflow for building high-quality skills.
 4. Author minimal skill content
 5. Iterate until tests pass
 6. Review and deploy
+
+---
+
+## Proactive Clarification
+
+Use `AskUserQuestion` throughout the pipeline to avoid assumptions and rework.
+
+**Always ask when:**
+- User's example is ambiguous or incomplete
+- Multiple valid interpretations exist
+- Success criteria are unclear
+- Failure root cause is uncertain
+- Trade-offs require user preference (e.g., simplicity vs. coverage)
+
+**Do NOT assume - ask early.** Each phase below includes specific "🔍 Ask when..." prompts.
 
 ---
 
@@ -72,6 +88,12 @@ Evaluation-driven workflow for building high-quality skills.
 
 **Template**: See [templates/example-collection.md](templates/example-collection.md)
 
+🔍 **Ask when:**
+- Example lacks clear expected output → "What should the result look like?"
+- Trigger phrase is vague → "What exact words would you use to invoke this?"
+- Edge cases are unclear → "How should it handle [specific scenario]?"
+- Complexity classification is uncertain → "Do you need [feature X] or is the simpler version enough?"
+
 ---
 
 ## Phase 1: Discovery
@@ -91,6 +113,11 @@ Evaluation-driven workflow for building high-quality skills.
    - Templates/assets → `assets/`
 
 **Template**: See [templates/gap-analysis.md](templates/gap-analysis.md)
+
+🔍 **Ask when:**
+- Multiple gaps identified → "Which gaps are most critical to address?"
+- Unsure if something is a gap or feature → "Is [behavior X] a bug or intended?"
+- Resource type unclear → "Should this be a script (exact) or reference doc (flexible)?"
 
 ---
 
@@ -125,6 +152,12 @@ Evaluation-driven workflow for building high-quality skills.
 
 **Schema**: See [templates/evaluation.json](templates/evaluation.json)
 **Model criteria**: See [templates/model-criteria.md](templates/model-criteria.md)
+
+🔍 **Ask when:**
+- Success criteria are subjective → "How would you judge if [output] is good enough?"
+- must_pass vs should_pass unclear → "Is [criterion] required or nice-to-have?"
+- Target model unclear → "Which model will this skill primarily run on?"
+- Baseline results are ambiguous → "Does this baseline failure count as a gap we need to fix?"
 
 ---
 
@@ -179,6 +212,12 @@ Must pass before proceeding to Phase 4.
 
 **Reference**: See [references/best-practice-summary.md](references/best-practice-summary.md)
 
+🔍 **Ask when:**
+- Content type tradeoff → "Do you prefer exact scripts (reliable) or flexible instructions (adaptable)?"
+- Structure decisions → "Should this be one large section or split into references?"
+- Terminology choices → "What term should we use for [concept]?"
+- Validation fails on structure → "The skill exceeds 500 lines - which parts should move to references?"
+
 ---
 
 ## Phase 4: Validation Loop
@@ -206,6 +245,12 @@ For each failure, identify:
 - [ ] References max 1 level deep
 
 **Template**: See [templates/failure-report.md](templates/failure-report.md)
+
+🔍 **Ask when:**
+- Multiple failures with different root causes → "Which failure should we prioritize fixing first?"
+- Failure diagnosis is ambiguous → "Is this a discovery, execution, or output issue?"
+- Fix has tradeoffs → "Fixing [A] might break [B] - acceptable?"
+- Stuck after iterations → "We've tried N approaches - should we reconsider the scope?"
 
 ---
 
@@ -235,6 +280,11 @@ package_skill.py .claude/skills/<skill-name> ./dist
 ```
 
 Creates `<skill-name>.skill` file for distribution.
+
+🔍 **Ask when:**
+- Review reveals issues → "Should we fix [issue] now or note it for v2?"
+- Deployment scope unclear → "Deploy to user-level, project-level, or both?"
+- Checklist item fails → "This fails [criterion] - block deploy or accept as-is?"
 
 ---
 
