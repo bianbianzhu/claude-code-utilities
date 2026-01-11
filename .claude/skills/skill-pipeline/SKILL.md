@@ -28,6 +28,8 @@ Evaluation-driven workflow for building high-quality skills.
 
 ## Quick Start
 
+**Before starting:** Read [references/skill-fundamentals.md](references/skill-fundamentals.md) to understand skill anatomy, core principles, and progressive disclosure patterns.
+
 1. Collect 3+ concrete usage examples
 2. Work through examples WITHOUT a skill (identify gaps)
 3. Create test cases with success criteria
@@ -305,5 +307,6 @@ All scripts in: `.claude/skills/skill-pipeline/scripts/`
 
 ## References
 
+- [Skill Fundamentals](references/skill-fundamentals.md): Core concepts, anatomy, and principles (read first)
 - [Best Practice Summary](references/best-practice-summary.md): Condensed authoring guidelines
 - [Model Guidance](references/model-guidance.md): Haiku/Sonnet/Opus optimization
