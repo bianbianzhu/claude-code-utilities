@@ -24,11 +24,17 @@ MODEL=$(echo "$input" | jq -r '.model.display_name')
 CONTEXT_SIZE=$(echo "$input" | jq -r '.context_window.context_window_size')
 USAGE=$(echo "$input" | jq '.context_window.current_usage')
 
+format_k() {
+    awk "BEGIN {printf \"%.1fK\", $1/1000}" | sed 's/\.0K$/K/'
+}
+
 if [ "$USAGE" != "null" ]; then
     # Calculate current context from current_usage fields
     CURRENT_TOKENS=$(echo "$USAGE" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens')
     PERCENT_USED=$((CURRENT_TOKENS * 100 / CONTEXT_SIZE))
-    echo "[$MODEL] Context: ${PERCENT_USED}%"
+    CURRENT_K=$(format_k $CURRENT_TOKENS)
+    CONTEXT_K=$(format_k $CONTEXT_SIZE)
+    echo "[$MODEL] Context: ${PERCENT_USED}% ${CURRENT_K}/${CONTEXT_K}"
 else
     echo "[$MODEL] Context: 0%"
 fi
