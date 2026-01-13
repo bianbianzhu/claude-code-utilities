@@ -12,7 +12,7 @@ Usage:
 
 import sys
 import re
-import yaml
+import yaml  # pyright: ignore[reportMissingModuleSource]
 from pathlib import Path
 
 def validate_skill(skill_path):
