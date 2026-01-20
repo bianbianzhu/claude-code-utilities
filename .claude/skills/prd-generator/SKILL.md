@@ -11,9 +11,9 @@ Create detailed Product Requirements Documents that are clear, actionable, and s
 
 ## The Job
 
-1. Receive a feature description from the user
-2. Ask 3-5 essential clarifying questions (with lettered options)
-3. Generate a structured PRD based on answers
+1. Receive an initial feature description from the user
+2. Ask clarifying questions
+3. Generate a structured PRD (may include multiple documents) based on answers
 4. Save to `tasks/prd-[feature-name].md`
 
 **Important:** Do NOT start implementing. Just create the PRD.
@@ -22,14 +22,18 @@ Create detailed Product Requirements Documents that are clear, actionable, and s
 
 ## Step 1: Clarifying Questions
 
-Ask only critical questions where the initial prompt is ambiguous. Focus on:
+interview the user in detail using the **AskUserQuestionTool**. Make sure the questions are not obvious. Be very in-depth and continue interviewing the user continually until all questions are answered.
+Focus on:
 
 - **Problem/Goal:** What problem does this solve?
 - **Core Functionality:** What are the key actions?
 - **Scope/Boundaries:** What should it NOT do?
 - **Success Criteria:** How do we know it's done?
+- **User Facing Goals:** What are the user-facing goals?
+- **Codebase:** What parts of the codebase will this touch? (database, UI, API, etc.)
+- **Existing Patterns:** Are there any existing/preferred patterns to follow?
 
-### Format Questions Like This:
+### Example Questions:
 
 ```
 1. What is the primary goal of this feature?
@@ -50,8 +54,6 @@ Ask only critical questions where the initial prompt is ambiguous. Focus on:
    C. Just the backend/API
    D. Just the UI
 ```
-
-This lets users respond with "1A, 2C, 3B" for quick iteration.
 
 ---
 
