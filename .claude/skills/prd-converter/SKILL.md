@@ -1,5 +1,5 @@
 ---
-name: Ralph PDF Converter
+name: Ralph PRD Converter
 description: "Convert PRDs to prd.json format for the Ralph autonomous agent system. Use when you have an existing PRD and need to convert it to Ralph's JSON format. Triggers on: convert this prd, turn this into ralph format, create prd.json from this, ralph json."
 ---
 
@@ -59,7 +59,7 @@ Ralph spawns a fresh Claude Code instance per iteration with no memory of previo
 - "Add authentication" - Split into: schema, middleware, login UI, session handling
 - "Refactor the API" - Split into one story per endpoint or pattern
 
-**Rule of thumb:** If you cannot describe the change in 2-3 sentences, it is too big.
+**Rule of thumb:** If you cannot describe the story in 2-3 sentences, it is too big.
 
 ---
 
@@ -142,7 +142,7 @@ If a PRD has big features, split them:
 5. US-005: Add mark-as-read functionality
 6. US-006: Add notification preferences page
 
-Each is one focused change that can be completed and verified independently.
+Each is one focused story that can be completed and verified independently.
 
 ---
 
