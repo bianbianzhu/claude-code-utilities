@@ -4,12 +4,12 @@ set -e
 FILE=${1:-prd.json}
 
 if [ ! -f "$FILE" ]; then
-  echo "✗ PRD file not found: $FILE"
+  echo "FAIL: PRD file not found: $FILE"
   exit 1
 fi
 
 if ! command -v jq >/dev/null 2>&1; then
-  echo "✗ jq is required but not installed"
+  echo "FAIL: jq is required but not installed"
   exit 1
 fi
 
@@ -25,7 +25,7 @@ IDS=$(jq -r '.userStories[].id' "$FILE")
 # Check for duplicate IDs
 DUP_IDS=$(echo "$IDS" | sort | uniq -d)
 if [ -n "$DUP_IDS" ]; then
-  echo "✗ Duplicate userStory IDs:"
+  echo "FAIL: Duplicate userStory IDs:"
   echo "$DUP_IDS"
   ERROR=1
 fi
@@ -37,15 +37,15 @@ for ((i=0; i<COUNT; i++)); do
   for FIELD in "${REQUIRED_FIELDS[@]}"; do
     VALUE=$(jq -r ".userStories[$i].$FIELD // empty" "$FILE")
     if [ -z "$VALUE" ]; then
-      echo "✗ Missing field '$FIELD' in userStory index $i"
+      echo "FAIL: Missing field '$FIELD' in userStory index $i"
       ERROR=1
     fi
   done
 done
 
 if [ "$ERROR" -eq 0 ]; then
-  echo "✓ PRD is valid"
+  echo "SUCCESS: PRD is valid"
 else
-  echo "✗ PRD validation failed"
+  echo "FAIL: PRD validation failed"
   exit 1
 fi
