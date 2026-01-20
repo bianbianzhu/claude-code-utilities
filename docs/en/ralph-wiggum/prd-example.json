@@ -1,0 +1,102 @@
+{
+  "project": "TodoApp",
+  "description": "Simple todo application with task management and filtering",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Add tasks table to database",
+      "category": "database",
+      "description": "As a developer, I need a database schema to store tasks.",
+      "acceptanceCriteria": [
+        "Create tasks table with columns: id, title, description, status, created_at",
+        "Status column accepts: 'pending' | 'in_progress' | 'done' (default 'pending')",
+        "Generate and run migration successfully",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Create task CRUD server actions",
+      "category": "backend",
+      "description": "As a developer, I need server actions to create, read, update, and delete tasks.",
+      "acceptanceCriteria": [
+        "createTask(title, description) creates a new task with status 'pending'",
+        "getTasks() returns all tasks ordered by created_at desc",
+        "updateTask(id, data) updates task fields",
+        "deleteTask(id) removes a task",
+        "Typecheck passes",
+        "Tests pass"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Display task list on main page",
+      "category": "ui",
+      "description": "As a user, I want to see all my tasks on the main page.",
+      "acceptanceCriteria": [
+        "Main page shows list of all tasks",
+        "Each task displays title, description, and status badge",
+        "Empty state shown when no tasks exist",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Add new task form",
+      "category": "ui",
+      "description": "As a user, I want to add new tasks from the main page.",
+      "acceptanceCriteria": [
+        "Form with title (required) and description (optional) fields",
+        "Submit button creates task and refreshes list",
+        "Form clears after successful submission",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Add status toggle to task cards",
+      "category": "ui",
+      "description": "As a user, I want to change task status directly from the list.",
+      "acceptanceCriteria": [
+        "Each task card has a status dropdown",
+        "Dropdown options: Pending, In Progress, Done",
+        "Changing status saves immediately without page refresh",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Filter tasks by status",
+      "category": "functional",
+      "description": "As a user, I want to filter the task list by status.",
+      "acceptanceCriteria": [
+        "Filter dropdown above task list with options: All, Pending, In Progress, Done",
+        "Selecting a filter shows only matching tasks",
+        "Filter selection persists in URL query params",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}
