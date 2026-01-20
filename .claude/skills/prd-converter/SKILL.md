@@ -122,8 +122,7 @@ Frontend stories are NOT complete until visually verified. Ralph will use the de
 3. **Category**: Classify each story (e.g., `database`, `backend`, `ui`, `functional`, `integration`, `api`, `testing`)
 4. **Priority**: Based on dependency order, then document order
 5. **All stories**: `passes: false` and empty `notes`
-6. **branchName**: Derive from feature name, kebab-case, prefixed with `ralph/`
-7. **Always add**: "Typecheck passes" to every story's acceptance criteria
+6. **Always add**: "Typecheck passes" to every story's acceptance criteria
 
 ---
 
@@ -165,7 +164,6 @@ Add ability to mark tasks with different statuses.
 ```json
 {
   "project": "TaskApp",
-  "branchName": "ralph/task-status",
   "description": "Task Status Feature - Track task progress with status indicators",
   "userStories": [
     {
