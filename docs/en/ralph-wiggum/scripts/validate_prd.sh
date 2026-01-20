@@ -35,8 +35,8 @@ COUNT=$(jq '.userStories | length' "$FILE")
 
 for ((i=0; i<COUNT; i++)); do
   for FIELD in "${REQUIRED_FIELDS[@]}"; do
-    VALUE=$(jq -r ".userStories[$i].$FIELD // empty" "$FILE")
-    if [ -z "$VALUE" ]; then
+    EXISTS=$(jq ".userStories[$i] | has(\"$FIELD\")" "$FILE")
+    if [ "$EXISTS" != "true" ]; then
       echo "FAIL: Missing field '$FIELD' in userStory index $i"
       ERROR=1
     fi
