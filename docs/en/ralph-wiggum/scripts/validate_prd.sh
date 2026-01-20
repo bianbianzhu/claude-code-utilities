@@ -13,7 +13,7 @@ if ! command -v jq >/dev/null 2>&1; then
   exit 1
 fi
 
-REQUIRED_FIELDS=("id" "title" "priority")
+REQUIRED_FIELDS=("id" "title" "priority" "category" "acceptanceCriteria" "passes" "description")
 ERROR=0
 
 echo "Validating PRD: $FILE"
