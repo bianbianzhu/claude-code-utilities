@@ -119,10 +119,11 @@ Frontend stories are NOT complete until visually verified. Ralph will use the de
 
 1. **Each user story becomes one JSON entry**
 2. **IDs**: Sequential (US-001, US-002, etc.)
-3. **Priority**: Based on dependency order, then document order
-4. **All stories**: `passes: false` and empty `notes`
-5. **branchName**: Derive from feature name, kebab-case, prefixed with `ralph/`
-6. **Always add**: "Typecheck passes" to every story's acceptance criteria
+3. **Category**: Classify each story (e.g., `database`, `backend`, `ui`, `functional`, `integration`, `api`, `testing`)
+4. **Priority**: Based on dependency order, then document order
+5. **All stories**: `passes: false` and empty `notes`
+6. **branchName**: Derive from feature name, kebab-case, prefixed with `ralph/`
+7. **Always add**: "Typecheck passes" to every story's acceptance criteria
 
 ---
 
@@ -170,6 +171,7 @@ Add ability to mark tasks with different statuses.
     {
       "id": "US-001",
       "title": "Add status field to tasks table",
+      "category": "database",
       "description": "As a developer, I need to store task status in the database.",
       "acceptanceCriteria": [
         "Add status column: 'pending' | 'in_progress' | 'done' (default 'pending')",
@@ -183,6 +185,7 @@ Add ability to mark tasks with different statuses.
     {
       "id": "US-002",
       "title": "Display status badge on task cards",
+      "category": "ui",
       "description": "As a user, I want to see task status at a glance.",
       "acceptanceCriteria": [
         "Each task card shows colored status badge",
@@ -197,6 +200,7 @@ Add ability to mark tasks with different statuses.
     {
       "id": "US-003",
       "title": "Add status toggle to task list rows",
+      "category": "ui",
       "description": "As a user, I want to change task status directly from the list.",
       "acceptanceCriteria": [
         "Each row has status dropdown or toggle",
@@ -212,6 +216,7 @@ Add ability to mark tasks with different statuses.
     {
       "id": "US-004",
       "title": "Filter tasks by status",
+      "category": "functional",
       "description": "As a user, I want to filter the list to see only certain statuses.",
       "acceptanceCriteria": [
         "Filter dropdown: All | Pending | In Progress | Done",
