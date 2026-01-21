@@ -17,6 +17,8 @@ For each finding:
 
 Skip issues already resolved completely.
 
+Do NOT create any verification or summary files. Only output specified files.
+
 After all findings are processed:
 1. Provide a summary of: resolved issues, accepted changes, declined suggestions
 2. If any suggestions were declined, write feedback to !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); echo "${f%.md}-feedback.md"`:
@@ -52,6 +54,8 @@ For each finding:
 Process one finding at a time. Do not proceed to the next finding until I approve or provide feedback on the current one.
 
 Skip issues already resolved completely.
+
+Do NOT create any verification or summary files. Only output specified files.
 
 After all findings are processed:
 1. Provide a summary of: resolved issues, accepted changes, declined suggestions
