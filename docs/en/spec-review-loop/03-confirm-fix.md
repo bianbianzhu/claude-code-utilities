@@ -3,13 +3,13 @@
 - Iterate the findings to a new version of the issue report
 
 ```markdown
+**IMPORTANT**: Use the below files to replace the placeholders in the prompt for "ask-codex" command. Run bash commands to generate the values for the placeholders FIRST.
+
 Issues file: !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1`
 
 Feedback file: !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1 | sed 's/\.md$/-feedback.md/'`
 
 Output file: !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); v=$(echo "$f" | grep -oE 'v[0-9]+' | tail -1 | tr -d 'v'); echo "./specs/issues/$(date +%Y-%m-%d)-v$((v+1)).md"`
-
-**IMPORTANT**: Use the above files to replace the placeholders in the prompt for "ask-codex" command.
 
 /ask-codex "Verify fixes for {Issues file} against design specs in ./specs.
 
