@@ -10,23 +10,35 @@ For each issue in the report:
 2. Confirm the fix fully addresses the identified gap
 3. Flag any partial fixes, regressions, or missed issues
 
+If @specs/issues/2026-01-20-v2-rejected.md exists:
+- Review each rejection reasoning
+- Assess if the rejection is valid (sound reasoning, aligns with design goals)
+- Flag if you disagree with the rejection and why
+
 Use git diff/history to compare before/after states where helpful.
 
-Write findings to ./specs/issues/<YYYY-MM-DD>-v3.md with this structure:
+Write findings to ./specs/issues/03-<YYYY-MM-DD>.md:
 
 ## Summary
-| Issue | Status (Fixed/Partial/Missing) | Notes |
-|-------|-------------------------------|-------|
+| Issue | Status (Fixed/Partial/Missing/Rejected) | Notes |
+|-------|----------------------------------------|-------|
 ...
 
 ## Detailed Findings
 
-### Issue 1: [Title]
+### Issue [N]: [Title]
 - **Status**: 
 - **Original Gap**: 
 - **What Changed**: 
 - **Assessment**: 
 - **Remaining Work** (if any): 
 
-(Repeat for each issue)"
+## Rejection Review (if applicable)
+
+### Issue [N]: [Title]
+- **Rejection Reason Given**: 
+- **Valid**: Yes/No
+- **Response**: (agree with reasoning / counter-argument if disagree)
+
+(Repeat for each)"
 ```

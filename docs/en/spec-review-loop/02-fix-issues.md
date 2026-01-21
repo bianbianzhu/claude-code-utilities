@@ -1,8 +1,8 @@
-Claude Code fixes design spec issues found by Codex reviewer.
+### Claude Code fixes design spec issues found by Codex reviewer.
 
 # AFK Version
 ```markdown
-Review design spec issues from @specs/issues/2026-01-20-v2.md (2nd iteration from Codex reviewer).
+Review design spec issues from ./specs/issues/2026-01-20-v2.md (2nd iteration from Codex reviewer).
 
 For each finding:
 1. **Verify** - Does the current design spec (under ./specs) actually have this gap/issue?
@@ -54,7 +54,7 @@ Skip issues already resolved completely.
 
 After all findings are processed:
 1. Provide a summary of: resolved issues, accepted changes, rejected suggestions
-2. If any rejections, write to @specs/issues/<YYYY-MM-DD>-v2-rejected.md:
+2. If any rejections, write to ./specs/issues/<YYYY-MM-DD>-v2-rejected.md:
 
 ## Rejected Suggestions
 
