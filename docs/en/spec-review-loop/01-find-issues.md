@@ -1,9 +1,9 @@
 ### Codex performs comprehensive review of design specs.
 
-- Initial review to identify issues, gaps, and inconsistencies
+- Review to identify issues, gaps, and inconsistencies (works for initial or subsequent reviews)
 
 ```markdown
-Output file: !`echo "./specs/issues/$(date +%Y-%m-%d)-v1.md"`
+Output file: !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); v=$(echo "$f" | grep -oE 'v[0-9]+' | tail -1 | tr -d 'v'); echo "./specs/issues/$(date +%Y-%m-%d)-v$((v+1)).md"`
 
 **IMPORTANT**: Use the above file path to replace the placeholder in the prompt for "ask-codex" command.
 
@@ -11,19 +11,16 @@ Output file: !`echo "./specs/issues/$(date +%Y-%m-%d)-v1.md"`
 
 ## Scope
 
-Start by reading ./specs/README.md (if exists) to understand the spec structure and relationships. Then review all dated spec files (e.g., `2026-01-20-*.md`) and supporting documents.
-
-Key spec files to review:
-- `./specs/README.md` - Table of contents and spec relationships
-- `./specs/2026-*-architecture.md` - System architecture
-- `./specs/2026-*-conversation.md` - Conversation flow
-- `./specs/2026-*-execution-engine.md` - Execution layer
-- `./specs/2026-*-action-catalog.md` - Action definitions
-- `./specs/2026-*-observability.md` - Logging and monitoring
-- `./specs/2026-*-testing.md` - Testing strategy
-- `./specs/2026-*-shared-conventions.md` - Shared definitions
-- `./specs/end-state-ideal.md` - Target vision
-- `./specs/questions-and-answers.md` - Design decisions
+1. **Start with `./specs/README.md`** - This is the table of contents. Use it to discover all spec files and understand their relationships.
+2. **Review core files** (always present):
+   - `./specs/README.md` - Table of contents and spec relationships
+   - `./specs/end-state-ideal.md` - Target vision
+   - `./specs/questions-and-answers.md` - Design decisions
+3. **Review all spec files listed in README.md** - These follow the naming convention `<YYYY-MM-DD>-<topic>.md` and vary by project. Examples:
+   - `2026-01-20-architecture.md`
+   - `2026-01-20-conversation.md`
+   - `2026-01-20-execution-engine.md`
+   - `2026-01-20-observability.md`
 
 ## Review Criteria
 
@@ -35,6 +32,9 @@ For each spec, analyze:
 4. **Security** - Are there potential vulnerabilities (eval risks, injection, PII exposure)?
 5. **Implementability** - Can a developer implement this without guessing? Are edge cases addressed?
 6. **Ambiguity** - Are there vague terms, conflicting statements, or unclear flows?
+7. **Testability** - Are acceptance criteria defined? Can the spec be verified? Are success/failure conditions measurable?
+8. **Dependencies** - Are external systems, APIs, and data sources clearly identified? Any circular dependencies between specs?
+9. **Error Handling & Failure Modes** - What happens when things fail? Are recovery paths defined? Are failure scenarios documented?
 
 ## Output Format
 
@@ -106,18 +106,12 @@ List any modules or components mentioned but not fully specified:
 
 ## Files Reviewed
 
-Checklist of specs reviewed (for tracking):
+Checklist of specs reviewed (generate from README.md):
 
 - [ ] `./specs/README.md`
-- [ ] `./specs/2026-*-architecture.md`
-- [ ] `./specs/2026-*-conversation.md`
-- [ ] `./specs/2026-*-execution-engine.md`
-- [ ] `./specs/2026-*-action-catalog.md`
-- [ ] `./specs/2026-*-observability.md`
-- [ ] `./specs/2026-*-testing.md`
-- [ ] `./specs/2026-*-shared-conventions.md`
 - [ ] `./specs/end-state-ideal.md`
 - [ ] `./specs/questions-and-answers.md`
+- [ ] (list all `<YYYY-MM-DD>-<topic>.md` files from README.md)
 
 **IMPORTANT for File References**:
 - Always use FULL relative paths (e.g., `./specs/2026-01-20-architecture.md`, NOT just `architecture.md`)
