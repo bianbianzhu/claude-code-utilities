@@ -22,7 +22,7 @@ When a feedback file exists, the implementer has declined some suggestions. For 
 
 Use git diff/history to compare before/after states where helpful.
 
-Write findings to !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1 | sed 's/.*-v\([0-9]*\)\.md/\1/' | xargs -I{} sh -c 'date +./specs/issues/%Y-%m-%d-v$(({} + 1)).md'`:
+Write findings to ./specs/issues/<YYYY-MM-DD>-v<N+1>.md (use today's date; N is the version from the input issues file, e.g., v2 → v3):
 
 ## Summary
 | Issue | Status (Fixed/Partial/Missing/Declined) | Notes |
