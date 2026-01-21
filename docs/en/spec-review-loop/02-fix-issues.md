@@ -2,7 +2,7 @@
 
 # AFK Version
 ```markdown
-Review design spec issues from !`ls -1 ./specs/issues/*.md 2>/dev/null | sort -rV | head -1` (latest iteration from Codex reviewer).
+Review design spec issues from !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1` (latest iteration from Codex reviewer).
 
 For each finding:
 1. **Verify** - Does the current design spec (under ./specs) actually have this gap/issue?
@@ -18,23 +18,24 @@ For each finding:
 Skip issues already resolved completely.
 
 After all findings are processed:
-1. Provide a summary of: resolved issues, accepted changes, rejected suggestions
-2. If any rejections, write to @specs/issues/<YYYY-MM-DD>-v2-rejected.md:
+1. Provide a summary of: resolved issues, accepted changes, declined suggestions
+2. If any suggestions were declined, write feedback to !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); echo "${f%.md}-feedback.md"`:
 
-## Rejected Suggestions
+## Feedback
 
 ### [Issue Title/Number]
 - **Suggestion**: (one-line summary of what Codex proposed)
-- **Rejection Reason**: (concise explanation - why it's not needed, incorrect, or conflicts with design intent)
+- **Decision**: Declined
+- **Reasoning**: (concise explanation - why it's out of scope, not needed, or conflicts with design intent)
 
-(Repeat for each rejection)
+(Repeat for each declined suggestion)
 
-Keep rejection reasoning direct and technical - this serves as documented feedback for the next review cycle.
+Keep reasoning direct and technical - this serves as documented feedback for the next review cycle.
 ```
 
 # HITL version
 ```markdown
-Review design spec issues from !`ls -1 ./specs/issues/*.md 2>/dev/null | sort -rV | head -1` (latest iteration from Codex reviewer).
+Review design spec issues from !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1` (latest iteration from Codex reviewer).
 
 For each finding:
 1. **Verify** - Does the current design spec actually have this gap/issue?
@@ -53,16 +54,17 @@ Process one finding at a time. Do not proceed to the next finding until I approv
 Skip issues already resolved completely.
 
 After all findings are processed:
-1. Provide a summary of: resolved issues, accepted changes, rejected suggestions
-2. If any rejections, write to ./specs/issues/<YYYY-MM-DD>-v2-rejected.md:
+1. Provide a summary of: resolved issues, accepted changes, declined suggestions
+2. If any suggestions were declined, write feedback to !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); echo "${f%.md}-feedback.md"`:
 
-## Rejected Suggestions
+## Feedback
 
 ### [Issue Title/Number]
 - **Suggestion**: (one-line summary of what Codex proposed)
-- **Rejection Reason**: (concise explanation - why it's not needed, incorrect, or conflicts with design intent)
+- **Decision**: Declined
+- **Reasoning**: (concise explanation - why it's out of scope, not needed, or conflicts with design intent)
 
-(Repeat for each rejection)
+(Repeat for each declined suggestion)
 
-Keep rejection reasoning direct and technical - this serves as documented feedback for the next review cycle.
+Keep reasoning direct and technical - this serves as documented feedback for the next review cycle.
 ```

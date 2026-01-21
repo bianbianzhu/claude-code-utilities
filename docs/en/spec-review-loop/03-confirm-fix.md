@@ -3,42 +3,49 @@
 - Iterate the findings to a new version of the issue report
 
 ```markdown
-/ask-codex "Verify fixes for @specs/issues/2026-01-20-v2.md against design specs in ./specs.
+/ask-codex "Verify fixes for !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1` against design specs in ./specs.
+!`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); fb="${f%.md}-feedback.md"; [ -f "$fb" ] && printf '\nAlso review feedback from previous iteration: %s' "$fb"`
 
 For each issue in the report:
 1. Check if the corresponding spec has been updated
 2. Confirm the fix fully addresses the identified gap
 3. Flag any partial fixes, regressions, or missed issues
 
-If @specs/issues/2026-01-20-v2-rejected.md exists:
-- Review each rejection reasoning
-- Assess if the rejection is valid (sound reasoning, aligns with design goals)
-- Flag if you disagree with the rejection and why
+## Feedback Review (if feedback file is present)
+
+When a feedback file exists, the implementer has declined some suggestions. For each declined item:
+1. **Evaluate the reasoning** - Is it valid? Does it align with design goals?
+2. **Decide**:
+   - If reasoning is sound → Accept the decline, remove from next iteration
+   - If reasoning is flawed → Re-raise the issue with counter-argument in next iteration
+3. **Document** your assessment in the Feedback Review section below
 
 Use git diff/history to compare before/after states where helpful.
 
-Write findings to ./specs/issues/03-<YYYY-MM-DD>.md:
+Write findings to !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); v=$(echo "$f" | grep -oE 'v[0-9]+' | tail -1 | tr -d 'v'); echo "./specs/issues/$(date +%Y-%m-%d)-v$((v+1)).md"`:
 
 ## Summary
-| Issue | Status (Fixed/Partial/Missing/Rejected) | Notes |
+| Issue | Status (Fixed/Partial/Missing/Declined) | Notes |
 |-------|----------------------------------------|-------|
 ...
 
 ## Detailed Findings
 
 ### Issue [N]: [Title]
-- **Status**: 
-- **Original Gap**: 
-- **What Changed**: 
-- **Assessment**: 
-- **Remaining Work** (if any): 
+- **Status**:
+- **Original Gap**:
+- **What Changed**:
+- **Assessment**:
+- **Remaining Work** (if any):
 
-## Rejection Review (if applicable)
+## Feedback Review (if applicable)
 
-### Issue [N]: [Title]
-- **Rejection Reason Given**: 
-- **Valid**: Yes/No
-- **Response**: (agree with reasoning / counter-argument if disagree)
+### [Issue Title from Feedback]
+- **Implementer's Reasoning**: (summary of why they declined)
+- **Assessment**: Valid / Invalid
+- **Response**:
+  - If valid: Accepted - removed from tracking
+  - If invalid: Re-raised - (explain why the original issue still stands)
 
-(Repeat for each)"
+(Repeat for each declined suggestion)"
 ```
