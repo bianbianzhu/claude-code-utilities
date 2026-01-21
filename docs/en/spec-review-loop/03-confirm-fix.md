@@ -4,7 +4,7 @@
 
 ```markdown
 /ask-codex "Verify fixes for !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1` against design specs in ./specs.
-!`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); fb="${f%.md}-feedback.md"; [ -f "$fb" ] && printf '\nAlso review feedback from previous iteration: %s' "$fb"`
+!`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1 | sed 's/\.md$/-feedback.md/' | xargs -I{} sh -c '[ -f "{}" ] && printf "\nAlso review feedback from previous iteration: {}"'`
 
 For each issue in the report:
 1. Check if the corresponding spec has been updated
@@ -22,7 +22,7 @@ When a feedback file exists, the implementer has declined some suggestions. For 
 
 Use git diff/history to compare before/after states where helpful.
 
-Write findings to !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); v=$(echo "$f" | grep -oE 'v[0-9]+' | tail -1 | tr -d 'v'); echo "./specs/issues/$(date +%Y-%m-%d)-v$((v+1)).md"`:
+Write findings to !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1 | sed 's/.*-v\([0-9]*\)\.md/\1/' | xargs -I{} sh -c 'date +./specs/issues/%Y-%m-%d-v$(({} + 1)).md'`:
 
 ## Summary
 | Issue | Status (Fixed/Partial/Missing/Declined) | Notes |

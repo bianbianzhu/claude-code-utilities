@@ -2,7 +2,11 @@
 
 # AFK Version
 ```markdown
-Review design spec issues from !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1` (latest iteration from Codex reviewer).
+Design spec issues file: !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1`
+
+Issue feedback file: !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1 | sed 's/\.md$/-feedback.md/'`
+
+Review the design spec issues file above (latest iteration from Codex reviewer).
 
 For each finding:
 1. **Verify** - Does the current design spec (under ./specs) actually have this gap/issue?
@@ -19,7 +23,7 @@ Skip issues already resolved completely.
 
 After all findings are processed:
 1. Provide a summary of: resolved issues, accepted changes, declined suggestions
-2. If any suggestions were declined, write feedback to !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); echo "${f%.md}-feedback.md"`:
+2. If any suggestions were declined, write feedback to the issue feedback file:
 
 ## Feedback
 
@@ -35,7 +39,11 @@ Keep reasoning direct and technical - this serves as documented feedback for the
 
 # HITL version
 ```markdown
-Review design spec issues from !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1` (latest iteration from Codex reviewer).
+Design spec issues file: !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1`
+
+Issue feedback file: !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1 | sed 's/\.md$/-feedback.md/'`
+
+Review the design spec issues file above (latest iteration from Codex reviewer).
 
 For each finding:
 1. **Verify** - Does the current design spec actually have this gap/issue?
@@ -55,7 +63,7 @@ Skip issues already resolved completely.
 
 After all findings are processed:
 1. Provide a summary of: resolved issues, accepted changes, declined suggestions
-2. If any suggestions were declined, write feedback to !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); echo "${f%.md}-feedback.md"`:
+2. If any suggestions were declined, write feedback to the issue feedback file:
 
 ## Feedback
 
