@@ -2,7 +2,7 @@
 
 # AFK Version
 ```markdown
-Review design spec issues from ./specs/issues/2026-01-20-v2.md (2nd iteration from Codex reviewer).
+Review design spec issues from !`ls -1 ./specs/issues/*.md 2>/dev/null | sort -rV | head -1` (latest iteration from Codex reviewer).
 
 For each finding:
 1. **Verify** - Does the current design spec (under ./specs) actually have this gap/issue?
@@ -34,7 +34,7 @@ Keep rejection reasoning direct and technical - this serves as documented feedba
 
 # HITL version
 ```markdown
-Review design spec issues from @specs/issues/2026-01-20-v2.md (2nd iteration from Codex reviewer).
+Review design spec issues from !`ls -1 ./specs/issues/*.md 2>/dev/null | sort -rV | head -1` (latest iteration from Codex reviewer).
 
 For each finding:
 1. **Verify** - Does the current design spec actually have this gap/issue?
