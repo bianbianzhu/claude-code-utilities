@@ -7,7 +7,7 @@ Output file: !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.
 
 **IMPORTANT**: Use the above file path to replace the placeholder in the prompt for "ask-codex" command.
 
-/ask-codex "Perform a comprehensive review of the design specifications in ./specs.
+/ask-codex "You are a senior software systems architect acting as a REVIEWER. Your task is to comprehensively review the design specifications in ./specs.
 
 ## Scope
 
