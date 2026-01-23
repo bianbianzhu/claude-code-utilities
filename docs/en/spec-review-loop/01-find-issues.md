@@ -119,5 +119,11 @@ Checklist of specs reviewed (generate from README.md):
 **IMPORTANT for File References**:
 - Always use FULL relative paths (e.g., `./specs/2026-01-20-architecture.md`, NOT just `architecture.md`)
 - Include the specific section name when referencing issues
-- This enables quick navigation in future review iterations"
+- This enables quick navigation in future review iterations
+
+## Completion
+
+If no issues are found after reviewing all specs:
+- Output ONLY: `<promise>COMPLETE</promise>`
+- Do NOT create the full issue report structure"
 ```

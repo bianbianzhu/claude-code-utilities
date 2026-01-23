@@ -33,6 +33,12 @@ Use git diff/history to compare before/after states where helpful.
 
 Write findings to {Output file}:
 
+# Spec Verification Report
+
+Verified by Codex on [DATE].
+
+---
+
 ## Summary
 | Issue | Status (Fixed/Partial/Missing/Declined) | Notes |
 |-------|----------------------------------------|-------|
