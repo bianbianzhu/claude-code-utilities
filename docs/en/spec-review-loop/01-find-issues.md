@@ -13,7 +13,7 @@ Output file: !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.
 
 1. **Start with `./specs/README.md`** - This is the table of contents AND scope definition. Use it to:
    - Discover all spec files and understand their relationships
-   - Reference the MVP Scope section to identify what's in-scope vs deferred
+   - Reference the Scope section to identify what's in-scope vs deferred
    - Flag scope creep or over-engineering when specs include deferred features
 2. **Review core files** (always present):
    - `./specs/README.md` - Table of contents and spec relationships
