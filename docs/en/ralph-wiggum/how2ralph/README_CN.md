@@ -34,7 +34,7 @@
 
 ## 工作流程（Workflow）
 
-一张图胜过千条推文和一个小时的视频。Geoff 的[概述](https://ghuntley.com/ralph/)（注册他的 newsletter 可以看到完整文章）确实帮助我理清了工作流程的细节：从 1) 创意 → 2) 与 JTBD（待完成任务）对齐的独立规格说明 → 3) 全面的实施计划 → 4) Ralph 工作循环。
+一张图胜过千条推文和一个小时的视频。Geoff 的[概述](https://ghuntley.com/ralph/)（注册他的 newsletter 可以看到完整文章）确实帮助我理清了工作流程的细节：从 1) 创意 → 2) 与 JTBD（待完成任务）对齐的独立规格说明（Spec） → 3) 全面的实施计划 → 4) Ralph 工作循环。
 
 ![ralph-diagram.png](references/ralph-diagram.png)
 
@@ -55,31 +55,31 @@
 
 | 模式                   | 何时使用                      | 提示词聚焦点                         |
 | ---------------------- | ----------------------------- | ------------------------------------ |
-| _规划模式（PLANNING）_ | 计划不存在，或计划已过时/有误 | 仅生成/更新 `IMPLEMENTATION_PLAN.md` |
-| _构建模式（BUILDING）_ | 计划已存在                    | 按计划实施、提交、附带更新计划       |
+| _规划模式（PLANNING mode）_ | 计划不存在，或计划已过时/有误 | 仅生成/更新 `IMPLEMENTATION_PLAN.md` |
+| _构建模式（BUILDING mode）_ | 计划已存在                    | 按计划实施、提交、附带更新计划       |
 
 _各模式的提示词差异：_
 
-- "规划"提示词执行差距分析（Gap Analysis）（规格说明 vs 代码），输出优先级排序的待办列表——不实施、不提交。
+- "规划"提示词执行差距分析（Gap Analysis）（规格说明（Spec） vs 代码），输出优先级排序的待办列表——不实施、不提交。
 - "构建"提示词假设计划已存在，从中选取任务，实施，运行测试（反压，backpressure），提交。
 
 _为什么两种模式都使用循环？_
 
-- 构建模式本身就需要循环：本质上是迭代的（多任务 × 全新上下文 = 隔离）
-- 规划模式使用循环是为了一致性：相同的执行模型，虽然通常 1-2 次迭代就完成
+- 构建模式（BUILDING mode）本身就需要循环：本质上是迭代的（多任务 × 全新上下文 = 隔离）
+- 规划模式（PLANNING mode）使用循环是为了一致性：相同的执行模型，虽然通常 1-2 次迭代就完成
 - 灵活性：如果计划需要优化，循环允许多次读取自身输出
 - 简洁性：一种机制处理所有事情；干净的文件 I/O；易于停止/重启
 
 _每次迭代加载的上下文：_ `PROMPT.md` + `AGENTS.md`
 
-_规划模式（PLANNING）循环生命周期：_
+_规划模式（PLANNING mode）循环生命周期：_
 
 1. 子代理研读 `specs/*` 和现有的 `/src`
-2. 将规格说明与代码进行比较（差距分析）
+2. 将规格说明（Spec）与代码进行比较（差距分析）
 3. 创建/更新 `IMPLEMENTATION_PLAN.md`，包含优先级排序的任务
 4. 不进行任何实施
 
-_构建模式（BUILDING）循环生命周期：_
+_构建模式（BUILDING mode）循环生命周期：_
 
 1. _定向_ – 子代理研读 `specs/*`（需求）
 2. _阅读计划_ – 研读 `IMPLEMENTATION_PLAN.md`
@@ -99,13 +99,13 @@ _构建模式（BUILDING）循环生命周期：_
 | _待完成任务（Job to be Done，JTBD）_ | 高层次的用户需求或期望结果                        |
 | _关注主题（Topic of Concern）_       | JTBD 中一个独立的方面/组件                        |
 | _规格说明（Spec）_                   | 针对一个关注主题的需求文档（`specs/FILENAME.md`） |
-| _任务（Task）_                       | 通过比较规格说明与代码得出的工作单元              |
+| _任务（Task）_                       | 通过比较规格说明（Spec）与代码得出的工作单元              |
 
 _关系：_
 
 - 1 个 JTBD → 多个关注主题
-- 1 个关注主题 → 1 份规格说明
-- 1 份规格说明 → 多个任务（规格说明的粒度大于任务）
+- 1 个关注主题 → 1 份规格说明（Spec）
+- 1 份规格说明（Spec） → 多个任务（规格说明（Spec）的粒度大于任务）
 
 _示例：_
 
@@ -150,7 +150,7 @@ _主题范围测试："一句话不带'和'"_
 
 - _上游引导（Steer upstream）_
   - 确保确定性的设置：
-    - 将前约 5,000 个 token 分配给规格说明
+    - 将前约 5,000 个 token 分配给规格说明（Spec）
     - 每次循环的上下文都加载相同的文件，使模型从已知状态开始（`PROMPT.md` + `AGENTS.md`）
   - 你现有的代码会影响生成和使用的内容
   - 如果 Ralph 生成了错误的模式，添加/更新工具函数和现有代码模式来引导它走向正确的方向
@@ -203,7 +203,7 @@ _像调吉他一样调优_ – 不要一开始就规定所有东西，而是观�
   - Ralph 跑偏了（实施了错误的东西，重复工作）
   - 计划感觉过时或与当前状态不符
   - 已完成的项目过多导致杂乱
-  - 你做了重大的规格说明变更
+  - 你做了重大的规格说明（Spec）变更
   - 你搞不清楚什么实际上已经完成了
 
 ---
@@ -250,8 +250,8 @@ _Ralph 可能会原地打转、忽略指示或走错方向_ - 这是预期中的
 
 _此增强版使用两个保存的提示词文件：_
 
-- `PROMPT_plan.md` - 规划模式（差距分析，生成/更新计划）
-- `PROMPT_build.md` - 构建模式（按计划实施）
+- `PROMPT_plan.md` - 规划模式（PLANNING mode）（差距分析，生成/更新计划）
+- `PROMPT_build.md` - 构建模式（BUILDING mode）（按计划实施）
 
 ```bash
 #!/bin/bash
@@ -353,11 +353,11 @@ _Claude CLI 参数：_
 ```
 project-root/
 ├── loop.sh                         # Ralph 循环脚本
-├── PROMPT_build.md                 # 构建模式指令
-├── PROMPT_plan.md                  # 规划模式指令
+├── PROMPT_build.md                 # 构建模式（BUILDING mode）指令
+├── PROMPT_plan.md                  # 规划模式（PLANNING mode）指令
 ├── AGENTS.md                       # 每次迭代加载的操作指南
 ├── IMPLEMENTATION_PLAN.md          # 优先级排序的任务列表（由 Ralph 生成/更新）
-├── specs/                          # 需求规格说明（每个 JTBD 主题一份）
+├── specs/                          # 需求规格说明（Spec）（每个 JTBD 主题一份）
 │   ├── [jtbd-topic-a].md
 │   └── [jtbd-topic-b].md
 ├── src/                            # 应用源代码
@@ -386,7 +386,7 @@ _提示词结构：_
 
 | 部分                   | 目的                                     |
 | ---------------------- | ---------------------------------------- |
-| _阶段 0_（0a, 0b, 0c） | 定向：研读规格说明、源代码位置、当前计划 |
+| _阶段 0_（0a, 0b, 0c） | 定向：研读规格说明（Spec）、源代码位置、当前计划 |
 | _阶段 1-4_             | 主指令：任务、验证、提交                 |
 | _999... 编号_          | 护栏/不变量（数字越大 = 越关键）         |
 
@@ -499,12 +499,12 @@ Succinct learnings about how to RUN the project:
 
 ### `IMPLEMENTATION_PLAN.md`
 
-从差距分析（规格说明 vs 代码）中得出的优先级排序的要点列表任务——由 Ralph 生成。
+从差距分析（规格说明（Spec） vs 代码）中得出的优先级排序的要点列表任务——由 Ralph 生成。
 
-- _创建_ 通过规划模式
-- _更新_ 在构建模式期间（标记完成、添加发现、记录缺陷）
-- _可以重新生成_ – Geoff："我已经多次删除了 TODO 列表" → 切换到规划模式
-- _自我纠正_ – 构建模式甚至可以在缺失时创建新的规格说明
+- _创建_ 通过规划模式（PLANNING mode）
+- _更新_ 在构建模式（BUILDING mode）期间（标记完成、添加发现、记录缺陷）
+- _可以重新生成_ – Geoff："我已经多次删除了 TODO 列表" → 切换到规划模式（PLANNING mode）
+- _自我纠正_ – 构建模式（BUILDING mode）甚至可以在缺失时创建新的规格说明（Spec）
 
 循环性是有意为之的：通过迭代实现最终一致性。
 
@@ -515,7 +515,7 @@ _无预设模板_ - 让 Ralph/LLM 自行决定和管理最适合它的格式。
 每个关注主题一个 Markdown 文件。这些是应该构建什么的真实来源（source of truth）。
 
 - 在需求阶段创建（人类 + LLM 对话）
-- 被规划和构建模式共同使用
+- 被规划模式（PLANNING mode）和构建模式（BUILDING mode）共同使用
 - 如果发现不一致可以更新（罕见，使用子代理）
 
 _无预设模板_ - 让 Ralph/LLM 自行决定和管理最适合它的格式。
@@ -532,7 +532,7 @@ _无预设模板_ - 让 Ralph/LLM 自行决定和管理最适合它的格式。
 
 我（Clayton）仍在评估这些可能增强方案的价值和可行性，但这些机会听起来很有前景。
 
-- [使用 Claude 的 AskUserQuestionTool 进行规划](#使用-claude-的-askuserquestiontool-进行规划) - 使用 Claude 内置的访谈工具来系统性地澄清 JTBD、边界情况和规格说明的验收标准。
+- [使用 Claude 的 AskUserQuestionTool 进行规划](#使用-claude-的-askuserquestiontool-进行规划) - 使用 Claude 内置的访谈工具来系统性地澄清 JTBD、边界情况和规格说明（Spec）的验收标准。
 - [验收驱动的反压（Acceptance-Driven Backpressure）](#验收驱动的反压acceptance-driven-backpressure) - 在规划阶段从验收标准中推导测试需求。防止"作弊"——没有适当的测试通过就不能声称完成。
 - [非确定性反压（Non-Deterministic Backpressure）](#非确定性反压non-deterministic-backpressure) - 使用 LLM 作为评审来测试主观任务（语气、美学、用户体验）。二元通过/失败审查，迭代直到通过。
 - [Ralph 友好的工作分支（Ralph-Friendly Work Branches）](#ralph-友好的工作分支ralph-friendly-work-branches) - 在运行时要求 Ralph "过滤到功能 X"是不可靠的。相反，在前期为每个分支创建有范围的计划。
@@ -542,7 +542,7 @@ _无预设模板_ - 让 Ralph/LLM 自行决定和管理最适合它的格式。
 
 ### 使用 Claude 的 AskUserQuestionTool 进行规划
 
-在阶段一（定义需求）中，使用 Claude 内置的 `AskUserQuestionTool`，通过结构化访谈来系统性地探索 JTBD、关注主题、边界情况和验收标准，然后再编写规格说明。
+在阶段一（定义需求）中，使用 Claude 内置的 `AskUserQuestionTool`，通过结构化访谈来系统性地探索 JTBD、关注主题、边界情况和验收标准，然后再编写规格说明（Spec）。
 
 _何时使用：_ 初始需求极简/模糊，需要澄清约束条件，或存在多种有效方案。
 
@@ -555,7 +555,7 @@ _流程：_
 1. 从已知信息开始 →
 2. _Claude 通过 AskUserQuestion 进行访谈_ →
 3. 迭代直到清晰 →
-4. Claude 编写包含验收标准的规格说明 →
+4. Claude 编写包含验收标准的规格说明（Spec） →
 5. 进入规划/构建阶段
 
 不需要任何代码或提示词变更——这只是利用现有的 Claude Code 功能来增强阶段一。
@@ -566,9 +566,9 @@ _灵感来源_ - [Thariq 的 X 帖子](https://x.com/trq212/status/2005315275026
 
 ### 验收驱动的反压（Acceptance-Driven Backpressure）
 
-Geoff 的 Ralph _隐式地_ 通过涌现迭代（emergent iteration）将规格说明 → 实施 → 测试连接起来。这个增强方案会通过在规划阶段推导测试需求来使这种连接*显式化*，建立从"成功是什么样子"到"什么来验证它"的直接关联。
+Geoff 的 Ralph _隐式地_ 通过涌现迭代（emergent iteration）将规格说明（Spec） → 实施 → 测试连接起来。这个增强方案会通过在规划阶段推导测试需求来使这种连接*显式化*，建立从"成功是什么样子"到"什么来验证它"的直接关联。
 
-这个增强方案将验收标准（在规格说明中）直接连接到测试需求（在实施计划中），通过以下方式提高反压质量：
+这个增强方案将验收标准（在规格说明（Spec）中）直接连接到测试需求（在实施计划中），通过以下方式提高反压质量：
 
 - _防止"作弊"_ - 没有从验收标准推导出的必要测试通过，就不能声称完成
 - _启用 TDD 工作流_ - 在实施开始前就知道测试需求
@@ -592,7 +592,7 @@ Geoff 的 Ralph _隐式地_ 通过涌现迭代（emergent iteration）将规格�
 
 关键区分：
 
-_验收标准_（在规格说明中）= 行为结果，可观察的结果，成功是什么样子
+_验收标准_（在规格说明（Spec）中）= 行为结果，可观察的结果，成功是什么样子
 
 - ✅ "从任何上传的图像中提取 5-10 个主色调"
 - ✅ "处理 <5MB 的图像在 <100ms 内完成"
@@ -625,16 +625,16 @@ Phase 3: Building (implements with tests)
 
 #### 阶段一：需求定义
 
-在产出规格说明的人类 + LLM 对话过程中：
+在产出规格说明（Spec）的人类 + LLM 对话过程中：
 
 - 讨论 JTBD 并拆分为关注主题
 - 根据需要使用子代理加载外部上下文
 - _讨论并定义验收标准_ - 什么可观察的、可验证的结果表明成功
 - 保持标准是行为性的（结果），而非实施性的（如何构建）
-- LLM 以最合理的方式编写包含验收标准的规格说明
+- LLM 以最合理的方式编写包含验收标准的规格说明（Spec）
 - 验收标准成为在规划阶段推导测试需求的基础
 
-#### 阶段二：规划模式增强
+#### 阶段二：规划模式（PLANNING mode）增强
 
 修改 `PROMPT_plan.md` 的指令 1 以包含测试推导。在第一句之后添加：
 
@@ -642,7 +642,7 @@ Phase 3: Building (implements with tests)
 For each task in the plan, derive required tests from acceptance criteria in specs - what specific outcomes need verification (behavior, performance, edge cases). Tests verify WHAT works, not HOW it's implemented. Include as part of task definition.
 ```
 
-#### 阶段三：构建模式增强
+#### 阶段三：构建模式（BUILDING mode）增强
 
 修改 `PROMPT_build.md` 指令：
 
@@ -1054,7 +1054,7 @@ ULTIMATE GOAL: We want to achieve the scoped work "${WORK_SCOPE}". Consider miss
 
 #### 关注主题 → 活动（Activities）
 
-Geoff 的[建议工作流](https://ghuntley.com/content/images/size/w2400/2025/07/The-ralph-Process.png)已经将规划与待完成任务（JTBD）对齐——将 JTBD 拆分为关注主题，再转化为规格说明。我很喜欢这个方式，我认为有机会通过将*关注主题*重新定义为*活动（Activities）*来进一步发挥这种方法的产品优势。
+Geoff 的[建议工作流](https://ghuntley.com/content/images/size/w2400/2025/07/The-ralph-Process.png)已经将规划与待完成任务（JTBD）对齐——将 JTBD 拆分为关注主题，再转化为规格说明（Spec）。我很喜欢这个方式，我认为有机会通过将*关注主题*重新定义为*活动（Activities）*来进一步发挥这种方法的产品优势。
 
 活动是旅程中的动词（"上传照片"、"提取颜色"），而非能力（"颜色提取系统"）。它们天然地按用户意图来限定范围。
 
@@ -1122,10 +1122,10 @@ Design Studio:    batch         AI themes      templates       embed
 _默认的 Ralph 方法：_
 
 1. _定义需求_：人类 + LLM 定义 JTBD 关注主题 → `specs/*.md`
-2. _创建任务计划_：LLM 分析所有规格说明 + 当前代码 → `IMPLEMENTATION_PLAN.md`
+2. _创建任务计划_：LLM 分析所有规格说明（Spec） + 当前代码 → `IMPLEMENTATION_PLAN.md`
 3. _构建_：Ralph 针对完整范围构建
 
-这对以能力为中心的工作（功能特性、重构、基础设施）效果很好。但它不会自然地产出有价值的（SLC）产品发布——它产出的是"规格说明描述的任何东西"。
+这对以能力为中心的工作（功能特性、重构、基础设施）效果很好。但它不会自然地产出有价值的（SLC）产品发布——它产出的是"规格说明（Spec）描述的任何东西"。
 
 _活动 → SLC 发布方法：_
 
@@ -1209,11 +1209,11 @@ ULTIMATE GOAL: We want to achieve the most valuable next release for the audienc
 
 _为什么 `AUDIENCE_JTBD.md` 作为单独的制品：_
 
-- 单一真实来源——防止跨规格说明的漂移
+- 单一真实来源——防止跨规格说明（Spec）的漂移
 - 启用全局推理："这个受众最需要什么？"
 - JTBD 与受众一同记录（"为什么"与"谁"在一起）
-- 被引用两次：在规格说明创建和 SLC 规划时
-- 让活动规格说明专注于"做什么"，而不是重复"为谁做"
+- 被引用两次：在规格说明（Spec）创建和 SLC 规划时
+- 让活动规格说明（Spec）专注于"做什么"，而不是重复"为谁做"
 
 _基数关系：_
 
