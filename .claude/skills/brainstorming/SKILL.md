@@ -36,7 +36,7 @@ Start by understanding the current project context, then ask questions one at a 
 
 **Presenting the design:**
 
-- **IMPORTANT: Follow `SPEC_GENERATION_GUIDE.md` in this directory for spec format requirements.** Specs are behavioral contracts, not implementation blueprints. No complete class/function definitions, no library-specific API calls, no concrete config values.
+- **IMPORTANT: Follow `references/SPEC_GENERATION_GUIDE.md` for spec format requirements.** Specs are behavioral contracts, not implementation blueprints. No complete class/function definitions, no library-specific API calls, no concrete config values.
 - If the scope covers more than one major feature, break it into separate design files. Maintain a `specs/README.md` file that lists all design files and their purpose (as a table of references)
 - Break the design document into sections of 200-300 words
 - Ask after each section whether it looks right so far
@@ -44,7 +44,7 @@ Start by understanding the current project context, then ask questions one at a 
 - For each component: write behavioral contracts (input/output/side effects), abstract data shapes (tables not dataclasses), acceptance criteria (at least 3-5 testable), failure modes & strategies
 - No pseudocode or implementation code in spec body. If reference code is absolutely needed for complex logic, isolate under "Reference Only — DO NOT COPY" section, keep <20 lines, use no specific libraries
 - Be ready to go back and clarify if something doesn't make sense
-- Before finalizing each spec, run through the checklist in `SPEC_GENERATION_GUIDE.md`
+- Before finalizing each spec, run through the checklist in `references/SPEC_GENERATION_GUIDE.md`
 
 ## After the Design
 
@@ -55,7 +55,7 @@ Start by understanding the current project context, then ask questions one at a 
 
 **Self-check:**
 
-- Run the full checklist from `SPEC_GENERATION_GUIDE.md` before declaring spec complete
+- Run the full checklist from `references/SPEC_GENERATION_GUIDE.md` before declaring spec complete
 - Verify: no complete class/function definitions, no library imports, no concrete config values, data shapes are tables not code, acceptance criteria are testable, failure paths are covered
 
 ## Key Principles
