@@ -14,6 +14,7 @@ Start by understanding the current project context, then ask questions one at a 
 ## The Process
 
 **Understanding the idea:**
+
 - Check out the current project state first (files, docs, recent commits; skip if none exist)
 - Ask questions one at a time to refine the idea
 - Prefer multiple choice questions when possible, but open-ended is fine too
@@ -22,17 +23,20 @@ Start by understanding the current project context, then ask questions one at a 
 - Once you can restate the problem, constraints, and success criteria clearly, move to exploring approaches
 
 **Exploring approaches:**
+
 - Propose 2-3 different approaches with trade-offs
 - Present options conversationally with your recommendation and reasoning
 - Lead with your recommended option and explain why
 - If user rejects all options: ask what specifically fails, update constraints, propose new approaches. If still blocked, return to Understanding to uncover missing constraints
 
 **Alignment checkpoint:**
+
 - Before writing the design, restate the problem, constraints, and success criteria
 - Ask "Ready for the design?" to confirm alignment
 
 **Presenting the design:**
-- **IMPORTANT: Follow `SPEC_GENERATION_GUIDE.md` (or `SPEC_GENERATION_GUIDE_EN.md`) in this directory for spec format requirements.** Specs are behavioral contracts, not implementation blueprints. No complete class/function definitions, no library-specific API calls, no concrete config values.
+
+- **IMPORTANT: Follow `SPEC_GENERATION_GUIDE.md` in this directory for spec format requirements.** Specs are behavioral contracts, not implementation blueprints. No complete class/function definitions, no library-specific API calls, no concrete config values.
 - If the scope covers more than one major feature, break it into separate design files. Maintain a `specs/README.md` file that lists all design files and their purpose (as a table of references)
 - Break the design document into sections of 200-300 words
 - Ask after each section whether it looks right so far
@@ -45,10 +49,12 @@ Start by understanding the current project context, then ask questions one at a 
 ## After the Design
 
 **Documentation:**
+
 - Write the validated design to `specs/YYYY-MM-DD-<topic>-design.md`
 - If the design document is part of a larger design, add a link to the `specs/README.md` file
 
 **Self-check:**
+
 - Run the full checklist from `SPEC_GENERATION_GUIDE.md` before declaring spec complete
 - Verify: no complete class/function definitions, no library imports, no concrete config values, data shapes are tables not code, acceptance criteria are testable, failure paths are covered
 
