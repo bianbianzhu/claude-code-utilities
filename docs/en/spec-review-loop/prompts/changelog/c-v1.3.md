@@ -77,33 +77,24 @@ Two gaps between the brainstorming skill and the spec review loop were identifie
 
 **Change applied**: Added per-Status conditional instructions for `What Changed`, `Assessment`, and `Remaining Work` in `03-confirm-fix.md` Detailed Findings. Covers all 5 Status values. Key distinctions: `Declined-Accepted` What Changed reads "Declined by implementer; accepted in feedback review" (distinguishes from plain `Declined`). `Declined` Remaining Work reads "Re-raised: fix required or provide revised rationale" (not "pending" — Feedback Review completes in same round). Scope extended to include `Remaining Work` which had the same gap.
 
----
+### New Issues (Regressions) section added to 03
 
-## Open — 03-confirm-fix.md
+- ~~**[Medium] K**: New issues from regressions have no section or ID rules~~
 
-### Problems
+**Change applied**: Added `## New Issues (Regressions)` section to `03-confirm-fix.md` between Feedback Review and Completion Status. New issue IDs start from N+1 (N = highest existing ID in input report). Status is always `Open`. Uses the same issue template format (Severity, Location, Guide Rule ID, Problem, Evidence, Impact, Suggested Fix). New issues are included in the Summary table.
 
-- **[Medium] K: New issues from regressions have no section or ID rules**
-  Step 03 allows raising new issues for regressions but provides no output section or ID numbering rule. New IDs could collide with existing ones.
+### Cross-Prompt ID namespace — won't-fix
 
-### Proposed Changes
+- ~~**Issue ID namespace is fragile**: IDs are local to each report file. Step 03 regression issues and step 01 subsequent reviews can produce colliding IDs.~~
 
-- **K**: Add `## New Issues (Regressions)` section after Detailed Findings. New issue IDs start from N+1 where N is the highest existing ID in the input report.
+**Decision**: Won't-fix. File-internal ID uniqueness is sufficient for the current loop design. The `v{version}-{sequence}` convention would change ID format across all three prompts for a problem that doesn't exist in practice.
 
----
-
-## Open — Cross-Prompt
-
-### Problem
-
-- **Issue ID namespace is fragile**: IDs are local to each report file. Step 03 regression issues and step 01 subsequent reviews can produce colliding IDs.
-
-### Proposed Change
-
-- Adopt `v{version}-{sequence}` convention (e.g., `v1-1`, `v2-3`). Version comes from the output filename. Globally unique without cross-file reads.
+**Assumptions** (if any change, revisit this decision):
+- The orchestrator only reads the latest issues file; it does not aggregate, compare, or merge across versions.
+- Feedback files (`-feedback.md`) are only evaluated by 03 in the current batch; after the inner loop completes and a new 01 pass starts, old feedback files are not re-read.
 
 ---
 
 ## Priority Order (remaining)
 
-1. **[Medium]** Add New Issues section and ID rules to 03 (K).
+All items resolved.

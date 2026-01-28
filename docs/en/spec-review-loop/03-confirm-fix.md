@@ -84,6 +84,28 @@ Verified by Codex on [DATE].
 
 (Repeat for each declined suggestion)
 
+## New Issues (Regressions)
+
+If a fix introduces new violations of SPEC_GENERATION_GUIDE.md Guardrails G1–G11, raise them here. New issue IDs start from N+1 where N is the highest existing ID in the input report. Include new issues in the Summary table above.
+
+### Issue [ID]: [Title]
+
+**Severity**: [Critical/High]
+
+**Status**: Open
+
+**Location**: `./specs/[full-filename].md` > Section: [Section Name]
+
+**Guide Rule ID**: [G1–G11]
+
+**Problem**: [Clear description of the regression]
+
+**Evidence**: [Quote or reference specific text from the spec]
+
+**Impact**: [Why this matters for implementation]
+
+**Suggested Fix**: [Concrete recommendation]
+
 ## Completion Status
 
 If ALL issues have Status `Fixed` or `Declined-Accepted`:
