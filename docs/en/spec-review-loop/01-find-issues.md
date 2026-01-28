@@ -190,8 +190,8 @@ Checklist of specs reviewed (generate from README.md):
 
 ## Completion
 
-If no issues are found after reviewing all specs:
+If no issues meeting the Issue Threshold (Critical or High) are found after reviewing all specs:
 
 - Output ONLY: `<promise>COMPLETE</promise>`
-- Do NOT create the full issue report structure"
+- Do NOT create the output file or the full issue report structure"
 ```
