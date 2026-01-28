@@ -3,9 +3,11 @@
 - Review to identify issues, gaps, and inconsistencies (works for initial or subsequent reviews)
 
 ```markdown
-**IMPORTANT!!!**: MUST use the below file path to replace the placeholder in the prompt for "ask-codex" command.
+First, run this bash command to generate the output file path: `f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); v=$(echo "$f" | grep -oE 'v[0-9]+' | tail -1 | tr -d 'v'); echo "./specs/issues/$(date +%Y-%m-%d)-v$((v+1)).md"`
 
-Output file: !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); v=$(echo "$f" | grep -oE 'v[0-9]+' | tail -1 | tr -d 'v'); echo "./specs/issues/$(date +%Y-%m-%d)-v$((v+1)).md"`
+**IMPORTANT!!!**: MUST use the above generated file path to replace the placeholder in the prompt for "ask-codex" skill.
+
+Then, execute the following "ask-codex" skill:
 
 /ask-codex "You are a senior software systems architect acting as a REVIEWER. Your task is to comprehensively review the design specifications in ./specs.
 
