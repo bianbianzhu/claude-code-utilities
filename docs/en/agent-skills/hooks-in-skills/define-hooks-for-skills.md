@@ -137,6 +137,18 @@ command: "\"$CLAUDE_PROJECT_DIR\"/test.sh"
 
 ## Run different scripts in the hook command
 
+**YAML tip**: Simple commands don't need quotes around the value:
+
+```yaml
+hooks:
+  UserPromptSubmit:
+    - hooks:
+        - type: command
+          command: echo "The scientist said" >> ./bash-command-log.txt
+```
+
+Only use quotes when the value contains special YAML characters (`:`, `#`, `{`, `}`, `[`, `]`, etc.) or when you need to escape characters.
+
 1. **Shell with `jq`**:
 
 ```yaml
