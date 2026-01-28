@@ -133,28 +133,6 @@ Identified by Codex analysis on [DATE].
 
 ---
 
-## Medium Priority Issues (only if within issue limits)
-
-### Issue [ID]: [Issue Title]
-
-**Severity**: Medium
-
-**Status**: Open
-
-**Location**: `./specs/[full-filename].md` > Section: [Section Name]
-
-**Guide Rule ID**: [G1–G11 or Checklist item]
-
-**Problem**: [Clear description of the issue]
-
-**Evidence**: [Quote or reference specific text from the spec]
-
-**Impact**: [Why this matters for implementation]
-
-**Suggested Fix**: [Recommendation]
-
----
-
 ## Missing Specifications
 
 List any modules or components mentioned but not fully specified:
