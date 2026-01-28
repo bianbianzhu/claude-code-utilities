@@ -37,7 +37,7 @@ Start by understanding the current project context, then ask questions one at a 
 **Presenting the design:**
 
 - **IMPORTANT: Follow `references/SPEC_GENERATION_GUIDE.md` for spec format requirements.** Specs are behavioral contracts, not implementation blueprints. No complete class/function definitions, no library-specific API calls, no concrete config values.
-- If the scope covers more than one major feature, break it into separate design files. Maintain a `specs/README.md` file that lists all design files and their purpose (as a table of references)
+- If the scope covers more than one major feature, break it into separate design files. Maintain a `specs/README.md` file that lists all design files and their purpose (as a table of references). **README.md must also include a Scope section** (In Scope / Deferred / Non-Goals) defining what is in-scope for MVP and what is deferred.
 - Break the design document into sections of 200-300 words
 - Ask after each section whether it looks right so far
 - Cover: architecture, components, data flow, error handling, testing, security/privacy, performance, observability
