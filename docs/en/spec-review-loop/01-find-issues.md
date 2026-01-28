@@ -63,8 +63,7 @@ A spec set is IMPLEMENTATION READY when:
 
 ## Issue Limits (MUST)
 
-- First review: **max 10 issues**
-- Subsequent reviews: **max 5 new issues**
+- Each review: **max 5 issues**
 - Prioritize by severity and impact
 
 ## Review Criteria (Supplemental)
