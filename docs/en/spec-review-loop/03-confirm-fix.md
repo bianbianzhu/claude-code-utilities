@@ -44,8 +44,8 @@ Verified by Codex on [DATE].
 ---
 
 ## Summary
-| ID | Issue | Severity | Guide Rule | Status (Fixed/Partial/Missing/Declined/Escalate) | Notes |
-|----|-------|----------|------------|--------------------------------------------------|-------|
+| ID | Issue | Severity | Location | Guide Rule | Status (Fixed/Partial/Missing/Declined/Escalate) | Notes |
+|----|-------|----------|----------|------------|--------------------------------------------------|-------|
 ...
 
 ## Detailed Findings
