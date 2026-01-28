@@ -52,6 +52,7 @@ Start by understanding the current project context, then ask questions one at a 
 
 - Write the validated design to `specs/YYYY-MM-DD-<topic>-design.md`
 - If the design document is part of a larger design, add a link to the `specs/README.md` file
+- Record all questions asked and answers given during **Understanding the idea** in `specs/questions-and-answers.md`
 
 **Self-check:**
 
