@@ -9,6 +9,12 @@ Output file: !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.
 
 /ask-codex "You are a senior software systems architect acting as a REVIEWER. Your task is to comprehensively review the design specifications in ./specs.
 
+## Authoritative Standard (MUST)
+
+Use `./references/SPEC_GENERATION_GUIDE.md` as the primary review standard.
+If that file is missing, STOP and report a blocking issue: "Missing SPEC_GENERATION_GUIDE.md — cannot apply required review standard."
+Every issue you raise must cite the relevant Guide Rule ID (e.g., G1, G4, G9).
+
 ## Scope
 
 1. **Start with `./specs/README.md`** - This is the table of contents AND scope definition. Use it to:
@@ -19,13 +25,49 @@ Output file: !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.
    - `./specs/README.md` - Table of contents and spec relationships
    - `./specs/end-state-ideal.md` - Target vision
    - `./specs/questions-and-answers.md` - Design decisions
-3. **Review all spec files listed in README.md** - These follow the naming convention `<YYYY-MM-DD>-<topic>.md` and vary by project. Examples:
-   - `2026-01-20-architecture.md`
-   - `2026-01-20-conversation.md`
-   - `2026-01-20-execution-engine.md`
-   - `2026-01-20-observability.md`
+3. **Review all spec files listed in README.md** - Follow the naming convention `<YYYY-MM-DD>-<topic>.md`. Do NOT assume any example filenames; only review files actually listed in README.md.
+4. **If `specs/contracts/` or `specs/interfaces.md` exists** - treat these as authoritative for data shapes and cross-module contracts.
 
-## Review Criteria
+## Issue Threshold (MUST)
+
+Only raise issues that meet this bar:
+
+**Critical (MUST raise):**
+- Implementation would be impossible without clarification
+- Security vulnerabilities (injection, auth bypass, PII exposure)
+- Direct contradictions causing incorrect behavior
+- Violations of SPEC_GENERATION_GUIDE Guardrails G1–G11
+
+**High (SHOULD raise):**
+- Significant rework likely if discovered during implementation
+- Missing error handling for common failure modes
+- Undefined behavior in core flows
+- Missing/incorrect centralized contracts for cross-module data
+
+**Do NOT raise:**
+- Style or naming preferences
+- Nice-to-have improvements
+- Edge cases outside core use cases
+- Features explicitly marked deferred/future
+- Hypothetical scenarios not in requirements
+- Minor ambiguity a senior engineer could reasonably resolve
+
+## Definition of Done (Implementation-Ready)
+
+A spec set is IMPLEMENTATION READY when:
+- Core flows can be implemented without guessing
+- Cross-module interfaces are defined and centralized
+- Guardrails G1–G11 are satisfied
+- Common failure modes are documented
+- Acceptance criteria are measurable
+
+## Issue Limits (MUST)
+
+- First review: **max 10 issues**
+- Subsequent reviews: **max 5 new issues**
+- Prioritize by severity and impact
+
+## Review Criteria (Supplemental)
 
 For each spec, analyze:
 
@@ -43,7 +85,7 @@ For each spec, analyze:
 
 Write findings to {Output file}:
 
-# Spec Review: Critical Issues & Gaps
+# Spec Review: Thresholded Issues
 
 Identified by Codex analysis on [DATE].
 
@@ -51,9 +93,13 @@ Identified by Codex analysis on [DATE].
 
 ## Critical Issues
 
-### 1. [Issue Title]
+### [ID]. [Issue Title]
+
+**Severity**: Critical
 
 **Location**: `./specs/[full-filename].md` > Section: [Section Name]
+
+**Guide Rule ID**: [G1–G11 or Checklist item]
 
 **Problem**: [Clear description of the issue]
 
@@ -65,26 +111,43 @@ Identified by Codex analysis on [DATE].
 
 ---
 
-(Repeat for each critical issue)
+## High Priority Issues
 
----
+### [ID]. [Issue Title]
 
-## Medium Priority Issues
-
-### [N]. [Issue Title]
+**Severity**: High
 
 **Location**: `./specs/[full-filename].md` > Section: [Section Name]
 
-**Problem**: [Description]
+**Guide Rule ID**: [G1–G11 or Checklist item]
 
-**Suggested Fix**: [Recommendation]
+**Problem**: [Clear description of the issue]
+
+**Evidence**: [Quote or reference specific text from the spec]
+
+**Impact**: [Why this matters for implementation]
+
+**Suggested Fix**: [Concrete recommendation]
 
 ---
 
-## Low Priority / Recommendations
+## Medium Priority Issues (only if within issue limits)
 
-- [Brief issue] → `./specs/[filename].md`
-- [Brief issue] → `./specs/[filename].md`
+### [ID]. [Issue Title]
+
+**Severity**: Medium
+
+**Location**: `./specs/[full-filename].md` > Section: [Section Name]
+
+**Guide Rule ID**: [G1–G11 or Checklist item]
+
+**Problem**: [Clear description of the issue]
+
+**Evidence**: [Quote or reference specific text from the spec]
+
+**Impact**: [Why this matters for implementation]
+
+**Suggested Fix**: [Recommendation]
 
 ---
 
@@ -99,11 +162,11 @@ List any modules or components mentioned but not fully specified:
 
 ## Summary
 
-| #   | Issue   | Severity | Location                | Status |
-| --- | ------- | -------- | ----------------------- | ------ |
-| 1   | [Title] | Critical | `./specs/[filename].md` | Open   |
-| 2   | [Title] | Medium   | `./specs/[filename].md` | Open   |
-| ... | ...     | ...      | ...                     | ...    |
+| ID  | Issue   | Severity | Location                | Guide Rule | Status |
+| --- | ------- | -------- | ----------------------- | ---------- | ------ |
+| 1   | [Title] | Critical | `./specs/[filename].md` | G#         | Open   |
+| 2   | [Title] | High     | `./specs/[filename].md` | G#         | Open   |
+| ... | ...     | ...      | ...                     | ...        | ...    |
 
 ---
 
