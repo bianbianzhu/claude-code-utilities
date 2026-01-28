@@ -99,11 +99,11 @@ List any modules or components mentioned but not fully specified:
 
 ## Summary
 
-| #   | Issue   | Severity | Location                | Status |
-| --- | ------- | -------- | ----------------------- | ------ |
-| 1   | [Title] | Critical | `./specs/[filename].md` | Open   |
-| 2   | [Title] | Medium   | `./specs/[filename].md` | Open   |
-| ... | ...     | ...      | ...                     | ...    |
+| # | Issue | Severity | Location | Status |
+|---|-------|----------|----------|--------|
+| 1 | [Title] | Critical | `./specs/[filename].md` | Open |
+| 2 | [Title] | Medium | `./specs/[filename].md` | Open |
+| ... | ... | ... | ... | ... |
 
 ---
 
@@ -117,7 +117,6 @@ Checklist of specs reviewed (generate from README.md):
 - [ ] (list all `<YYYY-MM-DD>-<topic>.md` files from README.md)
 
 **IMPORTANT for File References**:
-
 - Always use FULL relative paths (e.g., `./specs/2026-01-20-architecture.md`, NOT just `architecture.md`)
 - Include the specific section name when referencing issues
 - This enables quick navigation in future review iterations
@@ -125,7 +124,6 @@ Checklist of specs reviewed (generate from README.md):
 ## Completion
 
 If no issues are found after reviewing all specs:
-
 - Output ONLY: `<promise>COMPLETE</promise>`
 - Do NOT create the full issue report structure"
 ```

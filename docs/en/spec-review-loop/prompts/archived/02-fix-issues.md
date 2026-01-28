@@ -1,0 +1,74 @@
+### Claude Code fixes design spec issues found by Codex reviewer.
+
+# AFK Version
+```markdown
+Review design spec issues from !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1` (latest iteration from Codex reviewer).
+
+For each finding:
+1. **Verify** - Does the current design spec (under ./specs) actually have this gap/issue?
+2. **Validate** - Is this a legitimate concern that would impact implementation?
+3. **Evaluate** - If valid, is Codex's suggested spec change:
+   - Addressing the root issue
+   - Appropriately scoped (not over-specified or under-specified)
+   - Following best practices
+   - Not over-engineered or adding unnecessary complexity
+   - Consistent with the overall design
+4. **Update** - Apply good suggestions to the design spec; propose alternatives for flawed ones
+
+Skip issues already resolved completely.
+
+Do NOT create any verification or summary files. Only output specified files.
+
+After all findings are processed:
+1. Provide a summary of: resolved issues, accepted changes, declined suggestions
+2. If any suggestions were declined, write feedback to !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); echo "${f%.md}-feedback.md"`:
+
+## Feedback
+
+### [Issue Title/Number]
+- **Suggestion**: (one-line summary of what Codex proposed)
+- **Decision**: Declined
+- **Reasoning**: (concise explanation - why it's out of scope, not needed, or conflicts with design intent)
+
+(Repeat for each declined suggestion)
+
+Keep reasoning direct and technical - this serves as documented feedback for the next review cycle.
+```
+
+# HITL version
+```markdown
+Review design spec issues from !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1` (latest iteration from Codex reviewer).
+
+For each finding:
+1. **Verify** - Does the current design spec actually have this gap/issue?
+2. **Validate** - Is this a legitimate concern that would impact implementation?
+3. **Evaluate** - If valid, is Codex's suggested spec change:
+   - Addressing the root issue
+   - Appropriately scoped (not over-specified or under-specified)
+   - Following best practices
+   - Not over-engineered or adding unnecessary complexity
+   - Consistent with the overall design
+4. **Checkpoint** - Present your analysis and proposed action, then wait for my approval before making any changes
+5. **Update** - Only after I confirm, apply the change to the design spec
+
+Process one finding at a time. Do not proceed to the next finding until I approve or provide feedback on the current one.
+
+Skip issues already resolved completely.
+
+Do NOT create any verification or summary files. Only output specified files.
+
+After all findings are processed:
+1. Provide a summary of: resolved issues, accepted changes, declined suggestions
+2. If any suggestions were declined, write feedback to !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); echo "${f%.md}-feedback.md"`:
+
+## Feedback
+
+### [Issue Title/Number]
+- **Suggestion**: (one-line summary of what Codex proposed)
+- **Decision**: Declined
+- **Reasoning**: (concise explanation - why it's out of scope, not needed, or conflicts with design intent)
+
+(Repeat for each declined suggestion)
+
+Keep reasoning direct and technical - this serves as documented feedback for the next review cycle.
+```
