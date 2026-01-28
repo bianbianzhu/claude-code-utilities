@@ -21,7 +21,7 @@ Skip issues already resolved completely. To determine "Already Resolved", re-rea
 
 Scope guardrail: Only modify content directly related to the identified issue. Do not refactor or "improve" surrounding content.
 
-Do NOT create any verification or summary files. Only output specified files.
+Do NOT create any files beyond those explicitly specified below.
 
 After all findings are processed:
 1. Provide a summary of: resolved issues, accepted changes, declined suggestions, and already‑resolved items.
@@ -48,6 +48,8 @@ Keep reasoning direct and technical - this serves as documented feedback for the
 ```markdown
 Review design spec issues from !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1` (latest iteration from Codex reviewer).
 
+Before making any changes, read `./references/SPEC_GENERATION_GUIDE.md`. If missing, STOP and report a blocking issue: "Missing SPEC_GENERATION_GUIDE.md — cannot apply required spec standard."
+
 For each finding:
 1. **Verify** - Does the current design spec actually have this gap/issue?
 2. **Validate** - Is this a legitimate concern that would impact implementation?
@@ -62,9 +64,11 @@ For each finding:
 
 Process one finding at a time. Do not proceed to the next finding until I approve or provide feedback on the current one.
 
-Skip issues already resolved completely.
+Skip issues already resolved completely. To determine "Already Resolved", re-read the current spec section cited in the issue and confirm the problem no longer exists. If resolved, mark it as **Already Resolved** in your summary.
 
-Do NOT create any verification or summary files. Only output specified files.
+Scope guardrail: Only modify content directly related to the identified issue. Do not refactor or "improve" surrounding content.
+
+Do NOT create any files beyond those explicitly specified below.
 
 After all findings are processed:
 1. Provide a summary of: resolved issues, accepted changes, declined suggestions, and already‑resolved items.
