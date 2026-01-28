@@ -28,9 +28,11 @@ flowchart TD
         CONFIRM --> REVIEW_FB[Review feedback<br/>Accept or re-raise]
     end
 
-    REVIEW_FB --> FIXED{All issues<br/>resolved?}
-    FIXED -->|No / Partial| FIX
-    FIXED -->|Yes| FIND
+    REVIEW_FB --> FIXED{Resolution<br/>status?}
+    FIXED -->|Issues remaining| FIX
+    FIXED -->|Escalation needed| ESCALATE([Human Decision<br/>Required])
+    ESCALATE -->|Direction provided| FIX
+    FIXED -->|All resolved| FIND
 ```
 
 ## Steps
@@ -50,5 +52,6 @@ flowchart TD
 3. **Confirm**: Codex verifies fixes and reviews any feedback
    - Partial/missing fixes → return to Fix (step 2)
    - Re-raised declined items → return to Fix (step 2)
+   - Escalated items (declined twice) → pause for human decision, then return to Fix (step 2)
    - All resolved → return to Find (step 1)
 4. **Done**: Loop ends when Find discovers no new issues
