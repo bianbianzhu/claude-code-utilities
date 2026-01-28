@@ -1,6 +1,6 @@
 # Spec Review Loop
 
-A systematic review cycle using Codex for analysis and Claude Code for fixes. The loop continues until all spec issues are resolved.
+A systematic review cycle using Codex for analysis and Claude Code for fixes. The loop continues until no Critical or High severity issues remain in the specs.
 
 ## Flow Diagram
 
@@ -89,3 +89,11 @@ Each step prompt emits a promise tag that serves as a control signal for the orc
 ### Design Note
 
 Step prompts (01, 02, 03) are intentionally stateless and loop-unaware. They do not know they are part of a loop, how many iterations have occurred, or what comes next. All orchestration logic — reading control signals, deciding which step to invoke next, terminating — lives in an external bash loop.
+
+## Open Questions
+
+- **Max-iteration cutoff**: Should the orchestrator enforce a maximum number of outer/inner iterations as a safety net against runaway loops? If so, what are the limits and what happens when they're hit?
+
+Answer: The bash loop will enforce a max iteration.
+
+- **Control signal authority**: Should the orchestrator always trust promise tags over output-file presence (e.g., no file created = COMPLETE), or should it cross-check both? Needs to be decided when building the bash loop.
