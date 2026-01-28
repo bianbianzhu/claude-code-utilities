@@ -40,46 +40,30 @@ Two gaps between the brainstorming skill and the spec review loop were identifie
 
 2. **Contracts file generation missing**: `SPEC_GENERATION_GUIDE.md` requires centralized contracts (`specs/contracts/` or `specs/interfaces.md`) and 01-find-issues checks for them, but `SKILL.md` had no instruction to create them. Added: "If cross-module data shapes are defined, centralize abstract contracts in `specs/contracts/` (multiple files) or `specs/interfaces.md` (single file). Other specs must reference these contracts, not redefine them."
 
----
+### Completion behavior clarified
 
-## Open — 01-find-issues.md
+- ~~**[Low] B**: Completion behavior is ambiguous~~
 
-### Problems
+**Change applied**: Updated Completion section in `01-find-issues.md` to: "If no issues meeting the Issue Threshold (Critical or High) are found … Do NOT create the output file or the full issue report structure." Explicitly ties termination to severity scope and clarifies no file is created on completion.
 
-- **[High] A: Medium severity undefined but present in output format**
-  Issue Threshold defines Critical, High, and "Do NOT raise" — no Medium. The output template includes `## Medium Priority Issues`. Codex has no criteria to classify Medium.
+### 02-fix-issues edge cases accepted as-is
 
-- **[High] J: Missing Specifications bypasses issue limit and severity filter**
-  The `## Missing Specifications` section is independent of Critical/High sections. Items have no severity and don't count toward the 5-issue cap. A report could list 5 issues + N missing specs, bypassing the limit.
+- ~~**[Low] D**: Verification-only fields in input are unaddressed~~
+- ~~**[Low] L**: Handling of "Fixed" status issues is unspecified~~
 
-- **[Low] B: Completion behavior is ambiguous**
-  Completion says "Output ONLY `<promise>COMPLETE</promise>` — Do NOT create the full issue report structure." But Output Format says "Write findings to {Output file}." Unclear whether the file should be created when no issues exist.
+**Rationale**: Both are minor inefficiencies, not correctness issues. D: Claude Code already processes via shared `Problem`/`Suggested Fix` fields regardless of extra fields. L: Re-reading the spec to confirm resolution is redundant but harmless — the cost doesn't justify adding more rules to the prompt.
 
-### Proposed Changes
+### Medium severity section removed from 01 output template
 
-- **A**: Remove the `## Medium Priority Issues` section from the output template. Two tiers (Critical + High) with a 5-issue cap are sufficient.
+- ~~**[High] A**: Medium severity undefined but present in output format~~
 
-- **J**: Remove the standalone `## Missing Specifications` section. Add to review criteria: "If a module is referenced but not specified, raise it as a Critical or High issue depending on whether it blocks implementation." Missing specs then compete for the same cap slots.
+**Change applied**: Removed `## Medium Priority Issues` section from the output template in `01-find-issues.md`. Issue Threshold only defines Critical and High — two tiers with a 5-issue cap are sufficient.
 
-- **B**: Add: "If no issues are found, do NOT create the output file. Output `<promise>COMPLETE</promise>` in your response only."
+### Missing Specifications folded into issue cap
 
----
+- ~~**[High] J**: Missing Specifications bypasses issue limit and severity filter~~
 
-## Open — 02-fix-issues.md
-
-### Problems
-
-- **[Low] D: Verification-only fields in input are unaddressed**
-  When input comes from step 03, the file contains `What Changed`, `Assessment`, `Remaining Work` fields that don't exist in step 01's format. Processing works via shared `Problem`/`Suggested Fix` fields, but explicit guidance is missing.
-
-- **[Low] L: Handling of "Fixed" status issues is unspecified**
-  The "Skip issues already resolved" instruction requires re-reading the spec. It doesn't allow skipping by Status field, which is wasteful for clearly resolved items.
-
-### Proposed Changes
-
-- **D**: Add: "If the input contains verification-only fields (`What Changed`, `Assessment`, `Remaining Work`), use them as context but base Verify/Validate/Evaluate on `Problem` and `Suggested Fix`."
-
-- **L**: Add: "If issues have `Status: Fixed` and `Problem: Resolved`, skip without re-verification."
+**Change applied**: Removed standalone `## Missing Specifications` section from the output template in `01-find-issues.md`. Added classification rule to Issue Threshold: "If a module or component is referenced but not specified, raise it as a Critical or High issue depending on whether it blocks implementation." Missing specs now compete for the same 5-issue cap slots.
 
 ---
 
@@ -122,11 +106,6 @@ Two gaps between the brainstorming skill and the spec review loop were identifie
 
 ## Priority Order (remaining)
 
-1. **[High]** Remove Medium severity section from 01 output template (A).
-2. **[High]** Fold Missing Specifications into issue cap in 01 (J).
-3. **[Medium]** Add `Declined-Accepted` Status to 03 (M).
-4. **[Medium]** Add What Changed / Assessment fill guidance to 03 (G).
-5. **[Medium]** Add New Issues section and ID rules to 03 (K).
-6. **[Low]** Clarify completion file behavior in 01 (B).
-7. **[Low]** Clarify verification-only field handling in 02 (D).
-8. **[Low]** Clarify Fixed status skip rule in 02 (L).
+1. **[Medium]** Add `Declined-Accepted` Status to 03 (M).
+2. **[Medium]** Add What Changed / Assessment fill guidance to 03 (G).
+3. **[Medium]** Add New Issues section and ID rules to 03 (K).
