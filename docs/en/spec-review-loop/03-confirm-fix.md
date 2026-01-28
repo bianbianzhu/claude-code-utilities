@@ -67,11 +67,11 @@ Verified by Codex on [DATE].
 
 **Suggested Fix**: [Next minimal change if any remain; if Fixed or Declined-Accepted, write "N/A"]
 
-**What Changed**:
+**What Changed**: [If Fixed, describe spec modifications; if Partial, describe changes made and what remains unchanged; if Missing, write "No changes detected"; if Declined, write "Declined by implementer"; if Declined-Accepted, write "Declined by implementer; accepted in feedback review"]
 
-**Assessment**:
+**Assessment**: [If Fixed, write "Fully addressed"; if Partial, brief judgment of remaining gap; if Missing, write "Not attempted"; if Declined or Declined-Accepted, write "See Feedback Review"]
 
-**Remaining Work** (if any):
+**Remaining Work** (if any): [If Fixed or Declined-Accepted, write "None"; if Partial, describe remaining work; if Missing, briefly restate required work; if Declined, write "Re-raised: fix required or provide revised rationale"]
 
 ## Feedback Review (if applicable)
 

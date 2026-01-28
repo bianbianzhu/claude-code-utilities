@@ -71,23 +71,22 @@ Two gaps between the brainstorming skill and the spec review loop were identifie
 
 **Change applied**: Added `Declined-Accepted` to Status enum in `03-confirm-fix.md` (Summary table + Detailed Findings). Updated conditional field instructions (`Problem`, `Evidence`, `Impact`, `Suggested Fix`) to treat `Declined-Accepted` same as `Fixed`. Completion Status logic now explicit: `ALL_RESOLVED` when all `Fixed` or `Declined-Accepted`; `ISSUES_REMAINING` when any `Partial`, `Missing`, or `Declined`.
 
+### Fill guidance added for What Changed, Assessment, Remaining Work
+
+- ~~**[Medium] G**: What Changed and Assessment fields lack fill guidance~~
+
+**Change applied**: Added per-Status conditional instructions for `What Changed`, `Assessment`, and `Remaining Work` in `03-confirm-fix.md` Detailed Findings. Covers all 5 Status values. Key distinctions: `Declined-Accepted` What Changed reads "Declined by implementer; accepted in feedback review" (distinguishes from plain `Declined`). `Declined` Remaining Work reads "Re-raised: fix required or provide revised rationale" (not "pending" — Feedback Review completes in same round). Scope extended to include `Remaining Work` which had the same gap.
+
 ---
 
 ## Open — 03-confirm-fix.md
 
 ### Problems
 
-- **[Medium] G: What Changed and Assessment fields lack fill guidance**
-  `Problem`, `Evidence`, `Impact`, `Suggested Fix` have conditional instructions. `What Changed` and `Assessment` have none — unclear what to write for each Status value.
-
 - **[Medium] K: New issues from regressions have no section or ID rules**
   Step 03 allows raising new issues for regressions but provides no output section or ID numbering rule. New IDs could collide with existing ones.
 
 ### Proposed Changes
-
-- **G**: Add conditional guidance:
-  - `What Changed`: describe modifications; if Missing → "No changes detected"; if Declined → "Declined by implementer"
-  - `Assessment`: if Fixed → "Fully addressed"; if Missing → "Not attempted"; if Declined → "See Feedback Review"
 
 - **K**: Add `## New Issues (Regressions)` section after Detailed Findings. New issue IDs start from N+1 where N is the highest existing ID in the input report.
 
@@ -107,5 +106,4 @@ Two gaps between the brainstorming skill and the spec review loop were identifie
 
 ## Priority Order (remaining)
 
-1. **[Medium]** Add What Changed / Assessment fill guidance to 03 (G).
-2. **[Medium]** Add New Issues section and ID rules to 03 (K).
+1. **[Medium]** Add New Issues section and ID rules to 03 (K).
