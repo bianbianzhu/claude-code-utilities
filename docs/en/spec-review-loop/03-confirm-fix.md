@@ -50,14 +50,29 @@ Verified by Codex on [DATE].
 
 ## Detailed Findings
 
-### Issue [N]: [Title]
-- **Guide Rule ID**:
-- **Severity**:
-- **Status**:
-- **Original Gap**:
-- **What Changed**:
-- **Assessment**:
-- **Remaining Work** (if any):
+### Issue [ID]: [Title]
+
+**Severity**:
+
+**Status**: [Fixed/Partial/Missing/Declined/Escalate]
+
+**Location**: `./specs/[full-filename].md` > Section: [Section Name]
+
+**Guide Rule ID**:
+
+**Problem**: [If Partial/Missing/Declined/Escalate, restate the remaining gap; if Fixed, write "Resolved"]
+
+**Evidence**: [Current evidence for the remaining gap; if Fixed, write "Resolved"]
+
+**Impact**: [Remaining impact; if Fixed, write "None"]
+
+**Suggested Fix**: [Next minimal change if any remain; if Fixed, write "N/A"]
+
+**What Changed**:
+
+**Assessment**:
+
+**Remaining Work** (if any):
 
 ## Feedback Review (if applicable)
 
