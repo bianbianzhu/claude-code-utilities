@@ -30,7 +30,6 @@ When a feedback file exists, the implementer has declined some suggestions. For 
 2. **Decide**:
    - If reasoning is sound → Accept the decline, remove from next iteration
    - If reasoning is flawed → Re-raise the issue with counter-argument in next iteration
-   - If the same issue was declined and re-raised in a prior iteration → Mark as **Escalate: requires human decision** (do not re-raise again)
 3. **Document** your assessment in the Feedback Review section below
 
 Use git diff/history to compare before/after states where helpful. If git history is unavailable, compare current spec content directly against the issue descriptions.
@@ -44,7 +43,7 @@ Verified by Codex on [DATE].
 ---
 
 ## Summary
-| ID | Issue | Severity | Location | Guide Rule | Status (Fixed/Partial/Missing/Declined/Escalate) | Notes |
+| ID | Issue | Severity | Location | Guide Rule | Status (Fixed/Partial/Missing/Declined) | Notes |
 |----|-------|----------|----------|------------|--------------------------------------------------|-------|
 ...
 
@@ -54,13 +53,13 @@ Verified by Codex on [DATE].
 
 **Severity**:
 
-**Status**: [Fixed/Partial/Missing/Declined/Escalate]
+**Status**: [Fixed/Partial/Missing/Declined]
 
 **Location**: `./specs/[full-filename].md` > Section: [Section Name]
 
 **Guide Rule ID**:
 
-**Problem**: [If Partial/Missing/Declined/Escalate, restate the remaining gap; if Fixed, write "Resolved"]
+**Problem**: [If Partial/Missing/Declined, restate the remaining gap; if Fixed, write "Resolved"]
 
 **Evidence**: [Current evidence for the remaining gap; if Fixed, write "Resolved"]
 
@@ -82,7 +81,6 @@ Verified by Codex on [DATE].
 - **Response**:
   - If valid: Accepted - removed from tracking
   - If invalid: Re-raised - (explain why the original issue still stands)
-  - If previously re-raised and declined again: Escalate — requires human decision (do not re-raise)
 
 (Repeat for each declined suggestion)
 
@@ -91,7 +89,7 @@ Verified by Codex on [DATE].
 If ALL issues are resolved (including accepted declines):
 - Output: `<promise>ALL_RESOLVED</promise>`
 
-If any issues remain unresolved or escalated:
+If any issues remain unresolved:
 - Output: `<promise>ISSUES_REMAINING</promise>`
-- List remaining issue IDs (including escalated)"
+- List remaining issue IDs"
 ``` 
