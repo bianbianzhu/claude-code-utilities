@@ -13,12 +13,15 @@ Output file: !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.
 
 /ask-codex "Verify fixes for {Issues file} against design specs in ./specs.
 
+Before verifying, read `./references/SPEC_GENERATION_GUIDE.md`. If missing, STOP and report a blocking issue: "Missing SPEC_GENERATION_GUIDE.md — cannot apply required spec standard."
+
 If {Feedback file} exists, also review it.
 
 For each issue in the report:
 1. Check if the corresponding spec has been updated
 2. Confirm the fix fully addresses the identified gap
 3. Flag any partial fixes, regressions, or missed issues
+4. Re‑verify compliance with SPEC_GENERATION_GUIDE.md Guardrails G1–G11. If a fix introduces any new violations, raise a new issue with the relevant Guide Rule ID.
 
 ## Feedback Review (if feedback file is present)
 
@@ -27,9 +30,10 @@ When a feedback file exists, the implementer has declined some suggestions. For 
 2. **Decide**:
    - If reasoning is sound → Accept the decline, remove from next iteration
    - If reasoning is flawed → Re-raise the issue with counter-argument in next iteration
+   - If the same issue was declined and re-raised in a prior iteration → Mark as **Escalate: requires human decision** (do not re-raise again)
 3. **Document** your assessment in the Feedback Review section below
 
-Use git diff/history to compare before/after states where helpful.
+Use git diff/history to compare before/after states where helpful. If git history is unavailable, compare current spec content directly against the issue descriptions.
 
 Write findings to {Output file}:
 
@@ -40,13 +44,15 @@ Verified by Codex on [DATE].
 ---
 
 ## Summary
-| Issue | Status (Fixed/Partial/Missing/Declined) | Notes |
-|-------|----------------------------------------|-------|
+| ID | Issue | Severity | Guide Rule | Status (Fixed/Partial/Missing/Declined/Escalate) | Notes |
+|----|-------|----------|------------|--------------------------------------------------|-------|
 ...
 
 ## Detailed Findings
 
 ### Issue [N]: [Title]
+- **Guide Rule ID**:
+- **Severity**:
 - **Status**:
 - **Original Gap**:
 - **What Changed**:
@@ -61,6 +67,16 @@ Verified by Codex on [DATE].
 - **Response**:
   - If valid: Accepted - removed from tracking
   - If invalid: Re-raised - (explain why the original issue still stands)
+  - If previously re-raised and declined again: Escalate — requires human decision (do not re-raise)
 
-(Repeat for each declined suggestion)"
-```
+(Repeat for each declined suggestion)
+
+## Completion Status
+
+If ALL issues are resolved (including accepted declines):
+- Output: `<promise>ALL_RESOLVED</promise>`
+
+If any issues remain unresolved or escalated:
+- Output: `<promise>ISSUES_REMAINING</promise>`
+- List remaining issue IDs (including escalated)"
+``` 
