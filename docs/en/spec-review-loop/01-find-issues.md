@@ -23,7 +23,6 @@ Every issue you raise must cite the relevant Guide Rule ID (e.g., G1, G4, G9).
    - Flag scope creep or over-engineering when specs include deferred features
 2. **Review core files** (always present):
    - `./specs/README.md` - Table of contents and spec relationships
-   - `./specs/end-state-ideal.md` - Target vision
    - `./specs/questions-and-answers.md` - Design decisions
 3. **Review all spec files listed in README.md** - Follow the naming convention `<YYYY-MM-DD>-<topic>.md`. Do NOT assume any example filenames; only review files actually listed in README.md.
 4. **If `specs/contracts/` or `specs/interfaces.md` exists** - treat these as authoritative for data shapes and cross-module contracts.
@@ -180,7 +179,6 @@ List any modules or components mentioned but not fully specified:
 Checklist of specs reviewed (generate from README.md):
 
 - [ ] `./specs/README.md`
-- [ ] `./specs/end-state-ideal.md`
 - [ ] `./specs/questions-and-answers.md`
 - [ ] (list all `<YYYY-MM-DD>-<topic>.md` files from README.md)
 
