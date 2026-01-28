@@ -93,9 +93,11 @@ Identified by Codex analysis on [DATE].
 
 ## Critical Issues
 
-### [ID]. [Issue Title]
+### Issue [ID]: [Issue Title]
 
 **Severity**: Critical
+
+**Status**: Open
 
 **Location**: `./specs/[full-filename].md` > Section: [Section Name]
 
@@ -113,9 +115,11 @@ Identified by Codex analysis on [DATE].
 
 ## High Priority Issues
 
-### [ID]. [Issue Title]
+### Issue [ID]: [Issue Title]
 
 **Severity**: High
+
+**Status**: Open
 
 **Location**: `./specs/[full-filename].md` > Section: [Section Name]
 
@@ -133,9 +137,11 @@ Identified by Codex analysis on [DATE].
 
 ## Medium Priority Issues (only if within issue limits)
 
-### [ID]. [Issue Title]
+### Issue [ID]: [Issue Title]
 
 **Severity**: Medium
+
+**Status**: Open
 
 **Location**: `./specs/[full-filename].md` > Section: [Section Name]
 
