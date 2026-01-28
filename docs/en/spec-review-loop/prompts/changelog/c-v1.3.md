@@ -65,14 +65,17 @@ Two gaps between the brainstorming skill and the spec review loop were identifie
 
 **Change applied**: Removed standalone `## Missing Specifications` section from the output template in `01-find-issues.md`. Added classification rule to Issue Threshold: "If a module or component is referenced but not specified, raise it as a Critical or High issue depending on whether it blocks implementation." Missing specs now compete for the same 5-issue cap slots.
 
+### `Declined-Accepted` Status added to 03
+
+- ~~**[Medium] M**: Accepted decline has no distinct Status value~~
+
+**Change applied**: Added `Declined-Accepted` to Status enum in `03-confirm-fix.md` (Summary table + Detailed Findings). Updated conditional field instructions (`Problem`, `Evidence`, `Impact`, `Suggested Fix`) to treat `Declined-Accepted` same as `Fixed`. Completion Status logic now explicit: `ALL_RESOLVED` when all `Fixed` or `Declined-Accepted`; `ISSUES_REMAINING` when any `Partial`, `Missing`, or `Declined`.
+
 ---
 
 ## Open — 03-confirm-fix.md
 
 ### Problems
-
-- **[Medium] M: Accepted decline has no distinct Status value**
-  Status enum is `Fixed/Partial/Missing/Declined`. Completion says "ALL issues resolved (including accepted declines)." When a decline is accepted, there's no Status to represent this — `Declined` looks unresolved, `Fixed` is inaccurate. An orchestrator cannot distinguish accepted declines from pending re-raises.
 
 - **[Medium] G: What Changed and Assessment fields lack fill guidance**
   `Problem`, `Evidence`, `Impact`, `Suggested Fix` have conditional instructions. `What Changed` and `Assessment` have none — unclear what to write for each Status value.
@@ -81,8 +84,6 @@ Two gaps between the brainstorming skill and the spec review loop were identifie
   Step 03 allows raising new issues for regressions but provides no output section or ID numbering rule. New IDs could collide with existing ones.
 
 ### Proposed Changes
-
-- **M**: Add `Declined-Accepted` to Status enum. `ALL_RESOLVED` when every issue is `Fixed` or `Declined-Accepted`; `ISSUES_REMAINING` when any is `Partial`, `Missing`, or `Declined`.
 
 - **G**: Add conditional guidance:
   - `What Changed`: describe modifications; if Missing → "No changes detected"; if Declined → "Declined by implementer"
@@ -106,6 +107,5 @@ Two gaps between the brainstorming skill and the spec review loop were identifie
 
 ## Priority Order (remaining)
 
-1. **[Medium]** Add `Declined-Accepted` Status to 03 (M).
-2. **[Medium]** Add What Changed / Assessment fill guidance to 03 (G).
-3. **[Medium]** Add New Issues section and ID rules to 03 (K).
+1. **[Medium]** Add What Changed / Assessment fill guidance to 03 (G).
+2. **[Medium]** Add New Issues section and ID rules to 03 (K).

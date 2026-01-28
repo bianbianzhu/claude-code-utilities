@@ -43,7 +43,7 @@ Verified by Codex on [DATE].
 ---
 
 ## Summary
-| ID | Issue | Severity | Location | Guide Rule | Status (Fixed/Partial/Missing/Declined) | Notes |
+| ID | Issue | Severity | Location | Guide Rule | Status (Fixed/Partial/Missing/Declined/Declined-Accepted) | Notes |
 |----|-------|----------|----------|------------|--------------------------------------------------|-------|
 ...
 
@@ -53,19 +53,19 @@ Verified by Codex on [DATE].
 
 **Severity**:
 
-**Status**: [Fixed/Partial/Missing/Declined]
+**Status**: [Fixed/Partial/Missing/Declined/Declined-Accepted]
 
 **Location**: `./specs/[full-filename].md` > Section: [Section Name]
 
 **Guide Rule ID**:
 
-**Problem**: [If Partial/Missing/Declined, restate the remaining gap; if Fixed, write "Resolved"]
+**Problem**: [If Partial/Missing/Declined, restate the remaining gap; if Fixed or Declined-Accepted, write "Resolved"]
 
-**Evidence**: [Current evidence for the remaining gap; if Fixed, write "Resolved"]
+**Evidence**: [Current evidence for the remaining gap; if Fixed or Declined-Accepted, write "Resolved"]
 
-**Impact**: [Remaining impact; if Fixed, write "None"]
+**Impact**: [Remaining impact; if Fixed or Declined-Accepted, write "None"]
 
-**Suggested Fix**: [Next minimal change if any remain; if Fixed, write "N/A"]
+**Suggested Fix**: [Next minimal change if any remain; if Fixed or Declined-Accepted, write "N/A"]
 
 **What Changed**:
 
@@ -86,10 +86,10 @@ Verified by Codex on [DATE].
 
 ## Completion Status
 
-If ALL issues are resolved (including accepted declines):
+If ALL issues have Status `Fixed` or `Declined-Accepted`:
 - Output: `<promise>ALL_RESOLVED</promise>`
 
-If any issues remain unresolved:
+If any issues have Status `Partial`, `Missing`, or `Declined`:
 - Output: `<promise>ISSUES_REMAINING</promise>`
 - List remaining issue IDs"
 ``` 
