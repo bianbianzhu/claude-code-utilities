@@ -2,7 +2,7 @@
 allowed-tools: Bash(*codex exec*)
 description: Pass the question to Codex and get the answer.
 argument-hint: your prompt text
-model: haiku
+model: opus
 ---
 
 Run the following command exactly. Don't modify it in any way (except passing the prompt text to the command).
