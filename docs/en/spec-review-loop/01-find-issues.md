@@ -43,6 +43,8 @@ Only raise issues that meet this bar:
 - Undefined behavior in core flows
 - Missing/incorrect centralized contracts for cross-module data
 
+**Missing specifications**: If a module or component is referenced but not specified, raise it as a Critical or High issue depending on whether it blocks implementation.
+
 **Do NOT raise:**
 - Style or naming preferences
 - Nice-to-have improvements
@@ -130,15 +132,6 @@ Identified by Codex analysis on [DATE].
 **Impact**: [Why this matters for implementation]
 
 **Suggested Fix**: [Concrete recommendation]
-
----
-
-## Missing Specifications
-
-List any modules or components mentioned but not fully specified:
-
-1. **[Module Name]** - Referenced in `./specs/[filename].md` but not defined
-2. ...
 
 ---
 
