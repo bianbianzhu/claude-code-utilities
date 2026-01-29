@@ -1,8 +1,11 @@
 #!/bin/bash
 
-# Debug mode: pause before each command
+# Debug mode: pause before each command (interactive only)
 # Press Enter to execute, Ctrl+C to abort
-trap 'read -p "[$LINENO] $BASH_COMMAND? " || true' DEBUG
+set -o functrace
+if [[ -t 0 ]]; then
+  trap 'read -p "[$LINENO] $BASH_COMMAND? " || true' DEBUG
+fi
 
 set -euo pipefail
 
