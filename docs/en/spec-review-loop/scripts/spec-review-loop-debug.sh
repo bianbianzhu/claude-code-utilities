@@ -2,9 +2,26 @@
 
 # Debug mode: pause before each command (interactive only)
 # Press Enter to execute, Ctrl+C to abort
+# After assignment statements, shows the variable value
 set -o functrace
+_LAST_VAR=""
+_debug_handler() {
+  local line="$1"
+  # Show value of variable from previous assignment
+  if [[ -n "$_LAST_VAR" ]]; then
+    printf "  → %s = %s\n" "$_LAST_VAR" "${!_LAST_VAR}"
+    _LAST_VAR=""
+  fi
+
+  read -p "[$line] $BASH_COMMAND? " || true
+
+  # Detect if current command is an assignment (VAR=... or VAR="$(...")
+  if [[ "$BASH_COMMAND" =~ ^([A-Za-z_][A-Za-z0-9_]*)= ]]; then
+    _LAST_VAR="${BASH_REMATCH[1]}"
+  fi
+}
 if [[ -t 0 ]]; then
-  trap 'read -p "[$LINENO] $BASH_COMMAND? " || true' DEBUG
+  trap '_debug_handler $LINENO' DEBUG
 fi
 
 set -euo pipefail
