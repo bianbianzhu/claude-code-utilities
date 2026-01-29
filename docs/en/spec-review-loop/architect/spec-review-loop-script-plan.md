@@ -97,23 +97,25 @@ if outer == MAX_OUTER: warn "outer limit reached" and exit non-zero
 
 ### run_find_issues()
 - `OUTPUT_FILE = next_issue_file()`
+- Build prompt with substituted output path.
 - run Codex; log raw output.
 - if `<promise>COMPLETE</promise>` → exit without creating output file.
 - otherwise write raw output to `OUTPUT_FILE`.
 
 ### run_fix_issues()
-- `ISSUES_FILE = latest_issue_file()`
-- run Claude with AFK prompt.
-- ensure `SUMMARY_FILE` exists.
+- `ISSUES_FILE = latest_issue_file()`; if empty → die.
+- Build AFK prompt with computed files.
+- run Claude with AFK prompt (streaming JSON and jq filtering)
+- ensure `SUMMARY_FILE` exists; if missing → die.
 
 ### run_confirm_fix()
-- `ISSUES_FILE = latest_issue_file()`
+- `ISSUES_FILE = latest_issue_file()`; if empty → die.
 - `OUTPUT_FILE = next_issue_file()`
 - run Codex; write output to `OUTPUT_FILE`.
 - parse promise tag:
   - `ALL_RESOLVED` → exit inner loop
   - `ISSUES_REMAINING` → continue inner
-  - missing → error
+  - missing → error (die)
 
 ## Logging
 Directory: `./logs/spec-review-loop-<timestamp>/`
