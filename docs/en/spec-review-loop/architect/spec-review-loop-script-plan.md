@@ -36,7 +36,7 @@ Stream text to console using `jq`:
 - Validate `--specs-dir` exists.
 - Validate `--guide-path` exists.
 - Validate `--prompt-dir` exists.
-- Validate required commands: `codex`, `claude`, `jq`.
+- Validate required commands: `codex`, `claude`, `jq`, `perl`.
 - Trap `SIGINT`/`SIGTERM` → clean exit with context.
 
 ## Helpers (exact names + behavior)

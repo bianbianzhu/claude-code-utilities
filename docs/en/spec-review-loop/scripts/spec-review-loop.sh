@@ -165,8 +165,8 @@ replace_inline_commands() {
 
 normalize_prompt_paths() {
   local prompt="$1"
-  prompt="${prompt//\.\/specs/$SPECS_DIR}"
-  prompt="${prompt//\.\/references\/SPEC_GENERATION_GUIDE\.md/$GUIDE_PATH}"
+  prompt="${prompt//.\/specs/$SPECS_DIR}"
+  prompt="${prompt//.\/references\/SPEC_GENERATION_GUIDE.md/$GUIDE_PATH}"
   printf "%s" "$prompt"
 }
 
@@ -351,6 +351,7 @@ fi
 ensure_cmd codex
 ensure_cmd claude
 ensure_cmd jq
+ensure_cmd perl
 
 [ -d "$SPECS_DIR" ] || die "Specs directory not found: $SPECS_DIR"
 [ -f "$GUIDE_PATH" ] || die "Guide file not found: $GUIDE_PATH"
