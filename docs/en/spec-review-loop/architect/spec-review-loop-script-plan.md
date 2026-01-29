@@ -1,7 +1,7 @@
 # Spec Review Loop Script Plan
 
 ## Goal
-Implement a bash orchestrator that runs the 01/02/03 spec-review loop end‑to‑end, extracts inline `!` script snippets into bash, enforces outer/inner guardrails, and drives Codex/Claude via CLI with structured logging.
+Implement a bash orchestrator that runs the 01/02/03 spec-review loop end‑to‑end, replaces prompt placeholders with bash‑computed values, enforces outer/inner guardrails, and drives Codex/Claude via CLI with structured logging.
 
 ## Files to Add
 - `docs/en/spec-review-loop/scripts/spec-review-loop.sh`
@@ -36,7 +36,7 @@ Stream text to console using `jq`:
 - Validate `--specs-dir` exists.
 - Validate `--guide-path` exists.
 - Validate `--prompt-dir` exists.
-- Validate required commands: `codex`, `claude`, `jq`, `perl`.
+- Validate required commands: `codex`, `claude`, `jq`.
 - Trap `SIGINT`/`SIGTERM` → clean exit with context.
 
 ## Helpers (exact names + behavior)
@@ -67,18 +67,18 @@ Stream text to console using `jq`:
 - Replace `{Output file}` with `OUTPUT_FILE`.
 
 ### 02-fix-issues (AFK block only)
-- Use AFK section from `docs/en/spec-review-loop/02-fix-issues.md`.
-- Replace inline `!` with:
-  - `ISSUES_FILE = latest_issue_file()`
-  - `SUMMARY_FILE = summary_file_for(ISSUES_FILE)`
-  - `FEEDBACK_FILE = feedback_file_for(ISSUES_FILE)`
+- Use `docs/en/spec-review-loop/02-fix-issues.md`.
+- Replace placeholders:
+  - `{Issues file}` → `ISSUES_FILE`
+  - `{Summary file}` → `SUMMARY_FILE`
+  - `{Feedback file}` → `FEEDBACK_FILE`
 
 ### 03-confirm-fix
 - Use `docs/en/spec-review-loop/03-confirm-fix.md`.
-- Replace inline `!` with:
-  - `ISSUES_FILE = latest_issue_file()`
-  - `FEEDBACK_FILE = feedback_file_for(ISSUES_FILE)`
-  - `OUTPUT_FILE = next_issue_file()`
+- Replace placeholders:
+  - `{Issues file}` → `ISSUES_FILE`
+  - `{Feedback file}` → `FEEDBACK_FILE`
+  - `{Output file}` → `OUTPUT_FILE`
 
 ## Main Loop Logic
 ```
