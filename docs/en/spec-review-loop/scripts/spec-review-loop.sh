@@ -371,15 +371,18 @@ CONFIRM_PROMPT_FILE="$PROMPT_DIR/03-confirm-fix.md"
 
 for ((outer=1; outer<=OUTER_MAX; outer++)); do
   CURRENT_OUTER="$outer"
+  echo "=== Outer iteration $outer/$OUTER_MAX ==="
 
   if run_find_issues "$FIND_PROMPT_FILE"; then
     echo "Success: No issues found. Spec review complete."
     exit 0
   fi
 
+  signal=""
   for ((inner=1; inner<=INNER_MAX; inner++)); do
     CURRENT_INNER="$inner"
     INNER_COUNTER=$((INNER_COUNTER + 1))
+    echo "--- Inner iteration $inner/$INNER_MAX ---"
 
     run_fix_issues "$FIX_PROMPT_FILE"
     signal="$(run_confirm_fix "$CONFIRM_PROMPT_FILE")"
