@@ -155,19 +155,9 @@ check_control_signal() {
   echo ""
 }
 
-extract_first_code_block() {
+read_prompt() {
   local file="$1"
-  awk 'BEGIN{inside=0} /^```/{ if(!inside){inside=1; next} else {exit} } inside{print}' "$file"
-}
-
-replace_inline_commands() {
-  local prompt="$1"
-  shift
-  local replacement
-  for replacement in "$@"; do
-    prompt=$(REPL="$replacement" perl -0777 -pe 's/!`[^`]*`/$ENV{REPL}/' <<<"$prompt")
-  done
-  printf "%s" "$prompt"
+  cat "$file"
 }
 
 normalize_prompt_paths() {
@@ -201,10 +191,9 @@ run_find_issues() {
   output_file="$(next_issue_file)"
 
   local prompt
-  prompt="$(extract_first_code_block "$prompt_file")"
+  prompt="$(read_prompt "$prompt_file")"
   [ -n "$prompt" ] || die "Failed to load prompt from $prompt_file"
 
-  prompt="$(replace_inline_commands "$prompt" "$output_file")"
   prompt="${prompt//{Output file}/$output_file}"
   prompt="$(normalize_prompt_paths "$prompt")"
 
@@ -240,10 +229,12 @@ run_fix_issues() {
   feedback_file="$(feedback_file_for "$issues_file")"
 
   local prompt
-  prompt="$(extract_first_code_block "$prompt_file")"
+  prompt="$(read_prompt "$prompt_file")"
   [ -n "$prompt" ] || die "Failed to load prompt from $prompt_file"
 
-  prompt="$(replace_inline_commands "$prompt" "$issues_file" "$summary_file" "$feedback_file")"
+  prompt="${prompt//{Issues file}/$issues_file}"
+  prompt="${prompt//{Summary file}/$summary_file}"
+  prompt="${prompt//{Feedback file}/$feedback_file}"
   prompt="$(normalize_prompt_paths "$prompt")"
 
   local log_prompt="$LOGS_DIR/02-inner-${INNER_COUNTER}-prompt.txt"
@@ -267,10 +258,9 @@ run_confirm_fix() {
   feedback_file="$(feedback_file_for "$issues_file")"
 
   local prompt
-  prompt="$(extract_first_code_block "$prompt_file")"
+  prompt="$(read_prompt "$prompt_file")"
   [ -n "$prompt" ] || die "Failed to load prompt from $prompt_file"
 
-  prompt="$(replace_inline_commands "$prompt" "$issues_file" "$feedback_file" "$output_file")"
   prompt="${prompt//{Issues file}/$issues_file}"
   prompt="${prompt//{Feedback file}/$feedback_file}"
   prompt="${prompt//{Output file}/$output_file}"
@@ -359,7 +349,6 @@ fi
 ensure_cmd codex
 ensure_cmd claude
 ensure_cmd jq
-ensure_cmd perl
 
 [ -d "$SPECS_DIR" ] || die "Specs directory not found: $SPECS_DIR"
 [ -f "$GUIDE_PATH" ] || die "Guide file not found: $GUIDE_PATH"
