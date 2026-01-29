@@ -122,16 +122,17 @@ feedback_file_for() {
 
 check_control_signal() {
   local input="$1"
+  # Use ^...$ anchors to match standalone lines only (avoid prompt template text)
   if [ -f "$input" ]; then
-    if grep -q "<promise>COMPLETE</promise>" "$input"; then
+    if grep -qE '^<promise>COMPLETE</promise>$' "$input"; then
       echo "COMPLETE"
       return
     fi
-    if grep -q "<promise>ALL_RESOLVED</promise>" "$input"; then
+    if grep -qE '^<promise>ALL_RESOLVED</promise>$' "$input"; then
       echo "ALL_RESOLVED"
       return
     fi
-    if grep -q "<promise>ISSUES_REMAINING</promise>" "$input"; then
+    if grep -qE '^<promise>ISSUES_REMAINING</promise>$' "$input"; then
       echo "ISSUES_REMAINING"
       return
     fi
@@ -139,15 +140,15 @@ check_control_signal() {
     return
   fi
 
-  if echo "$input" | grep -q "<promise>COMPLETE</promise>"; then
+  if echo "$input" | grep -qE '^<promise>COMPLETE</promise>$'; then
     echo "COMPLETE"
     return
   fi
-  if echo "$input" | grep -q "<promise>ALL_RESOLVED</promise>"; then
+  if echo "$input" | grep -qE '^<promise>ALL_RESOLVED</promise>$'; then
     echo "ALL_RESOLVED"
     return
   fi
-  if echo "$input" | grep -q "<promise>ISSUES_REMAINING</promise>"; then
+  if echo "$input" | grep -qE '^<promise>ISSUES_REMAINING</promise>$'; then
     echo "ISSUES_REMAINING"
     return
   fi
