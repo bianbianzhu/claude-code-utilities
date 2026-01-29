@@ -9,11 +9,11 @@ _debug_handler() {
   local line="$1"
   # Show value of variable from previous assignment
   if [[ -n "$_LAST_VAR" ]]; then
-    printf "  → %s = %s\n" "$_LAST_VAR" "${!_LAST_VAR}"
+    printf "  → %s = %s\n" "$_LAST_VAR" "${!_LAST_VAR}" >&2
     _LAST_VAR=""
   fi
 
-  read -p "[$line] $BASH_COMMAND? " || true
+  read -p "[$line] $BASH_COMMAND? " </dev/tty >&2 || true
 
   # Detect if current command is an assignment (VAR=... or VAR="$(...")
   if [[ "$BASH_COMMAND" =~ ^([A-Za-z_][A-Za-z0-9_]*)= ]]; then
