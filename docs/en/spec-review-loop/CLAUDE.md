@@ -1,0 +1,1 @@
+If need to update the prompt(s) (01-find-issues.md, 02-fix-issues.md, 03-confirm-fix.md), you have to edit all related files in the spec-review-loop-prompts directory, including the ones in `prompts/for-loop`. Ignore the archived ones.
