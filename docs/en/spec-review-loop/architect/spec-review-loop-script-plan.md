@@ -11,6 +11,7 @@ Implement a bash orchestrator that runs the 01/02/03 spec-review loop end‑to�
 - `--inner N` (default `10`): max inner iterations per outer loop.
 - `--specs-dir PATH` (default `./specs`).
 - `--guide-path PATH` (default `./references/SPEC_GENERATION_GUIDE.md`).
+- `--prompt-dir PATH` (default `./spec-review-loop-prompts`).
 - `--logs-dir PATH` (optional; default `./logs/spec-review-loop-<timestamp>`).
 - `-h|--help`: usage.
 
@@ -34,6 +35,7 @@ Stream text to console using `jq`:
 - Validate `--outer`, `--inner` are positive integers.
 - Validate `--specs-dir` exists.
 - Validate `--guide-path` exists.
+- Validate `--prompt-dir` exists.
 - Validate required commands: `codex`, `claude`, `jq`.
 - Trap `SIGINT`/`SIGTERM` → clean exit with context.
 
@@ -41,7 +43,7 @@ Stream text to console using `jq`:
 - `usage()`: prints usage and exits.
 - `die(msg)`: prints error and exits 1.
 - `ensure_cmd(cmd)`: checks command existence.
-- `resolve_root()`: sets `SCRIPT_DIR` and `PROJECT_ROOT`.
+- `resolve_root()`: sets `SCRIPT_DIR` and resolves `PROJECT_ROOT` via git root if available, else falls back to script directory.
 - `issues_dir()` → `"$SPECS_DIR/issues"`.
 - `latest_issue_file()`:
   - list `"$ISSUES_DIR"/*.md`, exclude `*-feedback.md` and `*-summary.md`, pick newest by `sort -rV`.
