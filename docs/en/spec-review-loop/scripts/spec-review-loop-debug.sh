@@ -185,6 +185,14 @@ read_prompt() {
   cat "$file"
 }
 
+replace_placeholder() {
+  local prompt="$1"
+  local placeholder="$2"
+  local value="$3"
+  prompt="${prompt//$placeholder/$value}"
+  printf "%s" "$prompt"
+}
+
 normalize_prompt_paths() {
   local prompt="$1"
   prompt="${prompt//.\/specs/$SPECS_DIR}"
@@ -220,7 +228,7 @@ run_find_issues() {
   [ -n "$prompt" ] || die "Failed to load prompt from $prompt_file"
 
   prompt="$(normalize_prompt_paths "$prompt")"
-  prompt="${prompt//{Output file}/$output_file}"
+  prompt="$(replace_placeholder "$prompt" "{Output file}" "$output_file")"
 
   local log_prompt="$LOGS_DIR/01-outer-${CURRENT_OUTER}-prompt.txt"
   local log_raw="$LOGS_DIR/01-outer-${CURRENT_OUTER}-raw.txt"
@@ -258,9 +266,9 @@ run_fix_issues() {
   [ -n "$prompt" ] || die "Failed to load prompt from $prompt_file"
 
   prompt="$(normalize_prompt_paths "$prompt")"
-  prompt="${prompt//{Issues file}/$issues_file}"
-  prompt="${prompt//{Summary file}/$summary_file}"
-  prompt="${prompt//{Feedback file}/$feedback_file}"
+  prompt="$(replace_placeholder "$prompt" "{Issues file}" "$issues_file")"
+  prompt="$(replace_placeholder "$prompt" "{Summary file}" "$summary_file")"
+  prompt="$(replace_placeholder "$prompt" "{Feedback file}" "$feedback_file")"
 
   local log_prompt="$LOGS_DIR/02-inner-${INNER_COUNTER}-prompt.txt"
   local log_raw="$LOGS_DIR/02-inner-${INNER_COUNTER}-raw.json"
@@ -287,9 +295,9 @@ run_confirm_fix() {
   [ -n "$prompt" ] || die "Failed to load prompt from $prompt_file"
 
   prompt="$(normalize_prompt_paths "$prompt")"
-  prompt="${prompt//{Issues file}/$issues_file}"
-  prompt="${prompt//{Feedback file}/$feedback_file}"
-  prompt="${prompt//{Output file}/$output_file}"
+  prompt="$(replace_placeholder "$prompt" "{Issues file}" "$issues_file")"
+  prompt="$(replace_placeholder "$prompt" "{Feedback file}" "$feedback_file")"
+  prompt="$(replace_placeholder "$prompt" "{Output file}" "$output_file")"
 
   local log_prompt="$LOGS_DIR/03-inner-${INNER_COUNTER}-prompt.txt"
   local log_raw="$LOGS_DIR/03-inner-${INNER_COUNTER}-raw.txt"
