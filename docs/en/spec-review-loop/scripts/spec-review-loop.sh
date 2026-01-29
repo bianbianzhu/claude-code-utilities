@@ -150,7 +150,7 @@ check_control_signal() {
 
 extract_first_code_block() {
   local file="$1"
-  awk 'BEGIN{in=0} /^```/{ if(!in){in=1; next} else {exit} } in{print}' "$file"
+  awk 'BEGIN{inside=0} /^```/{ if(!inside){inside=1; next} else {exit} } inside{print}' "$file"
 }
 
 replace_inline_commands() {
