@@ -102,7 +102,7 @@ if outer == MAX_OUTER: warn "outer limit reached" and exit non-zero
 - Build prompt with substituted output path.
 - run Codex; log raw output.
 - if `<promise>COMPLETE</promise>` → exit without creating output file.
-- otherwise write raw output to `OUTPUT_FILE`.
+- otherwise require Codex to have written the report to `OUTPUT_FILE` (do not overwrite). If missing/empty → error.
 
 ### run_fix_issues()
 - `ISSUES_FILE = latest_issue_file()`; if empty → die.
@@ -113,8 +113,8 @@ if outer == MAX_OUTER: warn "outer limit reached" and exit non-zero
 ### run_confirm_fix()
 - `ISSUES_FILE = latest_issue_file()`; if empty → die.
 - `OUTPUT_FILE = next_issue_file()`
-- run Codex; write output to `OUTPUT_FILE`.
-- parse promise tag:
+- run Codex; require it to write the verification report to `OUTPUT_FILE` (do not overwrite).
+- parse promise tag from raw output (log_raw):
   - `ALL_RESOLVED` → exit inner loop
   - `ISSUES_REMAINING` → continue inner
   - missing → error (die)
@@ -124,13 +124,13 @@ Directory: `./logs/spec-review-loop-<timestamp>/`
 
 - `01-outer-<n>-prompt.txt`
 - `01-outer-<n>-raw.txt`
-- `01-outer-<n>-output-path.txt`
+- `01-outer-<n>-output-path.txt` (path to Codex-written report)
 - `02-inner-<n>-prompt.txt`
 - `03-inner-<n>-prompt.txt`
 - `03-inner-<n>-raw.txt`
-- `03-inner-<n>-output-path.txt`
+- `03-inner-<n>-output-path.txt` (path to Codex-written report)
 
-Full raw Codex output is captured (no truncation).
+Full raw Codex output is captured for debugging. The authoritative reports are the files written by Codex at the output paths.
 
 ## Edge Cases
 - No issue files exist: `next_issue_file()` yields `v1`.
