@@ -156,10 +156,9 @@ extract_first_code_block() {
 replace_inline_commands() {
   local prompt="$1"
   shift
-  local pattern='!`[^`]*`'
   local replacement
   for replacement in "$@"; do
-    prompt="${prompt/$pattern/$replacement}"
+    prompt=$(REPL="$replacement" perl -0777 -pe 's/!`[^`]*`/$ENV{REPL}/' <<<"$prompt")
   done
   printf "%s" "$prompt"
 }
