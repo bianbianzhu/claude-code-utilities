@@ -241,11 +241,13 @@ run_find_issues() {
   local signal
   signal="$(check_control_signal "$log_raw")"
   if [ "$signal" = "COMPLETE" ]; then
+    if [ -e "$output_file" ]; then
+      warn "Output file created despite COMPLETE signal: $output_file"
+    fi
     return 0
   fi
 
-  cat "$log_raw" > "$output_file"
-  [ -s "$output_file" ] || die "Output file not created: $output_file"
+  [ -s "$output_file" ] || die "Output file not created by Codex: $output_file (see $log_raw)"
   echo "$output_file" > "$log_out_path"
 
   return 1
@@ -307,14 +309,13 @@ run_confirm_fix() {
   printf "%s" "$prompt" > "$log_prompt"
   run_codex "$prompt" "$log_raw"
 
-  cat "$log_raw" > "$output_file"
-  [ -s "$output_file" ] || die "Output file not created: $output_file"
+  [ -s "$output_file" ] || die "Output file not created by Codex: $output_file (see $log_raw)"
   echo "$output_file" > "$log_out_path"
 
   local signal
   signal="$(check_control_signal "$log_raw")"
   if [ -z "$signal" ]; then
-    die "Missing promise tag in confirmation output"
+    die "Missing promise tag in confirmation output: $log_raw"
   fi
   echo "$signal"
 }
