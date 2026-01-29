@@ -9,6 +9,13 @@ fi
 
 set -euo pipefail
 
+# Required files/directories to run this script (defaults shown):
+# - $SPECS_DIR/ (default: ./specs; will create ./specs/issues/ if missing)
+# - $GUIDE_PATH (default: ./references/SPEC_GENERATION_GUIDE.md)
+# - $PROMPT_DIR/01-find-issues.md (default: ./spec-review-loop-prompts/01-find-issues.md)
+# - $PROMPT_DIR/02-fix-issues.md (default: ./spec-review-loop-prompts/02-fix-issues.md)
+# - $PROMPT_DIR/03-confirm-fix.md (default: ./spec-review-loop-prompts/03-confirm-fix.md)
+
 SCRIPT_DIR=""
 PROJECT_ROOT=""
 SPECS_DIR="./specs"
