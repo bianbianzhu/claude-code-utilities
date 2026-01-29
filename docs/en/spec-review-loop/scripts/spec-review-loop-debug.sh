@@ -219,8 +219,8 @@ run_find_issues() {
   prompt="$(read_prompt "$prompt_file")"
   [ -n "$prompt" ] || die "Failed to load prompt from $prompt_file"
 
-  prompt="${prompt//{Output file}/$output_file}"
   prompt="$(normalize_prompt_paths "$prompt")"
+  prompt="${prompt//{Output file}/$output_file}"
 
   local log_prompt="$LOGS_DIR/01-outer-${CURRENT_OUTER}-prompt.txt"
   local log_raw="$LOGS_DIR/01-outer-${CURRENT_OUTER}-raw.txt"
@@ -257,10 +257,10 @@ run_fix_issues() {
   prompt="$(read_prompt "$prompt_file")"
   [ -n "$prompt" ] || die "Failed to load prompt from $prompt_file"
 
+  prompt="$(normalize_prompt_paths "$prompt")"
   prompt="${prompt//{Issues file}/$issues_file}"
   prompt="${prompt//{Summary file}/$summary_file}"
   prompt="${prompt//{Feedback file}/$feedback_file}"
-  prompt="$(normalize_prompt_paths "$prompt")"
 
   local log_prompt="$LOGS_DIR/02-inner-${INNER_COUNTER}-prompt.txt"
   local log_raw="$LOGS_DIR/02-inner-${INNER_COUNTER}-raw.json"
@@ -286,10 +286,10 @@ run_confirm_fix() {
   prompt="$(read_prompt "$prompt_file")"
   [ -n "$prompt" ] || die "Failed to load prompt from $prompt_file"
 
+  prompt="$(normalize_prompt_paths "$prompt")"
   prompt="${prompt//{Issues file}/$issues_file}"
   prompt="${prompt//{Feedback file}/$feedback_file}"
   prompt="${prompt//{Output file}/$output_file}"
-  prompt="$(normalize_prompt_paths "$prompt")"
 
   local log_prompt="$LOGS_DIR/03-inner-${INNER_COUNTER}-prompt.txt"
   local log_raw="$LOGS_DIR/03-inner-${INNER_COUNTER}-raw.txt"
