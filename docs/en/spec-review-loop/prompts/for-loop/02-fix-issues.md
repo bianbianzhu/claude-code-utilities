@@ -1,4 +1,4 @@
-Review design spec issues from !`ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1` (latest iteration from Codex reviewer).
+Review design spec issues from {Issues file} (latest iteration from Codex reviewer).
 
 Before making any changes, read `./references/SPEC_GENERATION_GUIDE.md`. If missing, STOP and report a blocking issue: "Missing SPEC_GENERATION_GUIDE.md — cannot apply required spec standard."
 
@@ -21,12 +21,12 @@ Do NOT create any files beyond those explicitly specified below.
 
 After all findings are processed:
 1. Provide a summary of: accepted changes, declined suggestions, and already-resolved items.
-2. Write a structured processing summary to !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); echo "${f%.md}-summary.md"` with:
+2. Write a structured processing summary to {Summary file} with:
    - Issue ID / Title
    - Decision (Accepted / Declined / Already Resolved)
    - Changes Applied (short)
    - Guide Rule IDs affected (if any)
-3. If any suggestions were declined, write feedback to !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); echo "${f%.md}-feedback.md"`:
+3. If any suggestions were declined, write feedback to {Feedback file}:
 
 ## Feedback
 
