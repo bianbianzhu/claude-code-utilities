@@ -198,7 +198,7 @@ run_find_issues() {
   [ -n "$prompt" ] || die "Failed to load prompt from $prompt_file"
 
   prompt="$(replace_inline_commands "$prompt" "$output_file")"
-  prompt="${prompt//\{Output file\}/$output_file}"
+  prompt="${prompt//{Output file}/$output_file}"
   prompt="$(normalize_prompt_paths "$prompt")"
 
   local log_prompt="$LOGS_DIR/01-outer-${CURRENT_OUTER}-prompt.txt"
@@ -264,8 +264,9 @@ run_confirm_fix() {
   [ -n "$prompt" ] || die "Failed to load prompt from $prompt_file"
 
   prompt="$(replace_inline_commands "$prompt" "$issues_file" "$feedback_file" "$output_file")"
-  prompt="${prompt//\{Issues file\}/$issues_file}"
-  prompt="${prompt//\{Output file\}/$output_file}"
+  prompt="${prompt//{Issues file}/$issues_file}"
+  prompt="${prompt//{Feedback file}/$feedback_file}"
+  prompt="${prompt//{Output file}/$output_file}"
   prompt="$(normalize_prompt_paths "$prompt")"
 
   local log_prompt="$LOGS_DIR/03-inner-${INNER_COUNTER}-prompt.txt"
@@ -372,6 +373,7 @@ for ((outer=1; outer<=OUTER_MAX; outer++)); do
   CURRENT_OUTER="$outer"
 
   if run_find_issues "$FIND_PROMPT_FILE"; then
+    echo "Success: No issues found. Spec review complete."
     exit 0
   fi
 
