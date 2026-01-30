@@ -3,9 +3,11 @@
 - Review to identify issues, gaps, and inconsistencies (works for initial or subsequent reviews)
 
 ```markdown
-Output file: !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); v=$(echo "$f" | grep -oE 'v[0-9]+' | tail -1 | tr -d 'v'); echo "./specs/issues/$(date +%Y-%m-%d)-v$((v+1)).md"`
+First, run this bash command to generate the output file path: `f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.md$' | sort -rV | head -1); v=$(echo "$f" | grep -oE 'v[0-9]+' | tail -1 | tr -d 'v'); echo "./specs/issues/$(date +%Y-%m-%d)-v$((v+1)).md"`
 
-**IMPORTANT**: Use the above file path to replace the placeholder in the prompt for "ask-codex" command.
+**IMPORTANT!!!**: MUST use the above generated file path to replace the placeholder in the prompt for "ask-codex" skill.
+
+Then, execute the following "ask-codex" skill:
 
 /ask-codex "You are a senior software systems architect acting as a REVIEWER. Your task is to comprehensively review the design specifications in ./specs.
 
@@ -14,6 +16,12 @@ Output file: !`f=$(ls -1 ./specs/issues/*.md 2>/dev/null | grep -v '\-feedback\.
 Use `./references/SPEC_GENERATION_GUIDE.md` as the primary review standard.
 If that file is missing, STOP and report a blocking issue: "Missing SPEC_GENERATION_GUIDE.md — cannot apply required review standard."
 Every issue you raise must cite the relevant Guide Rule ID (e.g., G1, G4, G9).
+
+## Full Reading Required (MUST)
+
+- **SPEC_GENERATION_GUIDE.md**: Read ENTIRE file, start to end. No stopping early. Must know G1–G11 definitions completely before citing them.
+- **Each spec file**: Read in full. No grep-only reading. Context at line 500 may clarify line 50.
+- **Evidence**: Quote BOTH the spec text AND the guide rule text. No quote = not read thoroughly.
 
 ## Scope
 
