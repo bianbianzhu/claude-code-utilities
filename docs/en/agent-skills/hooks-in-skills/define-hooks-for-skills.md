@@ -2,9 +2,13 @@
 
 Skills can define hooks that run during the Skill's lifecycle.
 
-Use the `hooks` field to specify `PreToolUse`, `PostToolUse`, or `Stop` handlers:
+Use the `hooks` field to specify `PreToolUse`, `PostToolUse`, `Stop` and other handlers:
 
-Only supported events: `PreToolUse`, `PostToolUse`, and `Stop`
+~~Only supported events: `PreToolUse`, `PostToolUse`, and `Stop`~~
+
+**ALL events are supported now**, including `PreToolUse`, `PostToolUse`, `Stop`, `UserPromptSubmit` and etc.
+
+`UserPromptSubmit`: Runs when the user submits a prompt, before Claude processes it. This allows you to add additional context based on the prompt/conversation, validate prompts, or block certain types of prompts.
 
 ```yaml theme={null}
 ---
@@ -120,19 +124,24 @@ sys.exit(0)
 ## Access the variables in the hook command
 
 1. **Access the file path**:
+
 - can use absolute path to the file
 - or use `$CLAUDE_PROJECT_DIR` to access the project directory
 
 Log out the project directory:
+
 ```yaml
-command: "echo \"$CLAUDE_PROJECT_DIR\" >> ~/.claude/bash-command-log.txt"
+command: 'echo "$CLAUDE_PROJECT_DIR" >> ~/.claude/bash-command-log.txt'
 ```
+
 Run script under the project directory:
+
 ```yaml
-command: "\"$CLAUDE_PROJECT_DIR\"/test.sh"
+command: '"$CLAUDE_PROJECT_DIR"/test.sh'
 ```
 
 2. **JSON data via stdin**:
+
 - hooks also receive JSON data via stdin containing session information like session_id, transcript_path, cwd, permission_mode, and event-specific fields
 
 ## Run different scripts in the hook command
@@ -215,5 +224,3 @@ hooks:
 - Refer the [Python script example](#examples) above
 - Use `sys.stdin` to access the input data
 - Add any dependencies in the PEP 723 inline metadata's `dependencies` field, like `dependencies = ["PyPDF2"]`
-
-
