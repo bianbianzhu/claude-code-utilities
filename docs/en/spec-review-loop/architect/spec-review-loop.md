@@ -29,8 +29,16 @@ flowchart TD
     end
 
     REVIEW_FB --> FIXED{All issues<br/>resolved?}
-    FIXED -->|No / Partial| FIX
     FIXED -->|Yes| FIND
+
+    FIXED -->|No / Partial| RERAISE
+    subgraph RERAISE_FLOW ["Re-raise Handling"]
+        RERAISE[Detect re-raises<br/>Claude Code]
+        RERAISE --> HUMAN{Re-raise<br/>detected?}
+        HUMAN -->|No| FIX
+        HUMAN -->|Yes| OVERRIDE[Human review<br/>Create new issue report]
+        OVERRIDE --> FIX
+    end
 ```
 
 ## Steps
@@ -40,6 +48,7 @@ flowchart TD
 | 01-find-issues | Codex | Comprehensive spec review to identify gaps and inconsistencies |
 | 02-fix-issues | Claude Code | Apply fixes; decline invalid suggestions with documented reasoning |
 | 03-confirm-fix | Codex | Verify fixes; review feedback and accept or re-raise declined items |
+| Re-raise detection (optional) | Claude Code + Human | Detect re-raised declined issues; human overrides create a new report when needed |
 
 ## Loop Architecture
 
@@ -53,7 +62,7 @@ The system is two nested loops: an **outer discovery loop** that ensures all iss
 
 Each pass of `01-find-issues` reviews all specs but reports **at most 5 issues**, prioritized by severity. This is intentional batching — it keeps each cycle focused and prevents overwhelming the fix phase. Issues beyond the limit are not lost; they will be discovered in subsequent outer iterations.
 
-The outer loop terminates only when `01-find-issues` finds **zero** issues (currently scoped to Critical and High severity).
+The outer loop terminates only when `01-find-issues` finds **zero** issues (currently scoped to Critical and High severity). When `human-approved-declines.md` exists, `01-find-issues` must read it and avoid re-raising those issues.
 
 ### Inner Loop (Fix-Verification)
 
@@ -66,10 +75,18 @@ Within each outer iteration, the inner loop cycles between fixing and verifying 
 1. **Fix**: Claude Code addresses each issue (AFK or HITL mode)
    - Valid suggestions → apply to specs
    - Invalid suggestions → decline with reasoning in feedback file
+   - If issue has **Human Override: Must Fix** → must address it
 2. **Confirm**: Codex verifies fixes and reviews any feedback
    - Partial/missing fixes → return to Fix
    - Re-raised declined items → return to Fix
    - All resolved → exit inner loop, return to outer loop (next `01-find-issues` pass)
+3. **Re-raise detection (conditional)**: If issues remain **and** a previous feedback file exists
+   - Detect whether any declined issues were re-raised
+   - If re-raises detected → pause for human review
+   - Human decision creates a new issue report:
+     - **Valid re-raise** → set `Human Override: Must Fix`
+     - **Invalid re-raise** → set `Declined-Accepted` + `Human Override`
+   - Loop continues with the new report
 
 ### Control Signals
 
@@ -81,6 +98,8 @@ Each step prompt emits a promise tag that serves as a control signal for the orc
 | `<promise>ALL_RESOLVED</promise>` | 03-confirm-fix | All batch issues resolved | **Exit inner loop** — trigger next `01-find-issues` pass |
 | `<promise>ISSUES_REMAINING</promise>` | 03-confirm-fix | Unresolved issues remain | **Continue inner loop** — trigger `02-fix-issues` again |
 
+Note: The orchestrator also honors `<promise>` tags found in the **issue report file**, enabling human overrides to exit the inner loop early.
+
 ### Completeness Guarantee
 
 - **Batching + outer loop = eventual completeness.** The max-5 limit per find pass does not discard issues — it defers them. Each outer iteration surfaces the next highest-priority batch until none remain.
@@ -89,6 +108,10 @@ Each step prompt emits a promise tag that serves as a control signal for the orc
 ### Design Note
 
 Step prompts (01, 02, 03) are intentionally stateless and loop-unaware. They do not know they are part of a loop, how many iterations have occurred, or what comes next. All orchestration logic — reading control signals, deciding which step to invoke next, terminating — lives in an external bash loop.
+
+Minimal prompt changes add two required inputs:
+- `01-find-issues` reads `human-approved-declines.md` when present.
+- `02-fix-issues` honors `Human Override` fields in the latest issue report.
 
 ## Open Questions
 

@@ -144,6 +144,7 @@ All issue-related files live under `./specs/issues/`.
 | Issue report | `<YYYY-MM-DD>-v<N>.md` | 01-find-issues, 03-confirm-fix |
 | Processing summary | `<YYYY-MM-DD>-v<N>-summary.md` | 02-fix-issues |
 | Feedback (declined items) | `<YYYY-MM-DD>-v<N>-feedback.md` | 02-fix-issues (only if declines exist) |
+| Human-approved declines log | `human-approved-declines.md` | Human override workflow |
 
 The version number `N` increments each time a new report is written (by either 01 or 03). The date is the date of report creation.
 
@@ -169,6 +170,14 @@ human review → v3.md (Human Override applied)
   ↓
 02-fix → v3-summary.md, v3-feedback.md (optional)
 03-confirm → v4.md
+```
+
+Persistent human-approved declines:
+
+```
+human-approved-declines.md
+  - Appended when human marks a re-raise as invalid
+  - Read by 01-find-issues to avoid re-raising the same issues
 ```
 
 ### Per-Step I/O
