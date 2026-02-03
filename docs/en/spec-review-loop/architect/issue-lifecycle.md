@@ -243,6 +243,8 @@ When the latest issue report contains a **Human Override** field, 02-fix-issues 
 ## Completion Status             ← ALL_RESOLVED or ISSUES_REMAINING promise
 ```
 
+Each issue block should include the optional **Human Override** field when applicable.
+
 ### 02-fix-issues Output (Summary)
 
 ```

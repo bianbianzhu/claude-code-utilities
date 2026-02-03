@@ -99,6 +99,7 @@ Then `01-find-issues` must read this file and **not re-raise** semantically matc
 
 1) **02-fix-issues**: Honor any **Human Override** notes in the latest issue report (not feedback).
 2) **01-find-issues**: If `human-approved-declines.md` exists, read it first and do not re-raise those issues.
+3) **03-confirm-fix**: Include the **Human Override** field in each issue block (set to `Must Fix: ...`, `Declined-Accepted: ...`, or `None`).
 
 ## Control Signal Update
 
@@ -139,6 +140,8 @@ if ISSUES_REMAINING:
   - Honor Human Override notes in the latest issue report
 - `docs/en/spec-review-loop/prompts/for-loop/01-find-issues.md` (and related prompt copies)
   - Read `human-approved-declines.md` if present
+- `docs/en/spec-review-loop/prompts/for-loop/03-confirm-fix.md` (and related prompt copies)
+  - Output the Human Override field per issue
 - `docs/en/spec-review-loop/architect/issue-lifecycle.md`
   - Document re-raise detection and human override lifecycle
 
