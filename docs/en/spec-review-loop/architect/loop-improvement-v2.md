@@ -77,7 +77,7 @@ This is the key to making human decisions stick.
 
 **Correct action**:
 - Create a new issue report `v3.md` and encode the decision:
-  - **Valid**: keep issue open and add a **Human Override: Must Fix** note in the issue fields (e.g., Assessment/What Changed/Remaining Work).
+  - **Valid**: keep issue open and set the **Human Override** field to `Must Fix: <reasoning>`.
   - **Invalid**: mark issue as **Declined-Accepted** and update fields per issue-lifecycle conventions.
 - Do **not** create or edit `v2-feedback.md` for this decision (it will be overwritten by 02).
 
@@ -116,7 +116,7 @@ if ISSUES_REMAINING:
   ↓
   if re-raises found:
     human review
-    ├─ Valid  → create new issue report with Human Override: Must Fix
+    ├─ Valid  → create new issue report with Human Override = Must Fix
     ├─ Invalid → create new issue report with Declined-Accepted
     └─ Mixed → manual edit
   ↓

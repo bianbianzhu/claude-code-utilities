@@ -160,6 +160,17 @@ The version number `N` increments each time a new report is written (by either 0
 01-find → v4.md (or COMPLETE with no file)
 ```
 
+Human override during an inner loop can insert an additional report version:
+
+```
+... 03-confirm → v2.md
+  ↓ (if ISSUES_REMAINING + re-raise detected)
+human review → v3.md (Human Override applied)
+  ↓
+02-fix → v3-summary.md, v3-feedback.md (optional)
+03-confirm → v4.md
+```
+
 ### Per-Step I/O
 
 #### 01-find-issues
@@ -181,6 +192,8 @@ The version number `N` increments each time a new report is written (by either 0
 | Output | `./specs/**/*.md` (modified in place) | Applied fixes |
 | Output | `<issues>-summary.md` | Processing summary (always created) |
 | Output | `<issues>-feedback.md` | Decline reasoning (only if declines exist) |
+
+When the latest issue report contains a **Human Override** field, 02-fix-issues must follow it (e.g., `Must Fix`).
 
 #### 03-confirm-fix
 
