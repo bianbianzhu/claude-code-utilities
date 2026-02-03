@@ -288,7 +288,11 @@ run_confirm_fix() {
   echo "$output_file" > "$log_out_path"
 
   local signal
-  signal="$(check_control_signal "$log_raw")"
+  # Allow human to override by editing the issue report with a promise tag.
+  signal="$(check_control_signal "$output_file")"
+  if [ -z "$signal" ]; then
+    signal="$(check_control_signal "$log_raw")"
+  fi
   if [ -z "$signal" ]; then
     die "Missing promise tag in confirmation output: $log_raw"
   fi
