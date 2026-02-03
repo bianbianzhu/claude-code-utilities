@@ -96,7 +96,7 @@ latest_issue_file() {
   fi
 
   local latest
-  latest=$(printf "%s\n" "${files[@]}" | grep -vE '(-feedback|-summary)\.md$' | sort -rV | head -1 || true)
+  latest=$(printf "%s\n" "${files[@]}" | grep -vE '(-feedback|-summary|-reraised|human-approved-declines)\.md$' | sort -rV | head -1 || true)
   echo "$latest"
 }
 
@@ -113,7 +113,7 @@ previous_issue_file() {
   fi
 
   local previous
-  previous=$(printf "%s\n" "${files[@]}" | grep -vE '(-feedback|-summary)\.md$' | sort -rV | sed -n '2p' || true)
+  previous=$(printf "%s\n" "${files[@]}" | grep -vE '(-feedback|-summary|-reraised|human-approved-declines)\.md$' | sort -rV | sed -n '2p' || true)
   echo "$previous"
 }
 
@@ -718,6 +718,19 @@ for ((outer=1; outer<=OUTER_MAX; outer++)); do
 
     if [ "$signal" = "ALL_RESOLVED" ]; then
       break
+    fi
+
+    # Re-raise detection + human escalation (only when issues remain)
+    prev_report="$(previous_issue_file)"
+    curr_report="$(latest_issue_file)"
+    if [ -n "$prev_report" ]; then
+      prev_feedback="$(feedback_file_for "$prev_report")"
+      reraise_report="$(reraise_file_for "$curr_report")"
+
+      run_reraise_detection "$prev_report" "$curr_report" "$prev_feedback" "$reraise_report"
+      if grep -q "Re-raised Issues Detected" "$reraise_report" 2>/dev/null; then
+        handle_reraise_escalation "$reraise_report"
+      fi
     fi
   done
 
