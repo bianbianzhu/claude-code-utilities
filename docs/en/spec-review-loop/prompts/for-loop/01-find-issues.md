@@ -24,6 +24,14 @@ Every issue you raise must cite the relevant Guide Rule ID (e.g., G1, G4, G9).
 3. **Review all spec files listed in README.md** - Follow the naming convention `<YYYY-MM-DD>-<topic>.md`. Do NOT assume any example filenames; only review files actually listed in README.md.
 4. **If `specs/contracts/` or `specs/interfaces.md` exists** - treat these as authoritative for data shapes and cross-module contracts.
 
+## Previously Declined Issues (Human Approved)
+
+If `./specs/issues/human-approved-declines.md` exists, read it first.
+
+These issues were previously raised, declined by the implementer, re-raised by a reviewer, and then a **human reviewer** determined the decline was correct.
+
+**Do NOT re-raise any issue that semantically matches an entry in this file.** The human has final authority on these decisions.
+
 ## Issue Threshold (MUST)
 
 Only raise issues that meet this bar:
