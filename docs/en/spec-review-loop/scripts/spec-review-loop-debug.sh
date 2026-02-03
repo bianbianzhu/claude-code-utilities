@@ -121,8 +121,25 @@ latest_issue_file() {
   fi
 
   local latest
-  latest=$(printf "%s\n" "${files[@]}" | grep -vE '(-feedback|-summary)\.md$' | sort -rV | head -1 || true)
+  latest=$(printf "%s\n" "${files[@]}" | grep -vE '(-feedback|-summary|-reraised|human-approved-declines)\.md$' | sort -rV | head -1 || true)
   echo "$latest"
+}
+
+previous_issue_file() {
+  local dir
+  dir="$(issues_dir)"
+  shopt -s nullglob
+  local files=("$dir"/*.md)
+  shopt -u nullglob
+
+  if [ ${#files[@]} -lt 2 ]; then
+    echo ""
+    return
+  fi
+
+  local previous
+  previous=$(printf "%s\n" "${files[@]}" | grep -vE '(-feedback|-summary|-reraised|human-approved-declines)\.md$' | sort -rV | sed -n '2p' || true)
+  echo "$previous"
 }
 
 next_issue_file() {
@@ -143,6 +160,11 @@ summary_file_for() {
 feedback_file_for() {
   local file="$1"
   echo "${file%.md}-feedback.md"
+}
+
+reraise_file_for() {
+  local file="$1"
+  echo "${file%.md}-reraised.md"
 }
 
 check_control_signal() {
@@ -313,11 +335,312 @@ run_confirm_fix() {
   echo "$output_file" > "$log_out_path"
 
   local signal
-  signal="$(check_control_signal "$log_raw")"
+  # Allow human to override by editing the issue report with a promise tag.
+  signal="$(check_control_signal "$output_file")"
+  if [ -z "$signal" ]; then
+    signal="$(check_control_signal "$log_raw")"
+  fi
   if [ -z "$signal" ]; then
     die "Missing promise tag in confirmation output: $log_raw"
   fi
   echo "$signal"
+}
+
+run_reraise_detection() {
+  local prev_report="$1"
+  local curr_report="$2"
+  local prev_feedback="$3"
+  local output_file="$4"
+
+  [ -n "$prev_report" ] || die "Missing previous report for re-raise detection"
+  [ -n "$curr_report" ] || die "Missing current report for re-raise detection"
+
+  local prompt
+  prompt=$(cat <<'PROMPT_EOF'
+You are analyzing two consecutive issue reports from a spec review loop to detect **re-raised issues**.
+
+## Context
+
+- Codex (reviewer) is double-blind: it doesn't know what Claude Code changed
+- In each inner loop iteration:
+  1. Claude Code attempts fixes (may decline some with reasoning in feedback file)
+  2. Codex verifies the spec and produces a new issue report
+- A **re-raised issue** is one where:
+  - Claude Code declined to fix it (documented in feedback file)
+  - Codex disagreed and raised it again in the new report
+  - They are **semantically the same problem**, even if ID/title/wording differs
+
+## Your Task
+
+1. Read the previous feedback file (if exists) to understand what Claude Code declined and why
+2. Read both issue reports
+3. Identify any issues in the NEW report that are semantically the same as declined issues from the PREVIOUS iteration
+4. For each re-raised issue, explain WHY you believe it's a re-raise (what connects them)
+
+## Input Files
+
+- Previous issue report: {prev_report}
+- Current issue report: {curr_report}
+- Previous feedback file: {prev_feedback} (may not exist)
+
+## Output
+
+Write to {output_file}:
+
+If NO re-raised issues detected:
+```
+No re-raised issues detected.
+```
+
+If re-raised issues ARE detected:
+```
+# Re-raised Issues Detected
+
+Human review required. The following issues appear to be re-raises of previously declined items.
+
+## Re-raised Issue 1
+
+**Current Report Issue**: Issue [ID] - [Title]
+**Previous Declined Issue**: [Title/description from feedback]
+**Why This Is a Re-raise**: [Your reasoning - what makes these semantically the same problem]
+**Claude Code's Original Reasoning**: [Quote from feedback file]
+**Codex's Counter-argument**: [From current report, if any]
+
+## Re-raised Issue 2
+...
+```
+PROMPT_EOF
+)
+
+  prompt="${prompt//\{prev_report\}/$prev_report}"
+  prompt="${prompt//\{curr_report\}/$curr_report}"
+  prompt="${prompt//\{prev_feedback\}/$prev_feedback}"
+  prompt="${prompt//\{output_file\}/$output_file}"
+
+  claude --permission-mode acceptEdits --print "$prompt" > "$LOGS_DIR/reraise-detection-inner-$INNER_COUNTER.txt" 2>&1
+}
+
+handle_valid_reraise() {
+  local reraise_file="$1"
+  local latest_report="$2"
+
+  echo ""
+  echo "You chose: Re-raise is VALID"
+  echo ""
+  echo "Please provide your reasoning (why Claude Code should fix this):"
+  read -p "Reasoning: " human_reasoning
+
+  local prompt
+  prompt=$(cat <<PROMPT_EOF
+Human has reviewed the re-raised issues and determined they are VALID re-raises.
+
+## Input Files
+- Re-raise report: $reraise_file
+- Current issue report: $latest_report
+
+## Human's Reasoning
+$human_reasoning
+
+## Your Task
+
+1. Read the re-raise report to identify which issues are re-raises
+2. Copy the current issue report to a new version file:
+   - If current is \`YYYY-MM-DD-vN.md\`, create \`YYYY-MM-DD-v(N+1).md\`
+3. In the new file, for EACH re-raised issue:
+   - Set **Human Override** to: \`Must Fix: [human's reasoning]\`
+   - Keep Status as-is (do not mark Declined-Accepted)
+4. Keep all other issues unchanged
+5. Update the Summary table to reflect any Human Override notes (if included)
+6. Add completion promise at the end:
+   - If ALL issues are Fixed or Declined-Accepted: add \`<promise>ALL_RESOLVED</promise>\`
+   - Else: add \`<promise>ISSUES_REMAINING</promise>\`
+
+Do NOT modify the original issue report. Only create the new version file.
+PROMPT_EOF
+)
+
+  echo ""
+  echo "Creating new issue report with Human Override..."
+  claude --permission-mode acceptEdits --print "$prompt" > "$LOGS_DIR/human-override-valid-inner-$INNER_COUNTER.txt" 2>&1
+
+  echo "Done. New issue report created."
+}
+
+handle_invalid_reraise() {
+  local reraise_file="$1"
+  local latest_report="$2"
+  local human_reasoning="${3:-}"
+
+  if [ -z "$human_reasoning" ]; then
+    echo ""
+    echo "You chose: Re-raise is INVALID"
+    echo ""
+    echo "Please provide your reasoning (why Claude Code was right to decline):"
+    read -p "Reasoning: " human_reasoning
+  fi
+
+  local prompt
+  prompt=$(cat <<PROMPT_EOF
+Human has reviewed the re-raised issues and determined they are INVALID re-raises.
+
+## Input Files
+- Re-raise report: $reraise_file
+- Current issue report: $latest_report
+
+## Human's Reasoning
+$human_reasoning
+
+## Your Task
+
+1. Read the re-raise report to identify which issues are re-raises
+2. Copy the current issue report to a new version file:
+   - If current is \`YYYY-MM-DD-vN.md\`, create \`YYYY-MM-DD-v(N+1).md\`
+3. In the new file, for EACH re-raised issue:
+   - Change **Status** to: \`Declined-Accepted\`
+   - Set **Human Override** to: \`Declined-Accepted: [human's reasoning]\`
+   - Update **Problem** to: \`Resolved\`
+   - Update **Evidence** to: \`Resolved\`
+   - Update **Impact** to: \`None\`
+   - Update **Suggested Fix** to: \`N/A\`
+   - Update **What Changed** to: \`Human approved decline. Reasoning: [human's reasoning]\`
+   - Update **Assessment** to: \`Human reviewed re-raise and determined original decline was correct.\`
+   - Update **Remaining Work** to: \`None\`
+4. Keep all other issues unchanged
+5. Update the Summary table to reflect new statuses
+6. Add completion promise at the end:
+   - If ALL issues are Fixed or Declined-Accepted: add \`<promise>ALL_RESOLVED</promise>\`
+   - Else: add \`<promise>ISSUES_REMAINING</promise>\`
+
+Do NOT modify the original issue report. Only create the new version file.
+PROMPT_EOF
+)
+
+  echo ""
+  echo "Creating new issue report with Declined-Accepted status..."
+  claude --permission-mode acceptEdits --print "$prompt" > "$LOGS_DIR/human-override-invalid-inner-$INNER_COUNTER.txt" 2>&1
+
+  echo "Done. New issue report created."
+}
+
+append_to_decline_log() {
+  local reraise_file="$1"
+  local human_reasoning="$2"
+  local log_file="$SPECS_DIR/issues/human-approved-declines.md"
+
+  if [ ! -f "$log_file" ]; then
+    cat > "$log_file" <<'HEADER'
+# Human-Approved Declines
+
+Issues listed here were:
+1. Raised by a reviewer
+2. Declined by the implementer with reasoning
+3. Re-raised by the reviewer
+4. Reviewed by a human who approved the decline
+
+**Codex: Do NOT re-raise any issue that matches an entry in this file.**
+
+---
+
+HEADER
+  fi
+
+  local prompt
+  prompt=$(cat <<PROMPT_EOF
+Read the re-raise report: $reraise_file
+
+For EACH re-raised issue, append an entry to $log_file in this format:
+
+## [DATE]: [Issue Title]
+
+**Location**: [exact location from issue]
+**Guide Rule**: [G1-G11]
+**Original Problem**: [brief description of what the issue was about]
+**Implementer's Reasoning**: [why they declined - from feedback file]
+**Human's Decision**: Decline approved
+**Human's Reasoning**: $human_reasoning
+
+---
+
+PROMPT_EOF
+)
+
+  claude --permission-mode acceptEdits --print "$prompt" >> "$LOGS_DIR/append-decline-log-$INNER_COUNTER.txt" 2>&1
+}
+
+handle_manual_edit() {
+  local reraise_file="$1"
+  local latest_report="$2"
+
+  echo ""
+  echo "You chose: Manual edit"
+  echo ""
+  echo "Please manually edit the files as needed:"
+  echo "  - $reraise_file (for reference)"
+  echo "  - $latest_report (to modify statuses)"
+  echo ""
+  echo "To mark an issue as Declined-Accepted:"
+  echo "  1. Change Status to: Declined-Accepted"
+  echo "  2. Update fields per issue-lifecycle.md conventions"
+  echo ""
+  echo "To force loop exit:"
+  echo "  Add: <promise>ALL_RESOLVED</promise>"
+  echo ""
+  read -p "Press Enter when done editing..."
+}
+
+handle_reraise_escalation() {
+  local reraise_file="$1"
+  local latest_report="$(latest_issue_file)"
+
+  echo ""
+  echo "╔══════════════════════════════════════════════════════════════╗"
+  echo "║              HUMAN REVIEW REQUIRED                           ║"
+  echo "╠══════════════════════════════════════════════════════════════╣"
+  echo "║  Re-raised issues detected. Codex and Claude Code disagree.  ║"
+  echo "╚══════════════════════════════════════════════════════════════╝"
+  echo ""
+  echo "Re-raise report: $reraise_file"
+  echo "Current issues:  $latest_report"
+  echo ""
+  echo "Please review each re-raised issue and decide:"
+  echo ""
+  echo "  Option A: Re-raise is VALID (Claude Code should fix it)"
+  echo "            → A new issue report will be created with Human Override: Must Fix"
+  echo ""
+  echo "  Option B: Re-raise is INVALID (Claude Code was right)"
+  echo "            → A new issue report will be created with Declined-Accepted"
+  echo "            → Decline will be appended to human-approved-declines.md"
+  echo ""
+  echo "─────────────────────────────────────────────────────────────────"
+  read -p "Press Enter when you have reviewed $reraise_file ..."
+  echo ""
+
+  echo "For EACH re-raised issue, what is your decision?"
+  echo "  [V] Valid re-raise - Claude Code should fix it"
+  echo "  [I] Invalid re-raise - Mark as Declined-Accepted"
+  echo "  [M] Mixed - I'll handle some of each (manual edit)"
+  echo ""
+  read -p "Decision [V/I/M]: " decision
+
+  case "$decision" in
+    [Vv])
+      handle_valid_reraise "$reraise_file" "$latest_report"
+      ;;
+    [Ii])
+      echo ""
+      echo "Please provide your reasoning (why Claude Code was right to decline):"
+      read -p "Reasoning: " human_reasoning
+      handle_invalid_reraise "$reraise_file" "$latest_report" "$human_reasoning"
+      append_to_decline_log "$reraise_file" "$human_reasoning"
+      ;;
+    [Mm])
+      handle_manual_edit "$reraise_file" "$latest_report"
+      ;;
+    *)
+      echo "Invalid choice. Defaulting to Manual edit."
+      handle_manual_edit "$reraise_file" "$latest_report"
+      ;;
+  esac
 }
 
 on_interrupt() {
@@ -420,6 +743,26 @@ for ((outer=1; outer<=OUTER_MAX; outer++)); do
 
     if [ "$signal" = "ALL_RESOLVED" ]; then
       break
+    fi
+
+    # Re-raise detection + human escalation (only when issues remain)
+    prev_report="$(previous_issue_file)"
+    curr_report="$(latest_issue_file)"
+    if [ -n "$prev_report" ]; then
+      prev_feedback="$(feedback_file_for "$prev_report")"
+      reraise_report="$(reraise_file_for "$curr_report")"
+
+      if [ -f "$prev_feedback" ]; then
+        run_reraise_detection "$prev_report" "$curr_report" "$prev_feedback" "$reraise_report"
+        if grep -q "Re-raised Issues Detected" "$reraise_report" 2>/dev/null; then
+          handle_reraise_escalation "$reraise_report"
+          # If human override produced a fully resolved report, exit inner loop early.
+          signal="$(check_control_signal "$(latest_issue_file)")"
+          if [ "$signal" = "ALL_RESOLVED" ]; then
+            break
+          fi
+        fi
+      fi
     fi
   done
 
