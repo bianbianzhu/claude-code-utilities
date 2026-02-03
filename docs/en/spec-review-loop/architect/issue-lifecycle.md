@@ -32,6 +32,7 @@ An issue is a structured finding about a design spec. Its fields evolve as it pa
 | Evidence | string | Quote or reference from the spec |
 | Impact | string | Why it matters for implementation |
 | Suggested Fix | string | Concrete recommendation |
+| Human Override | string | Optional. Human decision that must be followed (e.g., `Must Fix`, `Declined-Accepted`), with brief reasoning. |
 
 ### Verification Fields (03-confirm-fix only)
 
@@ -56,6 +57,14 @@ Fields `Problem` through `Remaining Work` have Status-dependent values:
 | What Changed | Describe spec modifications / "Declined by implementer; accepted in feedback review" | Changes made + what remains unchanged | "No changes detected" | "Declined by implementer" |
 | Assessment | "Fully addressed" | Brief judgment of remaining gap | "Not attempted" | "See Feedback Review" |
 | Remaining Work | "None" | Describe remaining work | Briefly restate required work | "Re-raised: fix required or provide revised rationale" |
+
+### Human Override Rules
+
+- `Human Override` is optional and may be added by a human or human-directed agent.
+- When present, **02-fix-issues must treat it as authoritative**, even if it conflicts with prior feedback.
+- Typical values:
+  - `Must Fix: <reasoning>` (forces a fix in the next 02 pass)
+  - `Declined-Accepted: <reasoning>` (forces closure without further re-raise)
 
 ## State Machine
 
