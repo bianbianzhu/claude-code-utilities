@@ -727,9 +727,16 @@ for ((outer=1; outer<=OUTER_MAX; outer++)); do
       prev_feedback="$(feedback_file_for "$prev_report")"
       reraise_report="$(reraise_file_for "$curr_report")"
 
-      run_reraise_detection "$prev_report" "$curr_report" "$prev_feedback" "$reraise_report"
-      if grep -q "Re-raised Issues Detected" "$reraise_report" 2>/dev/null; then
-        handle_reraise_escalation "$reraise_report"
+      if [ -f "$prev_feedback" ]; then
+        run_reraise_detection "$prev_report" "$curr_report" "$prev_feedback" "$reraise_report"
+        if grep -q "Re-raised Issues Detected" "$reraise_report" 2>/dev/null; then
+          handle_reraise_escalation "$reraise_report"
+          # If human override produced a fully resolved report, exit inner loop early.
+          signal="$(check_control_signal "$(latest_issue_file)")"
+          if [ "$signal" = "ALL_RESOLVED" ]; then
+            break
+          fi
+        fi
       fi
     fi
   done
