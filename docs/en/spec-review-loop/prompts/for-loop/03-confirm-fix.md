@@ -54,6 +54,8 @@ Verified by Codex on [DATE].
 
 **Suggested Fix**: [Next minimal change if any remain; if Fixed or Declined-Accepted, write "N/A"]
 
+**Human Override**: [If present, state "Must Fix: ..." or "Declined-Accepted: ..."; otherwise write "None"]
+
 **What Changed**: [If Fixed, describe spec modifications; if Partial, describe changes made and what remains unchanged; if Missing, write "No changes detected"; if Declined, write "Declined by implementer"; if Declined-Accepted, write "Declined by implementer; accepted in feedback review"]
 
 **Assessment**: [If Fixed, write "Fully addressed"; if Partial, brief judgment of remaining gap; if Missing, write "Not attempted"; if Declined or Declined-Accepted, write "See Feedback Review"]

@@ -11,7 +11,8 @@ For each finding:
    - Following best practices
    - Not over-engineered or adding unnecessary complexity
    - Consistent with the overall design
-4. **Update** - Apply good suggestions to the design spec; apply better alternatives for flawed ones. All changes MUST comply with SPEC_GENERATION_GUIDE Guardrails G1–G11 and the De-Implementation Check. Do not introduce implementation code, library APIs, or concrete config values.
+4. **Check Human Override** - If the issue includes `Human Override: Must Fix`, you MUST address it in this iteration.
+5. **Update** - Apply good suggestions to the design spec; apply better alternatives for flawed ones. All changes MUST comply with SPEC_GENERATION_GUIDE Guardrails G1–G11 and the De-Implementation Check. Do not introduce implementation code, library APIs, or concrete config values.
 
 Skip issues already resolved completely. To determine "Already Resolved", re-read the current spec section cited in the issue and confirm the problem no longer exists. If resolved, mark it as **Already Resolved** in your summary.
 
