@@ -406,15 +406,15 @@ handle_valid_reraise() {
   read -p "Reasoning: " human_reasoning
 
   local prompt
-  prompt=$(cat <<PROMPT_EOF
+  prompt=$(cat <<'PROMPT_EOF'
 Human has reviewed the re-raised issues and determined they are VALID re-raises.
 
 ## Input Files
-- Re-raise report: $reraise_file
-- Current issue report: $latest_report
+- Re-raise report: {reraise_file}
+- Current issue report: {latest_report}
 
 ## Human's Reasoning
-$human_reasoning
+{human_reasoning}
 
 ## Your Task
 
@@ -433,6 +433,10 @@ $human_reasoning
 Do NOT modify the original issue report. Only create the new version file.
 PROMPT_EOF
 )
+
+  prompt="${prompt//\{reraise_file\}/$reraise_file}"
+  prompt="${prompt//\{latest_report\}/$latest_report}"
+  prompt="${prompt//\{human_reasoning\}/$human_reasoning}"
 
   echo ""
   echo "Creating new issue report with Human Override..."
@@ -455,15 +459,15 @@ handle_invalid_reraise() {
   fi
 
   local prompt
-  prompt=$(cat <<PROMPT_EOF
+  prompt=$(cat <<'PROMPT_EOF'
 Human has reviewed the re-raised issues and determined they are INVALID re-raises.
 
 ## Input Files
-- Re-raise report: $reraise_file
-- Current issue report: $latest_report
+- Re-raise report: {reraise_file}
+- Current issue report: {latest_report}
 
 ## Human's Reasoning
-$human_reasoning
+{human_reasoning}
 
 ## Your Task
 
@@ -489,6 +493,10 @@ $human_reasoning
 Do NOT modify the original issue report. Only create the new version file.
 PROMPT_EOF
 )
+
+  prompt="${prompt//\{reraise_file\}/$reraise_file}"
+  prompt="${prompt//\{latest_report\}/$latest_report}"
+  prompt="${prompt//\{human_reasoning\}/$human_reasoning}"
 
   echo ""
   echo "Creating new issue report with Declined-Accepted status..."
@@ -520,10 +528,11 @@ HEADER
   fi
 
   local prompt
-  prompt=$(cat <<PROMPT_EOF
-Read the re-raise report: $reraise_file
+  # Avoid bash 3.2 heredoc parsing issues inside $(...) when text contains apostrophes.
+  read -r -d '' prompt <<'PROMPT_EOF' || true
+Read the re-raise report: {reraise_file}
 
-For EACH re-raised issue, append an entry to $log_file in this format:
+For EACH re-raised issue, append an entry to {log_file} in this format:
 
 ## [DATE]: [Issue Title]
 
@@ -532,12 +541,15 @@ For EACH re-raised issue, append an entry to $log_file in this format:
 **Original Problem**: [brief description of what the issue was about]
 **Implementer's Reasoning**: [why they declined - from feedback file]
 **Human's Decision**: Decline approved
-**Human's Reasoning**: $human_reasoning
+**Human's Reasoning**: {human_reasoning}
 
 ---
 
 PROMPT_EOF
-)
+
+  prompt="${prompt//\{reraise_file\}/$reraise_file}"
+  prompt="${prompt//\{log_file\}/$log_file}"
+  prompt="${prompt//\{human_reasoning\}/$human_reasoning}"
 
   claude --permission-mode acceptEdits --print "$prompt" >> "$LOGS_DIR/append-decline-log-$INNER_COUNTER.txt" 2>&1
 }
