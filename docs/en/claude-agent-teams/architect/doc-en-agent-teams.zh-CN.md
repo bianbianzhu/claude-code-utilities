@@ -21,25 +21,27 @@ Agent teams 允许你协调多个 Claude Code 实例协同工作。
 
 本页内容包括：
 
-- [何时使用 agent teams](#when-to-use-agent-teams)，包括最佳使用场景以及与 subagents 的对比
-- [启动团队](#start-your-first-agent-team)
-- [控制 teammates](#control-your-agent-team)，包括显示模式、任务分配和委派
-- [并行工作最佳实践](#best-practices)
+- [何时使用 agent teams](#何时使用-agent-teams)，包括最佳使用场景以及与 subagents 的对比
+- [启动团队](#启动你的第一个-agent-team)
+- [控制 teammates](#控制你的-agent-team)，包括显示模式、任务分配和委派
+- [并行工作最佳实践](#最佳实践)
 
 ## 何时使用 agent teams
 
-Agent teams 最适合并行探索能带来实际价值的任务。完整场景请参阅[用例示例](#use-case-examples)。最典型的使用场景包括：
+Agent teams 最适合并行探索能带来实际价值的任务。完整场景请参阅[用例示例](#用例示例)。最典型的使用场景包括：
 
 - **调研与审查**：多个 teammates 可同时调查问题的不同方面，然后共享并互相质疑发现
 - **新模块或功能**：每个 teammate 负责一个独立部分，互不干扰
 - **多假设并行调试**：teammates 并行验证不同假说，更快定位答案
 - **跨层协调**：前端、后端和测试的跨层变更，分别由不同 teammate 负责
 
-Agent teams 会增加协调开销，token 消耗也远高于单会话。最适合 teammates 能独立运作的场景。对于顺序性任务、同文件编辑或强依赖关系的工作，单会话或 [subagents](/en/sub-agents) 更高效。
+Agent teams 会增加协调开销，token 消耗也远高于单会话。最适合 teammates 能独立运作的场景。
+
+> 对于顺序性任务、同文件编辑或强依赖关系的工作，单会话或 subagents 更高效。
 
 ### 与 subagents 对比
 
-Agent teams 和 [subagents](/en/sub-agents) 都支持并行化工作，但运作方式不同。根据 worker 之间是否需要互相通信来选择：
+Agent teams 和 subagents 都支持并行化工作，但运作方式不同。根据 worker 之间是否需要互相通信来选择：
 
 |                | Subagents                        | Agent teams                              |
 | :------------- | :------------------------------- | :--------------------------------------- |
@@ -53,7 +55,7 @@ Agent teams 和 [subagents](/en/sub-agents) 都支持并行化工作，但运作
 
 ## 启用 agent teams
 
-Agent teams 默认关闭。通过将 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` 环境变量设为 `1` 来启用，可在 shell 环境或 [settings.json](/en/settings) 中设置：
+Agent teams 默认关闭。通过将 `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` 环境变量设为 `1` 来启用，可在 shell 环境或 `settings.json` 中设置：
 
 ```json settings.json theme={null}
 {
@@ -75,11 +77,11 @@ their codebase. Create an agent team to explore this from different angles: one
 teammate on UX, one on technical architecture, one playing devil's advocate.
 ```
 
-随后，Claude 创建一个带有[共享任务列表](/en/interactive-mode#task-list)的团队，为每个视角生成 teammate，让他们探索问题，汇总发现，并在完成后尝试[清理团队](#clean-up-the-team)。
+随后，Claude 创建一个带有共享任务列表的团队，为每个视角生成 teammate，让他们探索问题，汇总发现，并在完成后尝试[清理团队](#清理团队)。
 
 Lead 的终端会列出所有 teammates 及其当前工作。使用 Shift+Up/Down 选择一个 teammate 并直接发消息。
 
-如果希望每个 teammate 有独立的分屏面板，请参阅[选择显示模式](#choose-a-display-mode)。
+如果希望每个 teammate 有独立的分屏面板，请参阅[选择显示模式](#选择显示模式)。
 
 ## 控制你的 agent team
 
@@ -92,11 +94,11 @@ Agent teams 支持两种显示模式：
 - **In-process（进程内）**：所有 teammates 在主终端内运行。使用 Shift+Up/Down 选择 teammate 并直接输入消息。适用于任何终端，无需额外配置。
 - **Split panes（分屏面板）**：每个 teammate 拥有独立面板。可同时查看所有人的输出，点击面板即可直接交互。需要 tmux 或 iTerm2。
 
-<Note>
-  `tmux` 在某些操作系统上存在已知限制，传统上在 macOS 上表现最佳。建议在 iTerm2 中使用 `tmux -CC` 作为进入 `tmux` 的方式。
-</Note>
+`tmux` 在某些操作系统上存在已知限制，传统上在 macOS 上表现最佳。建议在 iTerm2 中使用 `tmux -CC` 作为进入 `tmux` 的方式。
 
-默认值为 `"auto"`：如果你已在 tmux 会话中运行，则使用分屏面板模式，否则使用 in-process 模式。`"tmux"` 设置启用分屏面板模式，并根据终端自动检测使用 tmux 还是 iTerm2。如需覆盖，在 [settings.json](/en/settings) 中设置 `teammateMode`：
+默认值为 `"auto"`：如果你已在 tmux 会话中运行，则使用分屏面板模式，否则使用 in-process 模式。
+
+`"tmux"` 设置启用分屏面板模式，并根据终端自动检测使用 tmux 还是 iTerm2。如需覆盖，在 `settings.json` 中设置 `teammateMode`：
 
 ```json theme={null}
 {
@@ -183,20 +185,18 @@ Clean up the team
 
 这会移除共享的团队资源。Lead 执行清理时会检查活跃 teammates，如果仍有 teammate 在运行则会失败，因此需先关闭所有 teammates。
 
-<Warning>
-  务必通过 lead 执行清理。Teammates 不应自行清理，因为其团队上下文可能无法正确解析，可能导致资源处于不一致状态。
-</Warning>
+> 务必通过 lead 执行清理。Teammates 不应自行清理，因为其团队上下文可能无法正确解析，可能导致资源处于不一致状态。
 
 ### 通过 hooks 实施质量门禁
 
-使用 [hooks](/en/hooks) 在 teammates 完成工作或任务完成时实施规则：
+使用 hooks 在 teammates 完成工作或任务完成时实施规则：
 
-- [`TeammateIdle`](/en/hooks#teammateidle)：teammate 即将进入空闲时触发。以退出码 2 退出可发送反馈并让 teammate 继续工作。
-- [`TaskCompleted`](/en/hooks#taskcompleted)：任务被标记为完成时触发。以退出码 2 退出可阻止完成并发送反馈。
+- `TeammateIdle`：teammate 即将进入空闲时触发。以退出码 2 退出可发送反馈并让 teammate 继续工作。
+- `TaskCompleted`：任务被标记为完成时触发。以退出码 2 退出可阻止完成并发送反馈。
 
 ## Agent teams 工作原理
 
-本节介绍 agent teams 的架构和运行机制。如需开始使用，请参阅上方的[控制你的 agent team](#control-your-agent-team)。
+本节介绍 agent teams 的架构和运行机制。如需开始使用，请参阅上方的[控制你的 agent team](#控制你的-agent-team)。
 
 ### Claude 如何启动 agent teams
 
@@ -218,7 +218,7 @@ Agent teams 有两种启动方式：
 | **Task list（任务列表）** | teammates 认领和完成的共享工作项列表                         |
 | **Mailbox（信箱）**       | agent 之间的通信系统                                         |
 
-显示配置选项请参阅[选择显示模式](#choose-a-display-mode)。Teammate 的消息会自动送达 lead。
+显示配置选项请参阅[选择显示模式](#选择显示模式)。Teammate 的消息会自动送达 lead。
 
 系统自动管理任务依赖关系。当 teammate 完成了其他任务所依赖的任务时，被阻塞的任务会自动解除阻塞，无需手动干预。
 
@@ -250,7 +250,7 @@ Teammates 启动时继承 lead 的权限设置。如果 lead 以 `--dangerously-
 
 ### Token 消耗
 
-Agent teams 的 token 消耗远高于单会话。每个 teammate 拥有独立的上下文窗口，token 使用量随活跃 teammates 数量线性增长。对于调研、审查和新功能开发，额外的 token 开销通常是值得的。对于常规任务，单会话更具性价比。使用指南请参阅 [agent team token 开销](/en/costs#agent-team-token-costs)。
+Agent teams 的 token 消耗远高于单会话。每个 teammate 拥有独立的上下文窗口，token 使用量随活跃 teammates 数量线性增长。对于调研、审查和新功能开发，额外的 token 开销通常是值得的。对于常规任务，单会话更具性价比。使用指南请参阅 agent team token 开销相关文档。
 
 ## 用例示例
 
@@ -289,7 +289,7 @@ debate. Update the findings doc with whatever consensus emerges.
 
 ### 为 teammates 提供充分的上下文
 
-Teammates 会自动加载项目上下文（包括 CLAUDE.md、MCP servers 和 skills），但不会继承 lead 的对话历史。详情参阅[上下文与通信](#context-and-communication)。在 spawn prompt 中包含任务特定的细节：
+Teammates 会自动加载项目上下文（包括 CLAUDE.md、MCP servers 和 skills），但不会继承 lead 的对话历史。详情参阅[上下文与通信](#上下文与通信)。在 spawn prompt 中包含任务特定的细节：
 
 ```
 Spawn a security reviewer teammate with the prompt: "Review the authentication module
@@ -344,7 +344,7 @@ Wait for your teammates to complete their tasks before proceeding
 
 ### 权限提示过多
 
-Teammate 的权限请求会冒泡到 lead，可能造成干扰。在生成 teammates 前，在[权限设置](/en/permissions)中预先批准常见操作以减少中断。
+Teammate 的权限请求会冒泡到 lead，可能造成干扰。在生成 teammates 前，在权限设置中预先批准常见操作以减少中断。
 
 ### Teammates 遇错停止
 
@@ -387,6 +387,6 @@ Agent teams 是实验性功能。需注意的当前限制：
 
 了解并行工作和委派的其他方式：
 
-- **轻量级委派**：[subagents](/en/sub-agents) 在你的会话中生成辅助 agent 进行调研或验证，更适合不需要 agent 间协调的任务
-- **手动并行会话**：[Git worktrees](/en/common-workflows#run-parallel-claude-code-sessions-with-git-worktrees) 允许你自行运行多个 Claude Code 会话，无需自动化团队协调
-- **方案对比**：参阅 [subagent 与 agent team 对比](/en/features-overview#compare-similar-features)的并排分析
+- **轻量级委派**：subagents 在你的会话中生成辅助 agent 进行调研或验证，更适合不需要 agent 间协调的任务
+- **手动并行会话**：Git worktrees 允许你自行运行多个 Claude Code 会话，无需自动化团队协调
+- **方案对比**：参阅 subagent 与 agent team 对比的并排分析
