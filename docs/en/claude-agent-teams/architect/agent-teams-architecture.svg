@@ -1,0 +1,522 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1020" font-family="'Inter','Segoe UI',system-ui,-apple-system,sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f1a"/>
+      <stop offset="50%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <linearGradient id="leadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="tmGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4"/>
+      <stop offset="100%" style="stop-color:#0ea5e9"/>
+    </linearGradient>
+    <linearGradient id="tmGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981"/>
+      <stop offset="100%" style="stop-color:#34d399"/>
+    </linearGradient>
+    <linearGradient id="tmGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="userGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ec4899"/>
+      <stop offset="100%" style="stop-color:#f472b6"/>
+    </linearGradient>
+
+    <!-- Glow filters -->
+    <filter id="glowLead" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feFlood flood-color="#7c3aed" flood-opacity="0.35" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowCyan" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feFlood flood-color="#06b6d4" flood-opacity="0.2" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowGreen" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feFlood flood-color="#10b981" flood-opacity="0.2" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowAmber" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feFlood flood-color="#f59e0b" flood-opacity="0.2" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowPink" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feFlood flood-color="#ec4899" flood-opacity="0.25" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+
+    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.04"/>
+    </pattern>
+
+    <!-- Arrow markers -->
+    <marker id="arrPurple" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="7" markerHeight="5" orient="auto">
+      <path d="M0 0 L10 3 L0 6z" fill="#8b5cf6" opacity="0.9"/>
+    </marker>
+    <marker id="arrPink" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="7" markerHeight="5" orient="auto">
+      <path d="M0 0 L10 3 L0 6z" fill="#f472b6" opacity="0.9"/>
+    </marker>
+    <marker id="arrCyan" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="7" markerHeight="5" orient="auto">
+      <path d="M0 0 L10 3 L0 6z" fill="#22d3ee" opacity="0.9"/>
+    </marker>
+    <marker id="arrGreen" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="7" markerHeight="5" orient="auto">
+      <path d="M0 0 L10 3 L0 6z" fill="#34d399" opacity="0.9"/>
+    </marker>
+    <marker id="arrAmber" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="7" markerHeight="5" orient="auto">
+      <path d="M0 0 L10 3 L0 6z" fill="#fbbf24" opacity="0.9"/>
+    </marker>
+    <marker id="arrGray" viewBox="0 0 10 6" refX="9" refY="3" markerWidth="6" markerHeight="4" orient="auto">
+      <path d="M0 0 L10 3 L0 6z" fill="#64748b" opacity="0.75"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { user-select: none; }
+
+    /* Animated flowing dashes */
+    @keyframes flowDash {
+      to { stroke-dashoffset: -24; }
+    }
+    .flow { stroke-dasharray: 8 16; animation: flowDash 1.8s linear infinite; }
+    .flow-slow { stroke-dasharray: 6 14; animation: flowDash 3s linear infinite; }
+    .flow-rev { stroke-dasharray: 6 14; animation: flowDash 2.5s linear infinite reverse; }
+
+    /* Pulse rings around Lead — using r animation (no transform conflict) */
+    @keyframes pulseA {
+      0%   { r: 50; opacity: 0.5; }
+      100% { r: 70; opacity: 0; }
+    }
+    @keyframes pulseB {
+      0%   { r: 50; opacity: 0.3; }
+      100% { r: 78; opacity: 0; }
+    }
+    .lead-pulse1 { animation: pulseA 2.5s ease-out infinite; }
+    .lead-pulse2 { animation: pulseB 2.5s ease-out 0.5s infinite; }
+
+    /* Status blink */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .blink { animation: blink 1.8s ease-in-out infinite; }
+
+    /* Breathing glow */
+    @keyframes breathe {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    .breathe { animation: breathe 3s ease-in-out infinite; }
+
+    /* Gentle orbit for dots around lead — uses motion path instead of transform */
+    @keyframes orbitPath {
+      from { stroke-dashoffset: 0; }
+      to   { stroke-dashoffset: -377; }
+    }
+  </style>
+
+  <!-- ===== BACKGROUND ===== -->
+  <rect width="1200" height="1020" fill="url(#bgGrad)"/>
+  <rect width="1200" height="1020" fill="url(#gridPattern)"/>
+
+  <!-- ===== TITLE ===== -->
+  <text x="600" y="46" text-anchor="middle" fill="#e0e7ff" font-size="28" font-weight="700" letter-spacing="1.5">Claude Code Agent Teams</text>
+  <text x="600" y="72" text-anchor="middle" fill="#94a3b8" font-size="12" letter-spacing="3">ARCHITECTURE OVERVIEW</text>
+  <line x1="460" y1="82" x2="740" y2="82" stroke="#6366f1" stroke-width="1.5" opacity="0.35"/>
+
+  <!-- =========================================== -->
+  <!--  LAYER 1: USER (top)                        -->
+  <!-- =========================================== -->
+  <g filter="url(#glowPink)">
+    <circle cx="600" cy="130" r="34" fill="url(#userGrad)" opacity="0.12"/>
+    <circle cx="600" cy="130" r="28" fill="url(#userGrad)"/>
+    <!-- person icon -->
+    <circle cx="600" cy="122" r="7" fill="#1a1a2e" opacity="0.75"/>
+    <path d="M589 142 a11 9 0 0 1 22 0" fill="#1a1a2e" opacity="0.75"/>
+  </g>
+  <text x="600" y="174" text-anchor="middle" fill="#f9a8d4" font-size="12" font-weight="600">YOU</text>
+  <text x="600" y="188" text-anchor="middle" fill="#94a3b8" font-size="9">Interactive control &amp; direct messaging</text>
+
+  <!-- =========================================== -->
+  <!--  CONNECTION: User → Lead                    -->
+  <!-- =========================================== -->
+  <line x1="600" y1="160" x2="600" y2="260" stroke="#f472b6" stroke-width="2.5" opacity="0.6" class="flow" marker-end="url(#arrPink)"/>
+
+  <!-- =========================================== -->
+  <!--  LAYER 2: TEAM LEAD (center, prominent)     -->
+  <!-- =========================================== -->
+  <!-- Pulse rings (no transform, just r + opacity animation) -->
+  <circle cx="600" cy="315" fill="none" stroke="#8b5cf6" stroke-width="1.5" class="lead-pulse1"/>
+  <circle cx="600" cy="315" fill="none" stroke="#8b5cf6" stroke-width="1" class="lead-pulse2"/>
+
+  <!-- Orbit ring (decorative) -->
+  <circle cx="600" cy="315" r="62" fill="none" stroke="#6366f1" stroke-width="0.5" opacity="0.2" stroke-dasharray="3 8" class="flow-slow"/>
+
+  <!-- Main lead circle -->
+  <g filter="url(#glowLead)">
+    <circle cx="600" cy="315" r="52" fill="url(#leadGrad)" opacity="0.1"/>
+    <circle cx="600" cy="315" r="46" fill="url(#leadGrad)"/>
+  </g>
+
+  <!-- Star/crown icon inside lead -->
+  <polygon points="600,297 605,307 616,307 608,314 611,325 600,319 589,325 592,314 584,307 595,307" fill="#e0e7ff" opacity="0.85"/>
+
+  <!-- Lead labels -->
+  <text x="600" y="382" text-anchor="middle" fill="#c4b5fd" font-size="15" font-weight="700">TEAM LEAD</text>
+  <text x="600" y="398" text-anchor="middle" fill="#94a3b8" font-size="10">Orchestrator Session</text>
+
+  <!-- Lead capability badges -->
+  <rect x="472" y="408" width="68" height="18" rx="9" fill="#7c3aed" opacity="0.15" stroke="#8b5cf6" stroke-width="0.5"/>
+  <text x="506" y="420" text-anchor="middle" fill="#a5b4fc" font-size="8" font-weight="500">Spawn</text>
+  <rect x="548" y="408" width="68" height="18" rx="9" fill="#7c3aed" opacity="0.15" stroke="#8b5cf6" stroke-width="0.5"/>
+  <text x="582" y="420" text-anchor="middle" fill="#a5b4fc" font-size="8" font-weight="500">Assign</text>
+  <rect x="624" y="408" width="80" height="18" rx="9" fill="#7c3aed" opacity="0.15" stroke="#8b5cf6" stroke-width="0.5"/>
+  <text x="664" y="420" text-anchor="middle" fill="#a5b4fc" font-size="8" font-weight="500">Coordinate</text>
+  <rect x="712" y="408" width="80" height="18" rx="9" fill="#7c3aed" opacity="0.15" stroke="#8b5cf6" stroke-width="0.5"/>
+  <text x="752" y="420" text-anchor="middle" fill="#a5b4fc" font-size="8" font-weight="500">Synthesize</text>
+
+  <!-- Mode badges flanking the lead -->
+  <rect x="430" y="300" width="90" height="22" rx="11" fill="#7c3aed" opacity="0.2" stroke="#8b5cf6" stroke-width="0.6"/>
+  <text x="475" y="314" text-anchor="middle" fill="#c4b5fd" font-size="8.5" font-weight="600">Delegate Mode</text>
+
+  <rect x="680" y="300" width="90" height="22" rx="11" fill="#7c3aed" opacity="0.2" stroke="#8b5cf6" stroke-width="0.6"/>
+  <text x="725" y="314" text-anchor="middle" fill="#c4b5fd" font-size="8.5" font-weight="600">Plan Approval</text>
+
+  <!-- =========================================== -->
+  <!--  CONNECTIONS: Lead → Teammates              -->
+  <!-- =========================================== -->
+  <!-- Lead → Teammate A (left) -->
+  <path d="M555 345 Q400 430 275 490" stroke="#22d3ee" stroke-width="2.5" opacity="0.55" fill="none" class="flow" marker-end="url(#arrCyan)"/>
+  <!-- Lead → Teammate B (center) -->
+  <line x1="600" y1="362" x2="600" y2="490" stroke="#34d399" stroke-width="2.5" opacity="0.55" class="flow" marker-end="url(#arrGreen)"/>
+  <!-- Lead → Teammate C (right) -->
+  <path d="M645 345 Q800 430 925 490" stroke="#fbbf24" stroke-width="2.5" opacity="0.55" fill="none" class="flow" marker-end="url(#arrAmber)"/>
+
+  <!-- =========================================== -->
+  <!--  CONNECTIONS: User → Teammates (direct)     -->
+  <!-- =========================================== -->
+  <path d="M572 148 Q380 260 268 490" stroke="#f472b6" stroke-width="1.5" opacity="0.28" fill="none" stroke-dasharray="4 10" class="flow-slow"/>
+  <path d="M628 148 Q820 260 932 490" stroke="#f472b6" stroke-width="1.5" opacity="0.28" fill="none" stroke-dasharray="4 10" class="flow-slow"/>
+  <!-- Label -->
+  <text x="388" y="320" text-anchor="middle" fill="#f472b6" font-size="8" opacity="0.55" transform="rotate(-40 388 320)">direct msg (Shift+Up/Down)</text>
+  <text x="812" y="320" text-anchor="middle" fill="#f472b6" font-size="8" opacity="0.55" transform="rotate(40 812 320)">direct msg (Shift+Up/Down)</text>
+
+  <!-- =========================================== -->
+  <!--  LAYER 3: TEAMMATES                         -->
+  <!-- =========================================== -->
+
+  <!-- Teammate A: Security Reviewer -->
+  <g filter="url(#glowCyan)">
+    <rect x="155" y="498" width="230" height="120" rx="16" fill="#0c1929" stroke="#06b6d4" stroke-width="1.5" opacity="0.9"/>
+    <rect x="155" y="498" width="230" height="5" rx="3" fill="url(#tmGrad1)"/>
+    <circle cx="190" cy="530" r="16" fill="url(#tmGrad1)"/>
+    <!-- Shield icon -->
+    <path d="M190 522 l9 3 v7 c0 4-3.5 8-9 10 c-5.5-2-9-6-9-10 v-7z" fill="#0c1929" opacity="0.7"/>
+    <text x="214" y="527" fill="#67e8f9" font-size="12" font-weight="600">Teammate A</text>
+    <text x="214" y="542" fill="#94a3b8" font-size="9.5">Security Reviewer</text>
+    <line x1="172" y1="555" x2="368" y2="555" stroke="#1e3a4a" stroke-width="0.5"/>
+    <text x="172" y="572" fill="#64748b" font-size="9">Own context window</text>
+    <text x="172" y="587" fill="#64748b" font-size="9">Independent Claude session</text>
+    <text x="172" y="602" fill="#475569" font-size="8">CLAUDE.md + MCP + Skills</text>
+    <circle cx="365" cy="587" r="4.5" fill="#06b6d4" opacity="0.5" class="blink"/>
+  </g>
+
+  <!-- Teammate B: Architecture -->
+  <g filter="url(#glowGreen)">
+    <rect x="485" y="498" width="230" height="120" rx="16" fill="#0c1929" stroke="#10b981" stroke-width="1.5" opacity="0.9"/>
+    <rect x="485" y="498" width="230" height="5" rx="3" fill="url(#tmGrad2)"/>
+    <circle cx="520" cy="530" r="16" fill="url(#tmGrad2)"/>
+    <!-- Gear icon -->
+    <circle cx="520" cy="530" r="6" fill="none" stroke="#0c1929" stroke-width="2.5" opacity="0.7"/>
+    <circle cx="520" cy="530" r="2" fill="#0c1929" opacity="0.7"/>
+    <text x="544" y="527" fill="#6ee7b7" font-size="12" font-weight="600">Teammate B</text>
+    <text x="544" y="542" fill="#94a3b8" font-size="9.5">Architecture</text>
+    <line x1="502" y1="555" x2="698" y2="555" stroke="#1e3a4a" stroke-width="0.5"/>
+    <text x="502" y="572" fill="#64748b" font-size="9">Own context window</text>
+    <text x="502" y="587" fill="#64748b" font-size="9">Independent Claude session</text>
+    <text x="502" y="602" fill="#475569" font-size="8">CLAUDE.md + MCP + Skills</text>
+    <circle cx="695" cy="587" r="4.5" fill="#10b981" opacity="0.5" class="blink"/>
+  </g>
+
+  <!-- Teammate C: Performance -->
+  <g filter="url(#glowAmber)">
+    <rect x="815" y="498" width="230" height="120" rx="16" fill="#0c1929" stroke="#f59e0b" stroke-width="1.5" opacity="0.9"/>
+    <rect x="815" y="498" width="230" height="5" rx="3" fill="url(#tmGrad3)"/>
+    <circle cx="850" cy="530" r="16" fill="url(#tmGrad3)"/>
+    <!-- Lightning icon -->
+    <path d="M850 521 l-5 9 h5 l-4 10 9-13 h-5z" fill="#0c1929" opacity="0.7"/>
+    <text x="874" y="527" fill="#fcd34d" font-size="12" font-weight="600">Teammate C</text>
+    <text x="874" y="542" fill="#94a3b8" font-size="9.5">Performance</text>
+    <line x1="832" y1="555" x2="1028" y2="555" stroke="#1e3a4a" stroke-width="0.5"/>
+    <text x="832" y="572" fill="#64748b" font-size="9">Own context window</text>
+    <text x="832" y="587" fill="#64748b" font-size="9">Independent Claude session</text>
+    <text x="832" y="602" fill="#475569" font-size="8">CLAUDE.md + MCP + Skills</text>
+    <circle cx="1025" cy="587" r="4.5" fill="#f59e0b" opacity="0.5" class="blink"/>
+  </g>
+
+  <!-- =========================================== -->
+  <!--  Peer-to-peer messaging between teammates   -->
+  <!-- =========================================== -->
+  <path d="M385 575 Q600 640 815 575" stroke="#94a3b8" stroke-width="1.8" opacity="0.4" fill="none" stroke-dasharray="5 8" class="flow-rev" marker-start="url(#arrGray)" marker-end="url(#arrGray)"/>
+  <text x="600" y="632" text-anchor="middle" fill="#94a3b8" font-size="9" opacity="0.65">Peer-to-peer messaging</text>
+
+  <!-- =========================================== -->
+  <!--  CONNECTIONS: All agents → Infrastructure   -->
+  <!-- =========================================== -->
+  <!-- Vertical connector band (visual guide) -->
+  <line x1="600" y1="650" x2="600" y2="680" stroke="#64748b" stroke-width="1" opacity="0.45"/>
+
+  <!-- Shared label for infrastructure layer -->
+  <text x="600" y="675" text-anchor="middle" fill="#64748b" font-size="10" font-weight="600" letter-spacing="3">SHARED INFRASTRUCTURE</text>
+  <line x1="420" y1="682" x2="780" y2="682" stroke="#475569" stroke-width="0.7"/>
+
+  <!-- Connections from teammates down to infrastructure -->
+  <!-- A → Task List -->
+  <path d="M270 618 L270 700" stroke="#06b6d4" stroke-width="1.5" opacity="0.4" fill="none" class="flow-slow"/>
+  <!-- B → Task List + Mailbox -->
+  <path d="M560 618 L400 700" stroke="#10b981" stroke-width="1.5" opacity="0.35" fill="none" class="flow-slow"/>
+  <path d="M640 618 L760 700" stroke="#10b981" stroke-width="1.5" opacity="0.35" fill="none" class="flow-slow"/>
+  <!-- C → Mailbox -->
+  <path d="M930 618 L900 700" stroke="#f59e0b" stroke-width="1.5" opacity="0.4" fill="none" class="flow-slow"/>
+
+  <!-- =========================================== -->
+  <!--  LAYER 4: SHARED TASK LIST                  -->
+  <!-- =========================================== -->
+  <g filter="url(#softShadow)">
+    <rect x="80" y="700" width="440" height="200" rx="14" fill="#1a1a30" stroke="#6366f1" stroke-width="1" opacity="0.8"/>
+    <!-- Header bar -->
+    <rect x="80" y="700" width="440" height="38" rx="14" fill="#6366f1" opacity="0.08"/>
+    <!-- Checkbox icon -->
+    <rect x="100" y="711" width="14" height="14" rx="3" fill="none" stroke="#a5b4fc" stroke-width="1.5"/>
+    <polyline points="103,718 106,721 110,714" fill="none" stroke="#a5b4fc" stroke-width="1.5"/>
+    <text x="122" y="723" fill="#a5b4fc" font-size="13" font-weight="600">Shared Task List</text>
+    <text x="460" y="723" text-anchor="end" fill="#475569" font-size="8">~/.claude/tasks/{'{team}'}/</text>
+
+    <!-- Task items -->
+    <!-- completed -->
+    <g>
+      <circle cx="106" cy="758" r="6" fill="none" stroke="#10b981" stroke-width="1.5"/>
+      <polyline points="102,758 105,761 110,755" fill="none" stroke="#10b981" stroke-width="1.5"/>
+      <text x="120" y="762" fill="#6ee7b7" font-size="10.5">Setup auth module</text>
+      <rect x="310" y="750" width="64" height="16" rx="8" fill="#10b981" opacity="0.12"/>
+      <text x="342" y="762" text-anchor="middle" fill="#34d399" font-size="8.5">completed</text>
+    </g>
+    <!-- in_progress -->
+    <g>
+      <circle cx="106" cy="788" r="6" fill="none" stroke="#f59e0b" stroke-width="1.5" class="blink"/>
+      <circle cx="106" cy="788" r="2.5" fill="#f59e0b" class="blink"/>
+      <text x="120" y="792" fill="#fcd34d" font-size="10.5">Review token handling</text>
+      <rect x="310" y="780" width="70" height="16" rx="8" fill="#f59e0b" opacity="0.12"/>
+      <text x="345" y="792" text-anchor="middle" fill="#fbbf24" font-size="8.5">in_progress</text>
+    </g>
+    <!-- pending -->
+    <g>
+      <circle cx="106" cy="818" r="6" fill="none" stroke="#475569" stroke-width="1.5"/>
+      <text x="120" y="822" fill="#94a3b8" font-size="10.5">Write integration tests</text>
+      <rect x="310" y="810" width="56" height="16" rx="8" fill="#475569" opacity="0.15"/>
+      <text x="338" y="822" text-anchor="middle" fill="#64748b" font-size="8.5">pending</text>
+    </g>
+    <!-- blocked -->
+    <g>
+      <circle cx="106" cy="848" r="6" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.6"/>
+      <line x1="102" y1="844" x2="110" y2="852" stroke="#ef4444" stroke-width="1.2" opacity="0.6"/>
+      <line x1="110" y1="844" x2="102" y2="852" stroke="#ef4444" stroke-width="1.2" opacity="0.6"/>
+      <text x="120" y="852" fill="#94a3b8" font-size="10.5">Performance benchmarks</text>
+      <rect x="310" y="840" width="56" height="16" rx="8" fill="#ef4444" opacity="0.1"/>
+      <text x="338" y="852" text-anchor="middle" fill="#f87171" font-size="8.5">blocked</text>
+    </g>
+
+    <!-- File lock badge -->
+    <rect x="100" y="872" width="90" height="18" rx="9" fill="#1e1e3a" stroke="#475569" stroke-width="0.5"/>
+    <text x="118" y="884" fill="#64748b" font-size="8">File Locking</text>
+    <circle cx="176" cy="881" r="3.5" fill="#10b981" opacity="0.5" class="blink"/>
+
+    <!-- Auto-dependency badge -->
+    <rect x="200" y="872" width="120" height="18" rx="9" fill="#1e1e3a" stroke="#475569" stroke-width="0.5"/>
+    <text x="218" y="884" fill="#64748b" font-size="8">Auto-unblock deps</text>
+    <circle cx="306" cy="881" r="3.5" fill="#6366f1" opacity="0.5" class="breathe"/>
+  </g>
+
+  <!-- =========================================== -->
+  <!--  LAYER 4: MAILBOX SYSTEM                    -->
+  <!-- =========================================== -->
+  <g filter="url(#softShadow)">
+    <rect x="560" y="700" width="340" height="200" rx="14" fill="#1a2430" stroke="#0ea5e9" stroke-width="1" opacity="0.8"/>
+    <!-- Header bar -->
+    <rect x="560" y="700" width="340" height="38" rx="14" fill="#0ea5e9" opacity="0.06"/>
+    <!-- Envelope icon -->
+    <rect x="580" y="711" width="16" height="12" rx="2" fill="none" stroke="#67e8f9" stroke-width="1.5"/>
+    <polyline points="580,711 588,719 596,711" fill="none" stroke="#67e8f9" stroke-width="1.5"/>
+    <text x="604" y="723" fill="#67e8f9" font-size="13" font-weight="600">Mailbox System</text>
+    <text x="842" y="723" text-anchor="end" fill="#475569" font-size="8">auto-delivery</text>
+
+    <!-- message(target) -->
+    <rect x="578" y="748" width="300" height="36" rx="8" fill="#0ea5e9" opacity="0.05"/>
+    <circle cx="594" cy="766" r="5" fill="#8b5cf6"/>
+    <text x="608" y="762" fill="#c4b5fd" font-size="10" font-weight="600">message(target)</text>
+    <text x="608" y="776" fill="#64748b" font-size="8.5">Send to one specific teammate</text>
+
+    <!-- broadcast(all) -->
+    <rect x="578" y="792" width="300" height="36" rx="8" fill="#0ea5e9" opacity="0.05"/>
+    <circle cx="594" cy="810" r="5" fill="#06b6d4"/>
+    <text x="608" y="806" fill="#67e8f9" font-size="10" font-weight="600">broadcast(all)</text>
+    <text x="608" y="820" fill="#64748b" font-size="8.5">Send to all teammates simultaneously</text>
+
+    <!-- idle notification -->
+    <rect x="578" y="836" width="300" height="36" rx="8" fill="#0ea5e9" opacity="0.05"/>
+    <circle cx="594" cy="854" r="5" fill="#f472b6"/>
+    <text x="608" y="850" fill="#f9a8d4" font-size="10" font-weight="600">idle notification</text>
+    <text x="608" y="864" fill="#64748b" font-size="8.5">Auto-notify lead when teammate finishes</text>
+
+    <!-- Caution note -->
+    <text x="578" y="892" fill="#475569" font-size="7.5" font-style="italic">broadcast costs scale with team size</text>
+  </g>
+
+  <!-- =========================================== -->
+  <!--  SIDE PANEL: Hooks (Quality Gates)          -->
+  <!-- =========================================== -->
+  <g filter="url(#softShadow)">
+    <rect x="940" y="700" width="220" height="200" rx="14" fill="#1e1a1a" stroke="#f97316" stroke-width="1" opacity="0.75"/>
+    <rect x="940" y="700" width="220" height="38" rx="14" fill="#f97316" opacity="0.06"/>
+    <!-- Hook icon -->
+    <path d="M960 712 q0 11 7 11 q7 0 7-7" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="974" cy="716" r="2.5" fill="#fb923c"/>
+    <text x="984" y="723" fill="#fb923c" font-size="13" font-weight="600">Hooks</text>
+    <text x="1102" y="723" text-anchor="end" fill="#475569" font-size="8">quality gates</text>
+
+    <!-- TeammateIdle -->
+    <rect x="956" y="748" width="188" height="52" rx="8" fill="#f97316" opacity="0.05"/>
+    <text x="968" y="766" fill="#fb923c" font-size="10" font-weight="600">TeammateIdle</text>
+    <text x="968" y="780" fill="#64748b" font-size="8.5">Exit code 2 = send feedback</text>
+    <text x="968" y="792" fill="#475569" font-size="7.5">Keep teammate working</text>
+
+    <!-- TaskCompleted -->
+    <rect x="956" y="808" width="188" height="52" rx="8" fill="#f97316" opacity="0.05"/>
+    <text x="968" y="826" fill="#fb923c" font-size="10" font-weight="600">TaskCompleted</text>
+    <text x="968" y="840" fill="#64748b" font-size="8.5">Exit code 2 = block completion</text>
+    <text x="968" y="852" fill="#475569" font-size="7.5">Enforce quality standards</text>
+
+    <!-- connection line from hooks back to teammates -->
+    <text x="956" y="888" fill="#475569" font-size="7.5" font-style="italic">Applied to teammate lifecycle</text>
+  </g>
+
+  <!-- =========================================== -->
+  <!--  INFO PANELS (corners, non-overlapping)     -->
+  <!-- =========================================== -->
+
+  <!-- TOP-LEFT: Context & Permissions -->
+  <g>
+    <rect x="30" y="100" width="170" height="130" rx="10" fill="#1a1a2e" stroke="#334155" stroke-width="0.5" opacity="0.8"/>
+    <text x="46" y="120" fill="#94a3b8" font-size="10" font-weight="600">CONTEXT &amp; PERMISSIONS</text>
+    <line x1="46" y1="128" x2="180" y2="128" stroke="#334155" stroke-width="0.5"/>
+
+    <text x="46" y="146" fill="#64748b" font-size="8.5">Each teammate loads:</text>
+    <circle cx="52" cy="159" r="2" fill="#6366f1" opacity="0.5"/>
+    <text x="60" y="163" fill="#64748b" font-size="8">CLAUDE.md</text>
+    <circle cx="52" cy="175" r="2" fill="#6366f1" opacity="0.5"/>
+    <text x="60" y="179" fill="#64748b" font-size="8">MCP Servers</text>
+    <circle cx="52" cy="191" r="2" fill="#6366f1" opacity="0.5"/>
+    <text x="60" y="195" fill="#64748b" font-size="8">Skills + Spawn Prompt</text>
+
+    <line x1="46" y1="204" x2="180" y2="204" stroke="#334155" stroke-width="0.3"/>
+    <text x="46" y="218" fill="#64748b" font-size="8">Permissions inherit from Lead</text>
+  </g>
+
+  <!-- TOP-RIGHT: Display Modes & Storage -->
+  <g>
+    <rect x="1000" y="100" width="170" height="155" rx="10" fill="#1a1a2e" stroke="#334155" stroke-width="0.5" opacity="0.8"/>
+    <text x="1016" y="120" fill="#94a3b8" font-size="10" font-weight="600">DISPLAY &amp; STORAGE</text>
+    <line x1="1016" y1="128" x2="1150" y2="128" stroke="#334155" stroke-width="0.5"/>
+
+    <text x="1016" y="146" fill="#64748b" font-size="8.5">Display modes:</text>
+    <rect x="1016" y="153" width="136" height="20" rx="4" fill="#1e1e3a" stroke="#475569" stroke-width="0.3"/>
+    <text x="1024" y="167" fill="#94a3b8" font-size="8">In-process (Shift+Up/Down)</text>
+    <rect x="1016" y="178" width="136" height="20" rx="4" fill="#1e1e3a" stroke="#475569" stroke-width="0.3"/>
+    <text x="1024" y="192" fill="#94a3b8" font-size="8">Split Panes (tmux/iTerm2)</text>
+
+    <line x1="1016" y1="206" x2="1150" y2="206" stroke="#334155" stroke-width="0.3"/>
+    <text x="1016" y="220" fill="#64748b" font-size="8.5">Local storage:</text>
+    <text x="1016" y="234" fill="#475569" font-size="7.5">~/.claude/teams/{'{name}'}/config.json</text>
+    <text x="1016" y="246" fill="#475569" font-size="7.5">~/.claude/tasks/{'{name}'}/</text>
+  </g>
+
+  <!-- =========================================== -->
+  <!--  CONSTRAINTS (bottom-left callout)          -->
+  <!-- =========================================== -->
+  <g>
+    <rect x="30" y="700" width="42" height="200" rx="8" fill="#1e1a1a" stroke="#ef4444" stroke-width="0.5" opacity="0.5"/>
+    <text x="51" y="720" text-anchor="middle" fill="#ef4444" font-size="7" font-weight="600" transform="rotate(-90 51 800)" opacity="0.6">CONSTRAINTS</text>
+
+    <circle cx="51" cy="730" r="3" fill="#ef4444" opacity="0.3"/>
+    <circle cx="51" cy="760" r="3" fill="#ef4444" opacity="0.3"/>
+    <circle cx="51" cy="790" r="3" fill="#ef4444" opacity="0.3"/>
+    <circle cx="51" cy="820" r="3" fill="#ef4444" opacity="0.3"/>
+    <circle cx="51" cy="850" r="3" fill="#ef4444" opacity="0.3"/>
+  </g>
+  <!-- Constraints text list (next to the bar) -->
+  <text x="22" y="940" fill="#f87171" font-size="8" opacity="0.5">Constraints:</text>
+  <text x="22" y="954" fill="#64748b" font-size="7.5">One team per session</text>
+  <text x="22" y="966" fill="#64748b" font-size="7.5">No nested teams</text>
+  <text x="22" y="978" fill="#64748b" font-size="7.5">Lead is fixed (no promotion)</text>
+  <text x="22" y="990" fill="#64748b" font-size="7.5">No session resume for teammates</text>
+  <text x="22" y="1002" fill="#64748b" font-size="7.5">Split panes need tmux/iTerm2</text>
+
+  <!-- =========================================== -->
+  <!--  LEGEND (bottom center)                     -->
+  <!-- =========================================== -->
+  <g>
+    <rect x="250" y="930" width="700" height="36" rx="10" fill="#1a1a2e" stroke="#334155" stroke-width="0.5" opacity="0.6"/>
+
+    <!-- User -->
+    <circle cx="280" cy="948" r="5" fill="url(#userGrad)"/>
+    <text x="290" y="952" fill="#94a3b8" font-size="8.5">User</text>
+
+    <!-- Lead -->
+    <circle cx="340" cy="948" r="5" fill="url(#leadGrad)"/>
+    <text x="350" y="952" fill="#94a3b8" font-size="8.5">Lead</text>
+
+    <!-- Teammate -->
+    <circle cx="400" cy="948" r="5" fill="url(#tmGrad1)"/>
+    <text x="410" y="952" fill="#94a3b8" font-size="8.5">Teammate</text>
+
+    <!-- Data flow -->
+    <line x1="490" y1="948" x2="520" y2="948" stroke="#8b5cf6" stroke-width="2.5" class="flow"/>
+    <text x="528" y="952" fill="#94a3b8" font-size="8.5">Delegation</text>
+
+    <!-- Peer msg -->
+    <line x1="598" y1="948" x2="628" y2="948" stroke="#94a3b8" stroke-width="1.8" stroke-dasharray="4 6"/>
+    <text x="636" y="952" fill="#94a3b8" font-size="8.5">Peer msg</text>
+
+    <!-- Direct msg -->
+    <line x1="700" y1="948" x2="730" y2="948" stroke="#f472b6" stroke-width="1.5" stroke-dasharray="3 8" opacity="0.7"/>
+    <text x="738" y="952" fill="#94a3b8" font-size="8.5">Direct msg</text>
+
+    <!-- Hook -->
+    <rect x="810" y="942" width="10" height="10" rx="2" fill="#f97316" opacity="0.25"/>
+    <text x="826" y="952" fill="#94a3b8" font-size="8.5">Hook</text>
+
+    <!-- Active -->
+    <circle cx="878" cy="948" r="3.5" fill="#10b981" opacity="0.6" class="blink"/>
+    <text x="888" y="952" fill="#94a3b8" font-size="8.5">Active</text>
+  </g>
+
+  <!-- Experimental badge -->
+  <rect x="530" y="978" width="140" height="22" rx="11" fill="#f59e0b" opacity="0.08" stroke="#f59e0b" stroke-width="0.5"/>
+  <text x="600" y="993" text-anchor="middle" fill="#fbbf24" font-size="9" font-weight="600" letter-spacing="1.5">EXPERIMENTAL</text>
+
+</svg>
