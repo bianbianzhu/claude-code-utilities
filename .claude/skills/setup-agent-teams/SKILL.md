@@ -1,6 +1,6 @@
 ---
 name: setup-agent-teams
-description: Set up Claude Code agent teams with iTerm2 and tmux split-pane mode on macOS. Use when the user says "setup agent teams", "configure agent teams", "enable agent teams", or wants to set up the environment for running multiple Claude Code instances as a coordinated team with tmux split panes in iTerm2.
+description: Set up Claude Code agent teams with iTerm2 and tmux split-pane mode on macOS. Only trigger when the user mentions BOTH "setup/configure/install agent teams" AND "tmux" together — e.g. "setup agent teams with tmux", "configure agent teams tmux". Do NOT trigger for general agent teams usage like "create an agent team to review code" — that is starting a workflow, not environment setup.
 ---
 
 # Setup Agent Teams (iTerm2 + tmux)

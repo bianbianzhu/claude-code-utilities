@@ -102,18 +102,27 @@ info "  CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1  — enables the agent teams feat
 info "  (teammateMode defaults to \"auto\", which auto-detects tmux — no override needed)"
 echo ""
 
+# Check if already configured
+ALREADY_CONFIGURED=false
 if [[ -f "$SETTINGS_FILE" ]]; then
-  info "Existing settings.json found at $SETTINGS_FILE"
-  echo "  Current contents:"
-  echo "  ─────────────────"
-  sed 's/^/  /' "$SETTINGS_FILE"
-  echo ""
-  echo "  ─────────────────"
+  if python3 -c "
+import json, sys
+with open('$SETTINGS_FILE') as f:
+    s = json.load(f)
+if s.get('env', {}).get('CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS') == '1':
+    sys.exit(0)
+sys.exit(1)
+" 2>/dev/null; then
+    ALREADY_CONFIGURED=true
+  fi
 fi
 
-if ask_permission \
-  "Update ~/.claude/settings.json?" \
-  "This will merge the required agent teams settings into your existing config. Existing settings will be preserved. A backup will be created at settings.json.bak."; then
+if [[ "$ALREADY_CONFIGURED" == "true" ]]; then
+  ok "Agent teams already enabled in $SETTINGS_FILE"
+  sed 's/^/  /' "$SETTINGS_FILE"
+elif ask_permission \
+  "$(if [[ -f "$SETTINGS_FILE" ]]; then echo "Update ~/.claude/settings.json?"; else echo "Create ~/.claude/settings.json?"; fi)" \
+  "$(if [[ -f "$SETTINGS_FILE" ]]; then echo "This will merge the agent teams setting into your existing config. Existing settings will be preserved. A backup will be created at settings.json.bak."; else echo "This will create a new settings file with the agent teams environment variable."; fi)"; then
 
   mkdir -p "$SETTINGS_DIR"
 
