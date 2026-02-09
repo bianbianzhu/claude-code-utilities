@@ -2,7 +2,7 @@
 
 1. Open iTerm2 > Settings > Keys > Key Bindings
 2. Click the + button to add a new binding
-3. Set the shortcut to Cmd+Enter (press it in the recording field)
+3. Set the shortcut to Shift+Enter (press it in the recording field)
 4. Set Action to Send Text with "vim" Special Characters
 5. Enter \n as the value
 6. Click OK
