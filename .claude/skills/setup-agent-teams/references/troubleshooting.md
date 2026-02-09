@@ -101,7 +101,7 @@ Check everything is configured correctly:
 
 ```bash
 # 1. iTerm2 installed?
-ls /Applications/iTerm.app
+ls /Applications/iTerm.app || ls ~/Applications/iTerm.app
 
 # 2. tmux installed?
 tmux -V

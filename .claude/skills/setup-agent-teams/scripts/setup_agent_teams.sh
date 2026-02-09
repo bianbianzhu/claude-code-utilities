@@ -14,6 +14,10 @@ NC='\033[0m' # No Color
 
 step=0
 
+iterm2_installed() {
+  [[ -d "/Applications/iTerm.app" ]] || [[ -d "$HOME/Applications/iTerm.app" ]]
+}
+
 info()  { echo -e "${BLUE}ℹ ${NC}$*"; }
 ok()    { echo -e "${GREEN}✓ ${NC}$*"; }
 warn()  { echo -e "${YELLOW}⚠ ${NC}$*"; }
@@ -52,6 +56,14 @@ if [[ "$(uname)" != "Darwin" ]]; then
 fi
 ok "macOS detected"
 
+# Check python3
+if ! command -v python3 &>/dev/null; then
+  err "python3 is not installed."
+  echo "  Install Xcode Command Line Tools: xcode-select --install"
+  exit 1
+fi
+ok "python3 found: $(python3 --version)"
+
 # Check Homebrew
 if ! command -v brew &>/dev/null; then
   err "Homebrew is not installed."
@@ -64,8 +76,8 @@ ok "Homebrew found: $(brew --prefix)"
 
 next_step "Install iTerm2"
 
-if [[ -d "/Applications/iTerm.app" ]]; then
-  ok "iTerm2 is already installed at /Applications/iTerm.app"
+if iterm2_installed; then
+  ok "iTerm2 is already installed"
 else
   if ask_permission \
     "Install iTerm2 via Homebrew?" \
@@ -138,10 +150,14 @@ with open('$SETTINGS_FILE', 'r') as f:
     try:
         settings = json.load(f)
     except json.JSONDecodeError:
-        settings = {}
+        print('Error: $SETTINGS_FILE contains invalid JSON. Please fix it manually, then re-run this script.', file=sys.stderr)
+        print('A backup was saved at $SETTINGS_FILE.bak', file=sys.stderr)
+        sys.exit(1)
 
 # Merge env
 env = settings.get('env', {})
+if not isinstance(env, dict):
+    env = {}
 env['CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS'] = '1'
 settings['env'] = env
 
@@ -170,7 +186,7 @@ next_step "Verify setup"
 errors=0
 
 # Check iTerm2
-if [[ -d "/Applications/iTerm.app" ]]; then
+if iterm2_installed; then
   ok "iTerm2: installed"
 else
   err "iTerm2: not found"
