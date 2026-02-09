@@ -22,7 +22,8 @@ Create well-formatted commit: $ARGUMENTS
 ## Workflow
 
 1. Check which files are staged with `git status`
-2. If no files are staged, automatically add all modified and new files with `git add`
+2. If files are already staged, do NOT add anything else — respect the user's intent and only commit what they staged
+3. If no files are staged, automatically add all modified and new files with `git add`
 3. Run `git diff --cached` to understand what is being committed
 4. Analyze the diff for multiple distinct logical changes — if found, suggest splitting into separate commits
 5. For each commit, create a message using emoji conventional commit format
@@ -52,7 +53,7 @@ See `references/emoji-conventions.md` for the full emoji mapping table, examples
 
 ## Important Notes
 
-- If specific files are already staged, only commit those files
+- **Respect staged selections**: if the user has already staged specific files, do NOT run `git add` — commit only what they staged
 - If no files are staged, automatically stage all modified and new files
 - Always review the diff to ensure the message matches the changes
 - Before committing, check if multiple commits would be more appropriate
