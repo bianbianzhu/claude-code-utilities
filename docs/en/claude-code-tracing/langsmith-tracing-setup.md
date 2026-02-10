@@ -28,6 +28,8 @@ Before setting up tracing, ensure you have:
 
 `stop_hook.sh` processes Claude Code's generated conversation transcripts and sends traces to LangSmith. Create the file `~/.claude/hooks/stop_hook.sh` with the following script: [stop_hook.sh](https://github.com/langchain-ai/tracing-claude-code/blob/main/stop_hook.sh)
 
+For quick reference, you can also find the script [here](.claude/hooks/langsmith-claude-code-tracing.sh)
+
 Make it executable:
 
 ```bash theme={null}
