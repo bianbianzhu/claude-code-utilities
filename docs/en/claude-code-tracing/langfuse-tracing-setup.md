@@ -13,9 +13,16 @@ Send Claude Code conversation traces to [Langfuse](https://langfuse.com) for obs
 1. Sign up for [Langfuse Cloud](https://cloud.langfuse.com) or self-host Langfuse.
 2. Create a new project and copy your API keys from the project settings.
 
-## Step 2: Set Up the Hook Script
+## Step 2: Install the Hook Script
 
-The tracing hook script is included in this repository at `.claude/hooks/langfuse-claude-code-tracing.py`. Copy it to the appropriate location depending on your configuration scope (see Step 3).
+The tracing hook script is included in this repository at `.claude/hooks/langfuse-claude-code-tracing.py`. Copy it to your global hooks directory:
+
+```bash
+mkdir -p ~/.claude/hooks
+cp .claude/hooks/langfuse-claude-code-tracing.py ~/.claude/hooks/
+```
+
+> **Best practice:** Always keep the hook script in `~/.claude/hooks/` and reference it with an absolute path. This ensures the hook works regardless of the current working directory and avoids path resolution issues.
 
 ## Step 3: Configure the Hook
 
@@ -31,108 +38,94 @@ Claude Code settings follow a scope hierarchy. Choose the scope that fits your u
 
 ### Option A: User (Global) Scope
 
-Enables tracing for all your Claude Code projects.
+Enables tracing for all your Claude Code projects. Add to `~/.claude/settings.json`:
 
-1. Copy the script to your global hooks directory:
-
-   ```bash
-   mkdir -p ~/.claude/hooks
-   cp .claude/hooks/langfuse-claude-code-tracing.py ~/.claude/hooks/
-   ```
-
-2. Add the hook to `~/.claude/settings.json`:
-
-   ```json
-   {
-     "hooks": {
-       "Stop": [
-         {
-           "hooks": [
-             {
-               "type": "command",
-               "command": "uv run ~/.claude/hooks/langfuse-claude-code-tracing.py"
-             }
-           ]
-         }
-       ]
-     }
-   }
-   ```
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/langfuse-claude-code-tracing.py"
+          }
+        ]
+      }
+    ]
+  },
+  "env": {
+    "TRACE_TO_LANGFUSE": "true",
+    "LANGFUSE_PUBLIC_KEY": "pk-lf-...",
+    "LANGFUSE_SECRET_KEY": "sk-lf-...",
+    "LANGFUSE_HOST": "https://cloud.langfuse.com"
+  }
+}
+```
 
 ### Option B: Project Scope
 
-Enables tracing for all collaborators on the repository. The hook script and configuration are committed to git.
+Enables tracing for all collaborators on the repository. The configuration is committed to git. Add to `.claude/settings.json`:
 
-1. Ensure the script exists at `.claude/hooks/langfuse-claude-code-tracing.py` in the project root.
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/langfuse-claude-code-tracing.py"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
-2. Add the hook to `.claude/settings.json`:
-
-   ```json
-   {
-     "hooks": {
-       "Stop": [
-         {
-           "hooks": [
-             {
-               "type": "command",
-               "command": "uv run .claude/hooks/langfuse-claude-code-tracing.py"
-             }
-           ]
-         }
-       ]
-     }
-   }
-   ```
-
-> **Note:** Each team member still needs to set the environment variables (see Step 4) on their own machine.
+> **Note:** The hook script must be installed on each team member's machine (see Step 2). API keys should **not** be committed to git — each team member should configure them in their own `.claude/settings.local.json` (see Option C).
 
 ### Option C: Project User (Local) Scope
 
-Enables tracing only for you in a specific repository, without affecting other collaborators.
+Enables tracing only for you in a specific repository, without affecting other collaborators. Add to `.claude/settings.local.json`:
 
-1. Ensure the script exists at `.claude/hooks/langfuse-claude-code-tracing.py` in the project root (or copy it to `~/.claude/hooks/` and use the absolute path).
-
-2. Add the hook to `.claude/settings.local.json`:
-
-   ```json
-   {
-     "hooks": {
-       "Stop": [
-         {
-           "hooks": [
-             {
-               "type": "command",
-               "command": "uv run .claude/hooks/langfuse-claude-code-tracing.py"
-             }
-           ]
-         }
-       ]
-     }
-   }
-   ```
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/langfuse-claude-code-tracing.py"
+          }
+        ]
+      }
+    ]
+  },
+  "env": {
+    "TRACE_TO_LANGFUSE": "true",
+    "LANGFUSE_PUBLIC_KEY": "pk-lf-...",
+    "LANGFUSE_SECRET_KEY": "sk-lf-...",
+    "LANGFUSE_HOST": "https://cloud.langfuse.com"
+  }
+}
+```
 
 > **Note:** `.claude/settings.local.json` is automatically gitignored by Claude Code.
 
-## Step 4: Set Environment Variables
+## Environment Variables Reference
 
-The hook requires the following environment variables. Add them to your shell profile (e.g., `~/.bashrc`, `~/.zshrc`):
+Environment variables are configured via the `env` key in your settings file. The hook requires:
 
-```bash
-# Required: enable tracing
-export TRACE_TO_LANGFUSE=true
-
-# Required: Langfuse API keys
-export LANGFUSE_PUBLIC_KEY="pk-lf-..."
-export LANGFUSE_SECRET_KEY="sk-lf-..."
-
-# Optional: Langfuse host (defaults to https://cloud.langfuse.com)
-export LANGFUSE_HOST="https://cloud.langfuse.com"
-
-# Optional: enable debug logging
-export CC_LANGFUSE_DEBUG=true
-```
-
-The hook also supports `CC_LANGFUSE_PUBLIC_KEY` and `CC_LANGFUSE_SECRET_KEY` prefixed variants, which take precedence over the standard `LANGFUSE_*` names.
+| Variable | Required | Description |
+|:---------|:---------|:------------|
+| `TRACE_TO_LANGFUSE` | Yes | Set to `"true"` to enable tracing |
+| `LANGFUSE_PUBLIC_KEY` | Yes | Your Langfuse project public key |
+| `LANGFUSE_SECRET_KEY` | Yes | Your Langfuse project secret key |
+| `LANGFUSE_HOST` | No | Langfuse host URL (defaults to `https://cloud.langfuse.com`) |
+| `CC_LANGFUSE_DEBUG` | No | Set to `"true"` for verbose debug logging |
 
 ## How It Works
 
@@ -146,5 +139,5 @@ The hook script runs on every Claude Code **Stop** event (after each assistant r
 ## Troubleshooting
 
 - **Logs:** Check `~/.claude/state/langfuse_hook.log` for errors
-- **Debug mode:** Set `CC_LANGFUSE_DEBUG=true` for verbose logging
-- **Not sending traces?** Verify `TRACE_TO_LANGFUSE=true` is set and your API keys are correct
+- **Debug mode:** Set `CC_LANGFUSE_DEBUG` to `"true"` in your settings `env` for verbose logging
+- **Not sending traces?** Verify `TRACE_TO_LANGFUSE` is `"true"` and your API keys are correct
