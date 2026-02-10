@@ -40,3 +40,19 @@ Ctrl + K
 # Delete previous word
 
 Ctrl + W
+
+# Go to previous pane
+
+Cmd + [
+
+# Go to next pane
+
+Cmd + ]
+
+# Go to previous window
+
+Cmd + Shift + [
+
+# Go to next window
+
+Cmd + Shift + ]
