@@ -1,0 +1,41 @@
+---
+name: codex-review
+description: >
+  Fetch the latest final_answer from a local Codex CLI session for cross-agent review.
+  Trigger: /codex-review slash command. Use when the user wants to see what Codex replied,
+  compare Codex's answer with Claude Code's own analysis, or cross-check plans/bugfixes
+  between Claude Code and Codex.
+---
+
+# Codex Review
+
+Retrieve and display the most recent Codex final_answer from local session files (`~/.codex/sessions/`).
+
+## Workflow
+
+1. Run the extraction script:
+
+```bash
+uv run <skill-path>/scripts/get_codex_final_answer.py
+```
+
+2. Parse the JSON output. Present to the user:
+   - Source file path and timestamp
+   - The full `text` content, rendered as markdown
+   - Total number of final_answers available in that session
+
+3. Ask the user: **"Is this the Codex answer you want to review?"**
+   - If **yes** — proceed with whatever the user wants (compare, analyze, learn from it, etc.)
+   - If **no** — re-run with `--offset N` (start with 1, increment) to fetch the previous final_answer:
+
+```bash
+uv run <skill-path>/scripts/get_codex_final_answer.py --offset 1
+```
+
+4. If the script returns an `error` key in JSON, report the error to the user.
+
+## Notes
+
+- `<skill-path>` refers to the directory containing this SKILL.md.
+- The script finds the most recently modified `.jsonl` file under `~/.codex/sessions/` automatically.
+- Each Codex session may contain multiple final_answers (one per turn). The script returns the last one by default.
