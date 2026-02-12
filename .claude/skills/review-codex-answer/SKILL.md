@@ -8,16 +8,16 @@ description: >
 disable-model-invocation: true
 ---
 
-# Codex Review
+# Review Codex Answer
 
-Retrieve and display the most recent Codex final_answer from local session files (`~/.codex/sessions/`).
+Retrieve and display the most recent Codex final_answer from local session files (`~/.codex/sessions/`), filtered to the current project by cwd.
 
 ## Workflow
 
-1. Run the extraction script:
+1. Run the extraction script with the current working directory:
 
 ```bash
-uv run <skill-path>/scripts/get_codex_final_answer.py
+uv run <skill-path>/scripts/get_codex_final_answer.py --cwd "$PWD"
 ```
 
 2. Parse the JSON output. Present to the user:
@@ -29,10 +29,10 @@ uv run <skill-path>/scripts/get_codex_final_answer.py
    - Question: "Is this the Codex answer you want to review?"
    - Options: "Yes, review this one" / "No, show me the previous one"
    - If **yes** — proceed to step 4.
-   - If **no** — re-run with `--offset N` (start with 1, increment) to fetch the previous final_answer, then ask again:
+   - If **no** — re-run with `--offset N` (start with 1, increment) to fetch the previous final_answer within the same session, then ask again:
 
 ```bash
-uv run <skill-path>/scripts/get_codex_final_answer.py --offset 1
+uv run <skill-path>/scripts/get_codex_final_answer.py --cwd "$PWD" --offset 1
 ```
 
 4. Once confirmed, perform a **cross-review** of the Codex answer against your own prior analysis in this conversation. Address the following:
@@ -43,8 +43,15 @@ uv run <skill-path>/scripts/get_codex_final_answer.py --offset 1
 
 5. If the script returns an `error` key in JSON, report the error to the user.
 
+## Script behavior
+
+- `--cwd` is **required**. Always pass `"$PWD"` so the script filters to the current project. Do not hardcode a path.
+- The script scans all JSONL files under `~/.codex/sessions/`, matches each session's cwd (from `session_meta` payload) against the given `--cwd` (both resolved to handle symlinks/trailing slashes).
+- Sessions with a different cwd are skipped entirely.
+- If the matched session has no `final_answer`, the script tries the next most recent matching session, up to 3 matching sessions total.
+- `--offset N` skips the last N final_answers **within the matched session** (not across sessions). Default is 0 (the very last one).
+- Output is a single JSON object: `{source_file, total_final_answers, selected_index, timestamp, text}` on success, or `{error}` on failure.
+
 ## Notes
 
 - `<skill-path>` refers to the directory containing this SKILL.md.
-- The script finds the most recently modified `.jsonl` file under `~/.codex/sessions/` automatically.
-- Each Codex session may contain multiple final_answers (one per turn). The script returns the last one by default.
