@@ -16,7 +16,7 @@ All three produce a **task ID** and an **output file path**, and all three can b
 
 ### 1. Launch a background task
 
-**Background Bash:**
+#### **Background Bash:**
 
 Step 1 - User prompt:
 
@@ -43,7 +43,7 @@ tool_input:
 tool_output:
 
 ```markdown
-"Command running in background with ID: <task_id>. Output is being written to: /private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/<task_id>.output"
+"Command running in background with ID: bcc53f3. Output is being written to: /private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/bcc53f3.output"
 ```
 
 Step 3 - Claude code responds immediately with the task ID
@@ -55,13 +55,89 @@ Step 3 - Claude code responds immediately with the task ID
 }
 ```
 
-after the script finishes, you can read the output file to get the result.
+Step 4 - after the script finishes, claude code automatically get notified (a user message will be passed to claude code).
 
-**Subagents:**
+```json
+{
+  "role": "user",
+  "content": "<task-notification>\n<task-id>bcc53f3</task-id>\n<output-file>/private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/bcc53f3.output</output-file>\n<status>completed</status>\n<summary>Background command \"Run long-running test script in background\" completed (exit code 0)</summary>\n</task-notification>\nRead the output file to retrieve the result: /private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/bcc53f3.output"
+}
+```
+
+Step 5 - Claude Code reads the output file to get the result.
+
+tool_input:
+
+```json
+{
+  "file_path": "/private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/bcc53f3.output"
+}
+```
+
+tool_output:
+
+```markdown
+     1→Step 1 of 10...
+     ...
+    11→Done! The secret phrase is: '🌽 is a cat'
+```
+
+Step 6 - Claude Code responds with the result.
+
+```json
+{
+  "role": "assistant",
+  "content": "The script completed successfully — all 10 steps ran and the secret phrase is: **🌽 is a cat**."
+}
+```
+
+#### **Subagents:**
 
 Use the **Task** tool with `run_in_background: true`. The agent runs autonomously in the background — researching, exploring, or executing multi-step work — and returns results when done.
 
-**Remote sessions:**
+Step 1 - User prompt:
+
+```json
+{
+  "role": "user",
+  "content": "spawn a background subagent and use it to do a Websearch on the openclaw's release date."
+}
+```
+
+Step 2 - Claude Code uses the **Task** tool with `run_in_background: true`. Returns an agentId and output file path.
+
+tool_input:
+
+```json
+{
+  "description": "Search OpenClaw release date",
+  "prompt": "Do a web search to find the release date of \"OpenClaw\". Report back with the release date and any relevant details you find.",
+  "subagent_type": "general-purpose",
+  "run_in_background": true
+}
+```
+
+tool_output:
+
+```json
+[
+  {
+    "type": "text",
+    "text": "Async agent launched successfully.\nagentId: a51202c (internal ID - do not mention to user. Use to resume later if needed.)\nThe agent is working in the background. You will be notified automatically when it completes.\nContinue with other tasks.\noutput_file: /private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/a51202c.output\nTo check progress before completion (optional), use Read or Bash tail on the output file."
+  }
+]
+```
+
+Step 3 - Claude Code responds immediately (without a agentId)
+
+```json
+{
+  "role": "assistant",
+  "content": "I've spawned a background agent to search for OpenClaw's release date. I'll let you know the results once it finishes. You can continue working on other things in the meantime."
+}
+```
+
+#### **Remote sessions:**
 
 Remote sessions also produce task IDs that can be checked with TaskOutput.
 
@@ -144,6 +220,10 @@ A test script for background Bash is included in this directory:
 ./long-running-bash.sh
 ```
 
+````
+
+```
+
 It counts from 1 to 10 with a 1-second delay between each step (~10 seconds total), useful for testing the background task workflow.
 
 ## Tips
@@ -152,3 +232,5 @@ It counts from 1 to 10 with a 1-second delay between each step (~10 seconds tota
 - Use `block: false` with `TaskOutput` to monitor progress without waiting for completion.
 - The output file persists on disk, so you can read it even after the task finishes.
 - Subagent results are also delivered as notifications when they complete, so you'll be alerted automatically.
+```
+````
