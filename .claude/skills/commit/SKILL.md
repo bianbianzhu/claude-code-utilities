@@ -59,3 +59,4 @@ See `references/emoji-conventions.md` for the full emoji mapping table, examples
 - Before committing, check if multiple commits would be more appropriate
 - If suggesting splits, help stage and commit changes separately
 - Verify documentation is updated when relevant
+- **Never use `git -C`** — the fork context inherits the correct cwd, so all git commands should run without `-C`
