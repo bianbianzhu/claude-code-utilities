@@ -22,7 +22,7 @@ Use the **Bash** tool with `run_in_background: true`. Returns a task ID and outp
 
 ```json
 {
-  "command": "bash /Users/tianyi.li/Dev/claude-code-utilities/docs/en/background-tasks/long-running-bash.sh",
+  "command": "bash /Users/<user_name>/<project_name>/docs/en/background-tasks/long-running-bash.sh",
   "description": "Run long-running bash script in background",
   "timeout": 30000,
   "run_in_background": true
