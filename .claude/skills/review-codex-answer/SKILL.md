@@ -1,8 +1,8 @@
 ---
-name: codex-review
+name: review-codex-answer
 description: >
   Fetch the latest final_answer from a local Codex CLI session for cross-agent review.
-  Trigger: /codex-review slash command. Use when the user wants to see what Codex replied,
+  Trigger: /review-codex-answer slash command. Use when the user wants to see what Codex replied,
   compare Codex's answer with Claude Code's own analysis, or cross-check plans/bugfixes
   between Claude Code and Codex.
 disable-model-invocation: true
