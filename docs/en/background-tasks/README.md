@@ -60,7 +60,15 @@ Step 4 - after the script finishes, claude code automatically get notified (a us
 ```json
 {
   "role": "user",
-  "content": "<task-notification>\n<task-id>bcc53f3</task-id>\n<output-file>/private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/bcc53f3.output</output-file>\n<status>completed</status>\n<summary>Background command \"Run long-running test script in background\" completed (exit code 0)</summary>\n</task-notification>\nRead the output file to retrieve the result: /private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/bcc53f3.output"
+  "content": "
+    <task-notification>
+      <task-id>bcc53f3</task-id>
+      <output-file>/private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/bcc53f3.output</output-file>
+      <status>completed</status>
+      <summary>Background command \"Run long-running test script in background\" completed (exit code 0)</summary>
+    </task-notification>
+    Read the output file to retrieve the result: /private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/bcc53f3.output
+  "
 }
 ```
 
@@ -142,15 +150,26 @@ Step 4 - after the agent finishes, claude code automatically get notified (a use
 ```json
 {
   "role": "user",
-  "content": "<task-notification>\n<task-id>a51202c</task-id>\n<status>completed</status>\n<summary>Agent \"Search OpenClaw release date\" completed</summary>\n<result>Here are the findings on **OpenClaw**: ...</result>\n<usage>total_tokens: 12703\ntool_uses: 3\nduration_ms: 24727</usage>\n</task-notification>\nFull transcript available at: /private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/a51202c.output"
+  "content": "
+    <task-notification>
+      <task-id>a51202c</task-id>
+      <status>completed</status>
+      <summary>Agent \"Search OpenClaw release date\" completed</summary>
+      <result>Here are the findings on **OpenClaw**: ...</result>
+      <usage>
+        total_tokens: 12703
+        tool_uses: 3
+        duration_ms: 24727
+      </usage>
+    </task-notification>
+    Full transcript available at: /private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/a51202c.output
+  "
 }
 ```
 
 > The result is shown in the <result> tag. So **Read** tool may not be needed.
 
 Step 5 - Claude code returns the result.
-
-tool_input:
 
 ```json
 {
