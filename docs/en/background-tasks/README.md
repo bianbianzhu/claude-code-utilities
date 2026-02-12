@@ -137,6 +137,28 @@ Step 3 - Claude Code responds immediately (without a agentId)
 }
 ```
 
+Step 4 - after the agent finishes, claude code automatically get notified (a user message will be passed to claude code).
+
+```json
+{
+  "role": "user",
+  "content": "<task-notification>\n<task-id>a51202c</task-id>\n<status>completed</status>\n<summary>Agent \"Search OpenClaw release date\" completed</summary>\n<result>Here are the findings on **OpenClaw**: ...</result>\n<usage>total_tokens: 12703\ntool_uses: 3\nduration_ms: 24727</usage>\n</task-notification>\nFull transcript available at: /private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/a51202c.output"
+}
+```
+
+> The result is shown in the <result> tag. So **Read** tool may not be needed.
+
+Step 5 - Claude code returns the result.
+
+tool_input:
+
+```json
+{
+  "role": "assistant",
+  "content": "\n\n\nThe background agent finished its search. Here are the results:\n\n**OpenClaw** ..."
+}
+```
+
 #### **Remote sessions:**
 
 Remote sessions also produce task IDs that can be checked with TaskOutput.
