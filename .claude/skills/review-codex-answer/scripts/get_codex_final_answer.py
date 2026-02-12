@@ -150,3 +150,13 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Potential concerns / trade-offs (documented intentionally):
+# - Recency across sessions is based on JSONL file mtime, not per-answer timestamps.
+#   If files are touched/copied/restored/synced, ordering may differ from true answer chronology.
+# - A final_answer currently captures only the first output_text item in payload.content.
+#   If future log formats split one answer into multiple output_text chunks, text could be incomplete.
+# - Negative offsets are accepted by Python indexing semantics (e.g., -1 picks the oldest in the list).
+#   Callers are expected to pass non-negative offsets when using "newest to oldest" navigation.
+# - CLI arg parsing is minimal (manual sys.argv indexing).
+#   Missing/invalid flag values may raise Python exceptions instead of returning a JSON {error} object.
