@@ -29,7 +29,7 @@ uv run <skill-path>/scripts/get_codex_final_answer.py --cwd "$PWD"
    - Question: "Is this the Codex answer you want to review?"
    - Options: "Yes, review this one" / "No, show me the previous one"
    - If **yes** — proceed to step 4.
-   - If **no** — re-run with `--offset N` (start with 1, increment) to fetch the previous final_answer within the same session, then ask again:
+   - If **no** — re-run with `--offset N` (start with 1, increment) to fetch the previous final_answer, then ask again:
 
 ```bash
 uv run <skill-path>/scripts/get_codex_final_answer.py --cwd "$PWD" --offset 1
@@ -48,8 +48,8 @@ uv run <skill-path>/scripts/get_codex_final_answer.py --cwd "$PWD" --offset 1
 - `--cwd` is **required**. Always pass `"$PWD"` so the script filters to the current project. Do not hardcode a path.
 - The script scans all JSONL files under `~/.codex/sessions/`, matches each session's cwd (from `session_meta` payload) against the given `--cwd` (both resolved to handle symlinks/trailing slashes).
 - Sessions with a different cwd are skipped entirely.
-- If the matched session has no `final_answer`, the script tries the next most recent matching session, up to 3 matching sessions total.
-- `--offset N` skips the last N final_answers **within the matched session** (not across sessions). Default is 0 (the very last one).
+- The script collects final_answers from up to 3 cwd-matching sessions (newest first), merging them into a single list ordered newest-first.
+- `--offset N` indexes into this merged list. offset=0 is the very latest answer, offset=1 is the one before it, etc. Offset spans across sessions.
 - Output is a single JSON object: `{source_file, total_final_answers, selected_index, timestamp, text}` on success, or `{error}` on failure.
 
 ## Notes

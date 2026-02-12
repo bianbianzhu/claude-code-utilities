@@ -8,8 +8,8 @@ Usage:
 
 Options:
   --cwd PATH  Only consider sessions whose cwd matches this path (required).
-  --offset N  Skip the last N final_answers within the matched session (default: 0).
-              Offset operates within a single session, not across sessions.
+  --offset N  Skip the last N final_answers (default: 0).
+              Offset spans across cwd-matching sessions (newest first, up to 3).
               Use --offset 1 to get the second-to-last final_answer, etc.
 """
 
@@ -103,7 +103,10 @@ def main():
         print(json.dumps({"error": "No .jsonl files found in Codex sessions"}))
         sys.exit(1)
 
-    # Iterate through sessions, only counting cwd-matching ones toward the limit.
+    # Collect final_answers from up to MAX_SESSIONS_TO_CHECK cwd-matching sessions.
+    # Answers are ordered newest-first (within each session, last answer first;
+    # sessions themselves newest-first).
+    all_answers: list[dict] = []
     matched = 0
     for jsonl_path in all_files:
         session_cwd = get_session_cwd(jsonl_path)
@@ -112,33 +115,37 @@ def main():
 
         matched += 1
         answers = extract_final_answers(jsonl_path)
-        if answers:
-            target_idx = len(answers) - 1 - offset
-            if target_idx < 0:
-                print(json.dumps({
-                    "error": f"Only {len(answers)} final_answers in {jsonl_path.name}, offset {offset} is too large",
-                }))
-                sys.exit(1)
-            answer = answers[target_idx]
-            print(json.dumps({
-                "source_file": str(jsonl_path),
-                "total_final_answers": len(answers),
-                "selected_index": target_idx,
-                "timestamp": answer["timestamp"],
-                "text": answer["text"],
-            }, ensure_ascii=False))
-            return
+        # Reverse so the last answer in the session comes first (newest-first order).
+        for ans in reversed(answers):
+            all_answers.append({**ans, "source_file": str(jsonl_path)})
 
         if matched >= MAX_SESSIONS_TO_CHECK:
             break
 
     if matched == 0:
         print(json.dumps({"error": f"No Codex sessions found with cwd: {cwd}"}))
-    else:
+        sys.exit(1)
+
+    if not all_answers:
         print(json.dumps({
             "error": f"No final_answer found in the last {matched} matching session(s) for cwd: {cwd}",
         }))
-    sys.exit(1)
+        sys.exit(1)
+
+    if offset >= len(all_answers):
+        print(json.dumps({
+            "error": f"Only {len(all_answers)} final_answers across {matched} session(s), offset {offset} is too large",
+        }))
+        sys.exit(1)
+
+    answer = all_answers[offset]
+    print(json.dumps({
+        "source_file": answer["source_file"],
+        "total_final_answers": len(all_answers),
+        "selected_index": offset,
+        "timestamp": answer["timestamp"],
+        "text": answer["text"],
+    }, ensure_ascii=False))
 
 
 if __name__ == "__main__":
