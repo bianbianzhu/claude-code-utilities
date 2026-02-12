@@ -12,13 +12,24 @@ Claude Code can run various tasks in the background, allowing you to continue wo
 
 All three produce a **task ID** and an **output file path**, and all three can be checked with the same **TaskOutput** tool.
 
-## Workflow
+## Workflow (without TaskOutput tool)
 
 ### 1. Launch a background task
 
 **Background Bash:**
 
-Use the **Bash** tool with `run_in_background: true`. Returns a task ID and output file path.
+Step 1 - User prompt:
+
+```json
+{
+  "role": "user",
+  "content": "run the @docs/en/background-tasks/long-running-bash.sh in background"
+}
+```
+
+Step 2 - Claude Code uses the **Bash** tool with `run_in_background: true`. Returns a task ID and output file path.
+
+tool_input:
 
 ```json
 {
@@ -28,6 +39,23 @@ Use the **Bash** tool with `run_in_background: true`. Returns a task ID and outp
   "run_in_background": true
 }
 ```
+
+tool_output:
+
+```markdown
+"Command running in background with ID: <task_id>. Output is being written to: /private/tmp/claude-502/-Users-<user_name>-<project_name>/tasks/<task_id>.output"
+```
+
+Step 3 - Claude code responds immediately with the task ID
+
+```json
+{
+  "role": "assistant",
+  "content": "The script is running in the background (task ID: `bcc53f3`). It'll count from 1 to 10 with 1-second delays. I'll be notified when it completes, or you can ask me to check its output anytime."
+}
+```
+
+after the script finishes, you can read the output file to get the result.
 
 **Subagents:**
 
